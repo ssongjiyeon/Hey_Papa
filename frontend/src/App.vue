@@ -1,9 +1,7 @@
 <template>
   <div class="app_container">
     <router-view />
-    <div class="navbar">
-      navbar
-    </div>
+
   </div>
 </template>
 <script>
@@ -19,8 +17,5 @@ export default defineComponent({
   flex-direction:column;
   justify-content: center;
 }
-.navbar{
-  position: fixed;
-  bottom:0px;
-}
+
 </style>
