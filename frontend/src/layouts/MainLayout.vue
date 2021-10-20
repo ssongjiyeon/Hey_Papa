@@ -1,10 +1,19 @@
 <template>
-  <router-view />
+  <div>
+    dsa
+  </div>
 </template>
+
 <script>
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'App'
+  name: 'MainLayout',
+
+  setup () {
+    return {
+
+    }
+  }
 })
 </script>
