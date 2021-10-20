@@ -56,7 +56,8 @@ export default defineComponent({
 </script>
 <style scoped>
 .main_container{
-  background-color: silver;
+  /* background-color: silver; */
+  border:1px solid black;
 }
 .navbar{
   position: fixed;
