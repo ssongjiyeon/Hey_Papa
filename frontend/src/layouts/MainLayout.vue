@@ -1,6 +1,5 @@
 <template>
-  <div>
-    컨테이너
+  <div class="container">
     <router-view />
   </div>
 </template>
@@ -19,3 +18,10 @@ export default defineComponent({
   }
 })
 </script>
+<style scoped>
+.container{
+  width:390px;
+  height:844px;
+  border: 1px solid black;
+}
+</style>
