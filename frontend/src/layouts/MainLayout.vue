@@ -1,6 +1,6 @@
 <template>
-  <q-responsive :ratio="6/13" class="col" style="max-width: 390px;">
-    <div class="container">
+  <q-responsive :ratio="6/13" class="col" style="max-width: 420px;">
+    <div class="main_container">
       <router-view />
     </div>
   </q-responsive>
@@ -12,7 +12,8 @@ export default defineComponent({
 })
 </script>
 <style scoped>
-.container{
-  background-color: silver;
+.main_container{
+  /* background-color: silver; */
+  border:1px solid black;
 }
 </style>
