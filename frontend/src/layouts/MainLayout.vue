@@ -5,6 +5,7 @@
     </div>
   </q-responsive>
     <!-- 로그인이 완료되면 ''을 받아 afterLogin의 값을 바꿔 화면에 navbar을 뿌려준다 -->
+
   <div class="navbar">
     <div class="nav-btn"><button @click="GoMission">미션</button></div>
     <div class="nav-btn"><button @click="GoDiary">일기</button></div>
@@ -12,6 +13,8 @@
     <div class="nav-btn"><button @click="GoInfo">정보</button></div>
     <div class="nav-btn"><button @click="GoMy">MY</button></div>
   </div>
+
+
 </template>
 
 <script>
@@ -67,6 +70,7 @@ export default defineComponent({
   display: flex;
   flex-direction: row;
   z-index: 990;
+  max-width: 420px;
 }
 .nav-btn{
   width: 20%
