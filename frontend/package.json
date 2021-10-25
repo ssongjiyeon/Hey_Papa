@@ -7,13 +7,13 @@
   "private": true,
   "scripts": {
     "dev": "quasar dev",
-
-    "build" : "quasar build"
+    "build": "quasar build"
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
     "core-js": "^3.6.5",
     "quasar": "^2.0.0",
+    "sweetalert2": "^11.1.9",
     "vuex": "^4.0.1"
   },
   "devDependencies": {
