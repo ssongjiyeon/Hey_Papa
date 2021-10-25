@@ -4,7 +4,7 @@
       <router-view />
     </div>
   </q-responsive>
-    <!-- 로그인이 완료되면 ''을 받아 afterLogin의 값을 바꿔 화면에 navbar을 뿌려준다 -->
+  <!-- 로그인이 완료되면 ''을 받아 afterLogin의 값을 바꿔 화면에 navbar을 뿌려준다 -->
   <div class="navbar">
     <div class="nav-btn"><button @click="GoMission">미션</button></div>
     <div class="nav-btn"><button @click="GoDiary">일기</button></div>
@@ -61,7 +61,7 @@ export default defineComponent({
 }
 .navbar{
   position: fixed;
-  width: 100%;
+  max-width: 420px;
   height: 4rem;
   bottom:0px;
   display: flex;
@@ -77,9 +77,6 @@ export default defineComponent({
   border: none;
   width: 100%;
   height: 100%;
-
 }
-
-
 
 </style>

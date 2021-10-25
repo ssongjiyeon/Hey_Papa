@@ -33,7 +33,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .signup_container{
   display: flex;
   flex-direction: column;
