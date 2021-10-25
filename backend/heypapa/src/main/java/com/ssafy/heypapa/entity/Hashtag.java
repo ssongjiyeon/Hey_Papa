@@ -1,10 +1,23 @@
 package com.ssafy.heypapa.entity;
 
-import javax.persistence.Column;
+import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+
+import lombok.Getter;
+import lombok.Setter;
+
+/**
+ * 해시태그 모델 정의.
+ */
+
+@Entity
+@Getter
+@Setter
 public class Hashtag extends BaseEntity {
 
 	@Column(nullable = false)
-	private String content; // 해시태그 이름
+	private String name; // 해시태그 이름
 	
 }
