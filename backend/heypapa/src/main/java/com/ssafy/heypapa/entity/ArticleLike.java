@@ -14,7 +14,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class Like extends BaseEntity {
+public class ArticleLike extends BaseEntity {
 
 	@ManyToOne
 	@JoinColumn(name = "user_id")
