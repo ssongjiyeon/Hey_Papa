@@ -20,7 +20,7 @@
             checkPassWord
           ]"/>
       </div>
-      <q-btn unelevated rounded color="primary" label="로그인 하기" style="width:300px;"/>
+      <q-btn @click="goMain" unelevated rounded color="primary" label="로그인 하기" style="width:300px;"/>
       <div class="plus">
         <div>
           <span>이메일로 가입하시겠어요?</span>
@@ -99,11 +99,15 @@ export default {
     function goSignup(){
       router.push('signup')
     }
+    function goMain(){
+      router.push('home')
+    }
     return{
       form,
       pwdMode,
       find,
       goSignup,
+      goMain,
       checkId,
       checkPassWord,
       downPwd,

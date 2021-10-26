@@ -22,7 +22,7 @@
           ]"
         />
       </div>
-      <q-btn @click="goBaby" unelevated rounded color="primary" label="완료" style="width:300px; margin-top:100px;"/>
+      <q-btn @click="goLogin" unelevated rounded color="primary" label="완료" style="width:300px; margin-top:100px;"/>
     </div>
   </div>
 </template>
@@ -44,10 +44,14 @@ export default {
     function goSignup(){
       router.push('signup')
     }
+    function goLogin(){
+      router.push('/')
+    }
     return {
       form,
       checkBirth,
       goSignup,
+      goLogin,
     }
   }
 }

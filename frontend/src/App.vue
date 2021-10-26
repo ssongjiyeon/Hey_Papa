@@ -1,7 +1,10 @@
 <template>
-  <div class="app_container">
-    <router-view />
-
+  <div style="display:flex; justify-content: center;">
+    <q-responsive :ratio="6/13" class="col" style="max-width: 420px;">
+      <div class="app_container">
+        <router-view />
+      </div>
+    </q-responsive>
   </div>
 </template>
 <script>
@@ -13,8 +16,7 @@ export default defineComponent({
 </script>
 <style scoped>
 .app_container{
-  display:flex;
-  justify-content: center;
+  border:1px solid black;
 }
 
 </style>
