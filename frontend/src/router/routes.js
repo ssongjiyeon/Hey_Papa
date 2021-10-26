@@ -11,7 +11,8 @@ const routes = [
       { path: 'info', component: () => import('pages/Info.vue') },
       { path: 'my', component: () => import('pages/My.vue') },
       { path: 'signup', component: () => import('pages/Signup.vue') },
-      { path: 'baby', component: () => import('pages/Babyinfo.vue') }      
+      { path: 'baby', component: () => import('pages/Babyinfo.vue') },      
+      { path: 'set', component: () => import('pages/Setting.vue') },      
     ]
   },
 
