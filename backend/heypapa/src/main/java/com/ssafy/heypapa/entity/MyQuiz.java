@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,7 +26,10 @@ public class MyQuiz extends BaseEntity {
 	@JoinColumn(name = "user_id")
 	private User user; // 유저 id
 	
-	private boolean check; // 퀴즈 확인용
-	private boolean like; // 퀴즈 좋아요
+	@ColumnDefault("0")
+	private boolean quizcheck; // 퀴즈 확인용
+	
+	@ColumnDefault("0")
+	private boolean quizlike; // 퀴즈 좋아요
 	
 }

@@ -28,6 +28,6 @@ public class Quiz extends BaseEntity {
 	private String candidate; // 보기
 	
 	@Column(columnDefinition = "LONGTEXT")
-	private String explain; // 설명
+	private String description; // 설명
 	
 }
