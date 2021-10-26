@@ -104,7 +104,7 @@ export default {
       }
     }
     function goLogin(){
-      router.push('login')
+      router.push('/')
     }
     function goBaby(){
       router.push('baby')
