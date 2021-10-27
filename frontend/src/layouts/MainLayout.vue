@@ -1,39 +1,30 @@
 <template>
-  <q-responsive :ratio="6/13" class="col" style="max-width: 420px;">
-    <div class="main_container">
-      <router-view />
+  <div>
+    <router-view />
+    <div class="navbar">
+      <div class="nav-btn"><button @click="GoQuiz">퀴즈</button></div>
+      <div class="nav-btn"><button @click="GoMap">지도</button></div>
+      <div class="nav-btn"><button @click="GoHome">홈</button></div>
+      <div class="nav-btn"><button @click="GoInfo">정보</button></div>
+      <div class="nav-btn"><button @click="GoMy">MY</button></div>
     </div>
-  </q-responsive>
-  <div class="navbar">
-    <div class="nav-btn"><button @click="GoQuiz">퀴즈</button></div>
-    <div class="nav-btn"><button @click="GoMission">미션</button></div>
-    <div class="nav-btn"><button @click="GoDiary">일기</button></div>
-    <div class="nav-btn"><button @click="GoHome">홈</button></div>
-    <div class="nav-btn"><button @click="GoInfo">정보</button></div>
-    <div class="nav-btn"><button @click="GoMy">MY</button></div>
   </div>
-
-
-
-
-
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
+import { defineComponent } from 'vue'
 import { useRouter } from 'vue-router'
 
 export default defineComponent({
   name: 'MainLayout',
 
   setup () {
-    const afterLogin = ref(true)
     const router = useRouter()
     const GoQuiz = () => {
       router.push('/quiz')
     }
-    const GoDiary = () => {
-      router.push('/diary')
+    const GoMap = () => {
+      router.push('/map')
     }
     const GoHome = () => {
       router.push('/home')
@@ -44,13 +35,8 @@ export default defineComponent({
     const GoMy = () => {
       router.push('/my')
     }
-
-
-
-
     return {
-      afterLogin,
-      GoDiary,
+      GoMap,
       GoHome,
       GoInfo,
       GoMy,
@@ -60,9 +46,6 @@ export default defineComponent({
 })
 </script>
 <style scoped>
-.main_container{
-  border:1px solid black;
-}
 .navbar{
   position: fixed;
   width: 100%;
@@ -75,14 +58,11 @@ export default defineComponent({
 }
 .nav-btn{
   width: 20%;
-
 }
-
 .nav-btn button{
   background-color: white;
   border: none;
   width: 100%;
   height: 100%;
 }
-
 </style>

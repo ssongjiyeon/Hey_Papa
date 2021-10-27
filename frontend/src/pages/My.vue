@@ -1,13 +1,155 @@
 <template>
-  Mypage
+  <div class="my_container">
+    <div class="my_top">
+      <h4 class="logo">Hey PaPa!</h4>
+      <q-btn flat color="primary" icon="menu" @click="show()" />
+    </div>
+    <div class="user_info">
+      <img class="profile_img" style="margin-left: margin-right:20px;" src="http://placehold.it/100x100">
+      <div class="nick_name">17주차 튼튼이 아빠</div>
+    </div>
+    <q-tabs
+      v-model="tab"
+      class="text-black"
+      style="width:100%; margin-top:50px;"
+    >
+      <q-tab @click="goArticle" name="article" label="내 게시글" />
+      <q-tab name="like" label="좋아요한 글" />
+      <q-tab name="zzim" label="찜 문제" />
+    </q-tabs>
+    <q-tab-panels v-model="tab" animated
+      style="background-color: whitesmoke; width:100%;">
+      <span name="article" style="display:flex; flex-wrap:wrap;">
+        <img v-for="myArticle in myArticles" :key="myArticle" :src="myArticle.img" style="width:33.3%">
+      </span>
+    </q-tab-panels>
+    <q-tab-panels v-model="tab" animated style="background-color: whitesmoke; width:100%;">
+      <span name="like" style="display:flex; flex-wrap:wrap;">
+        <img v-for="mylike in myLikes" :key="mylike" :src="mylike.img" style="width:33.3%">
+      </span>
+    </q-tab-panels>
+    <q-tab-panels v-model="tab" animated style="background-color: whitesmoke; width:100%;">
+      <q-tab-panel name="zzim">
+        <div v-for="quiz in myQuiz" :key="quiz" class="my_quiz">
+          {{ quiz.Question }}
+        </div>
+      </q-tab-panel>
+    </q-tab-panels>
+  </div>
 </template>
 
 <script>
+import { useQuasar } from 'quasar'
+import { ref, computed } from 'vue'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 export default {
+  setup () {
+    const $q = useQuasar()
+    const store = useStore()
+    const router = useRouter()
+    const myQuiz= [
+      {
+        Question:'Q. 아이가 변비일 때 먹이면 좋지 않은 과일은?'
+      },
+      {
+        Question:'Q. 아이가 변비일 때 먹이면 좋지 않은 과일은?'
+      },
+      {
+        Question:'Q. 아이가 변비일 때 먹이면 좋지 않은 과일은?'
+      },
+      {
+        Question:'Q. 아이가 변비일 때 먹이면 좋지 않은 과일은?'
+      }
+    ]
+    const myArticles = computed(()=> store.getters['module/getMyarticle'])
+    const myLikes = computed(()=> store.getters['module/getMylike'])
 
+    function show () {
+      $q.bottomSheet({
+        message: '메뉴',
+        actions: [
+          // {},
+          {
+            label: '회원정보수정',
+            icon: 'account_circle',
+            id: 'update'
+          },
+          {},
+          {
+            label: '로그아웃',
+            icon: 'logout',
+            id: 'logout'
+          },
+        ]
+      }).onOk(action => {
+        if (action.id == 'update'){
+          router.push('set')
+        }
+        else if (action.id == 'logout'){
+          console.log('로그아웃시키기')
+        }
+      }).onCancel(() => {
+        // console.log('바텀시트 빠져나올때')
+      }).onDismiss(() => {
+        // console.log('I am triggered on both OK and Cancel')
+      })
+    }
+
+    // onMounted(()=>{
+    //   store.dispatch('유저가쓴글받아오기')
+    // })
+    function goArticle(){
+      console.log('아티클')
+    }
+    return {
+      tab: ref('zzim'),
+      myArticles,
+      myLikes,
+      myQuiz,
+      show,
+      goArticle
+    }
+  }
 }
 </script>
 
 <style>
-
+.my_top{
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  width:100%;
+  height:100px;
+}
+.logo{
+  margin: 0 auto;
+  padding-left:60px;
+}
+.my_container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.user_info{
+  display: flex;
+}
+.profile_img{
+  border-radius: 50%;
+  margin-left: -30px;
+  margin-right: 40px;
+}
+.nick_name{
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  font-size:20px;
+}
+.my_quiz{
+  display:flex;
+  justify-content:center;
+  padding:20px 0px 20px 0px;
+  font-size:17px;
+  font-weight: bold;
+}
 </style>
