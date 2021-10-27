@@ -9,6 +9,11 @@
     "dev": "quasar dev",
     "build": "quasar build"
   },
+  "eslintConfig":{
+    "globals":{
+      "kakao":false
+    }
+  },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
     "axios": "^0.23.0",
