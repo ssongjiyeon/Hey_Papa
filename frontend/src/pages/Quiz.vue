@@ -2,9 +2,6 @@
 <div class="quiz-text">
   <h5 style="margin: 0.5rem">hey! papa</h5>
   <h3 style="margin: 0.5rem">Quiz</h3>
-  <div v-if="!isClicked">
-    <button @click="QuizDetail(theme)">다른 주제</button>
-  </div>
 </div>
 
 
@@ -19,7 +16,7 @@
   </q-card>
 </div>
 <div v-if="!isClicked">
-  <QuizDetail />
+  <QuizDetail @OtherTheme="OtherTheme"/>
 </div>
 
 
@@ -33,7 +30,7 @@ export default {
   components: { QuizDetail },
   setup() {
     const QuizList = ref([])
-    const isClicked = ref(false)
+    const isClicked = ref(true)
     // quiz detail 정보
     let themes = [
       {
@@ -75,12 +72,18 @@ export default {
 
       return {}
     }
-
+    const OtherTheme = () => {
+      console.log('emit')
+      isClicked.value = !isClicked.value
+      console.log(isClicked.value)
+      return {}
+    }
 
     return {
       themes,
       QuizDetail,
-      isClicked
+      isClicked,
+      OtherTheme
 
     }
   }
