@@ -1,5 +1,9 @@
 <template>
   <div class="q-pa-md">
+    <div class="row justify-center">
+      <button @click="$emit('OtherTheme')">다른주제</button>
+      <input class="quiz-number-input" type="number" v-model="slide"> / {{QuizList.length}}
+    </div>
     <q-carousel
       v-model="slide"
       transition-prev="slide-right"
@@ -10,6 +14,7 @@
       control-color="primary"
       class="rounded-borders"
     >
+
       <q-carousel-slide  class="column no-wrap flex-center" v-for="quiz in QuizList" :key="quiz.id" :name="quiz.id">
         <!-- <q-icon name="quiz.id" color="primary" size="56px" /> -->
         <div class="q-mt-md text-center column">
@@ -25,7 +30,7 @@
     </q-carousel>
 
     <div class="row justify-center">
-      <q-btn-toggle
+      <!-- <q-btn-toggle
         glossy
         v-model="slide"
         :options="[
@@ -36,7 +41,7 @@
           { label: 5, value: 5 },
           { label: 6, value: 6 },
           ]"
-      />
+      /> -->
     </div>
   </div>
 </template>
@@ -149,13 +154,22 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.quiz-number-input {
+  width: 3rem;
+  display: flex;
+  align-items: center;
+}
+
+
 .answer-box {
-  float: left;
-  width: 6rem;
-  height: 6rem;
+  /* float: left; */
+  display: flex;
+  flex-wrap: wrap;
+  width: 7rem;
+  height: 7rem;
   background-color: pink;
-  margin: 0.5rem;
+  margin: 1rem;
   align-items: center;
 }
 </style>
