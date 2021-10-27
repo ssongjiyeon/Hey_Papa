@@ -69,7 +69,7 @@ module.exports = configure(function (ctx) {
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
     devServer: {
       https: false,
-      port: 8080,
+      port: 8443,
       open: true, // opens browser window automatically
     },
 
@@ -88,7 +88,9 @@ module.exports = configure(function (ctx) {
       // directives: [],
 
       // Quasar plugins
-      plugins: [],
+      plugins: [
+        'BottomSheet'
+      ],
     },
 
     // animations: 'all', // --- includes all animations
