@@ -8,6 +8,7 @@
       <div class="nav-btn"><button @click="GoInfo">정보</button></div>
       <div class="nav-btn"><button @click="GoMy">MY</button></div>
     </div>
+
   </div>
 </template>
 
