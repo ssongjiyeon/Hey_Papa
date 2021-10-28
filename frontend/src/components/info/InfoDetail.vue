@@ -31,8 +31,6 @@
         swipeable
         animated
         arrows
-        control-type="regular"
-        control-color="primary"
         control-text-color="grey-8"
         height="600px"
         max-width="420px"
