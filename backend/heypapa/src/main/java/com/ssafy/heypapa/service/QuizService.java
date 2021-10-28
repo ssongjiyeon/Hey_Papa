@@ -11,6 +11,7 @@ import com.ssafy.heypapa.entity.Comment;
 import com.ssafy.heypapa.entity.Quiz;
 import com.ssafy.heypapa.repository.CommentRepository;
 import com.ssafy.heypapa.repository.QuizRepository;
+import com.ssafy.heypapa.repository.QuizRepositorySupport;
 import com.ssafy.heypapa.repository.UserRepository;
 import com.ssafy.heypapa.request.CommentRequest;
 import com.ssafy.heypapa.request.QuizRequest;
@@ -24,6 +25,9 @@ public class QuizService implements IQuizService {
 	
 	@Autowired
 	QuizRepository quizRepository;
+	
+	@Autowired
+	QuizRepositorySupport quizRepositorySupport;
 	
 	@Autowired
 	CommentRepository commentRepository;
@@ -80,6 +84,12 @@ public class QuizService implements IQuizService {
 	@Override
 	public void deleteComment(Long qId, Long cId) {
 		commentRepository.deleteById(cId);
+	}
+
+	@Override
+	public Quiz findByQuizId(Long quiz_id) {
+		Quiz quiz = quizRepositorySupport.findQuizByQuizid(quiz_id).get();
+		return quiz;
 	}
 
 }

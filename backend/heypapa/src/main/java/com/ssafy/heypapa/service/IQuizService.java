@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Pageable;
 
 import com.ssafy.heypapa.entity.Comment;
+import com.ssafy.heypapa.entity.Quiz;
 import com.ssafy.heypapa.request.CommentRequest;
 import com.ssafy.heypapa.request.QuizRequest;
 import com.ssafy.heypapa.response.QuizResponse;
@@ -21,5 +22,6 @@ public interface IQuizService {
 	
 	void deleteComment(Long qId, Long cId);
 	
+	Quiz findByQuizId(Long quiz_id);
 	
 }
