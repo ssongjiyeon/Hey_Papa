@@ -57,6 +57,17 @@ export default defineComponent({
   z-index: 990;
   max-width: 420px;
 }
+
+.navbar {
+  position: fixed;
+  width: 100%;
+  height: 8%;
+  bottom:0px;
+  display: flex;
+  flex-direction: row;
+  z-index: 990;
+  max-width: 420px;
+}
 .nav-btn{
   width: 20%;
 }
