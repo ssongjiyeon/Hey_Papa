@@ -198,7 +198,7 @@ module.exports = configure(function (ctx) {
         // OS X / Mac App Store
         // appBundleId: '',
         // appCategoryType: '',
-        // osxSign: '',
+        // osxSign: '',por
         // protocol: 'myapp://path',
         // Windows only
         // win32metadata: { ... }
