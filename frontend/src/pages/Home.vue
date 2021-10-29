@@ -12,7 +12,7 @@
         <!-- 프로필 박스 -->
         <div class="profile-box">
           <q-responsive :ratio="1">
-            <img :src="para.profileUrl" alt="">
+            <img :src="para.profileUrl" alt=""  >
           </q-responsive>
           <div class="text-h6 q-mt-sm q-mb-sm q-ml-sm">{{para.name}}</div>
         </div>
@@ -41,6 +41,7 @@
 
       <q-img
         :src="para.imgUrl"
+        v-if="para.imgUrl.length > 0"
       />
 
       <q-card-actions>
@@ -103,7 +104,7 @@ export default {
         id:2,
         name: "씩씩이 아빠",
         profileUrl: "https://ifh.cc/g/0nA9O0.png",
-        imgUrl: "https://lh3.googleusercontent.com/proxy/AYXPov8m6oqrerd8Dq5aRiclau1aPiDjpqeLRD_sjn4uDjcQ5hXljyXTxTgOP-OivR7WVs88eS_wyxQ_toJW2tn1dysm6jYgMr4fVO68f4kKB6O5yxJ3D1g",
+        imgUrl: "https://ifh.cc/g/sOxIcm.png",
         content: "우리부장님^^",
         like: "5",
         reply: ['안녕', '안녕1'],
@@ -196,7 +197,7 @@ export default {
   justify-content: flex-end;
   text-decoration: underline;
 }
-.white-spce{
-  height: 200px;
+.white-space{
+  height: 50px !important;
 }
 </style>
