@@ -9,6 +9,11 @@
     "dev": "quasar dev",
     "build": "quasar build"
   },
+  "eslintConfig":{
+    "globals":{
+      "kakao":false
+    }
+  },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",

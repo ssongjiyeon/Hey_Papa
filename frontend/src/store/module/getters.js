@@ -4,3 +4,6 @@ export function getMyarticle (state) {
 export function getMylike (state) {
   return state.myLike
 }
+export function getUser (state) {
+  return state.user
+}

@@ -26,6 +26,8 @@ public class QuizResponse {
 	private String candidate;
 	@ApiModelProperty(name = "설명")
 	private String description;
+	@ApiModelProperty(name = "이미지")
+	private String img;
 	
 	@ApiModelProperty(name = "퀴즈 댓글 목록들")
 	private List<CommentRequest> comments;

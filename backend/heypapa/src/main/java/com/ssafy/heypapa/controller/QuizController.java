@@ -28,14 +28,14 @@ import io.swagger.annotations.ApiResponses;
 
 @Api(value = "퀴즈 api", tags = { "Quiz" })
 @RestController
-@RequestMapping("/api/heypapa/quiz")
+@RequestMapping("/heypapa/quiz")
 public class QuizController {
 
 	@Autowired
 	private QuizService quizService;
 	
-	@GetMapping("/{type}/all")
-	@ApiOperation(value = "종류별 퀴즈 전체 목록", notes = "<strong>퀴즈 봉류 별 전체 리스트</strong>")
+	@GetMapping("/all")
+	@ApiOperation(value = "퀴즈 전체 목록", notes = "<strong>퀴즈 전체 리스트</strong>")
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "성공"),
         @ApiResponse(code = 401, message = "토큰 인증 실패"),

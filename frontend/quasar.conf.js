@@ -69,8 +69,18 @@ module.exports = configure(function (ctx) {
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
     devServer: {
       https: false,
-      port: 8443,
+      port: 8080,
       open: true, // opens browser window automatically
+      proxy: {
+        '/api': {
+          target: 'https://k5b206.p.ssafy.io:8080'
+        },
+        '/api': {
+          target: 'https://localhost:8080'
+        }
+      },
+      historyApiFallback: true,
+      hot: true
     },
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework
