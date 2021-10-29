@@ -30,4 +30,6 @@ public class Quiz extends BaseEntity {
 	@Column(columnDefinition = "LONGTEXT")
 	private String description; // 설명
 	
+	private String img; // 문제 설명 이미지
+	
 }

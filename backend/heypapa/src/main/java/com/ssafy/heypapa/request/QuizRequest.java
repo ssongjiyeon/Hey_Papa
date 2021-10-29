@@ -22,5 +22,7 @@ public class QuizRequest {
 	private String candidate;
 	@ApiModelProperty(name = "설명")
 	private String description;
+	@ApiModelProperty(name = "이미지")
+	private String img;
 	
 }
