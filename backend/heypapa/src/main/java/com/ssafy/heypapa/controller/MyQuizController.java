@@ -21,7 +21,7 @@ import io.swagger.annotations.ApiResponses;
 
 @Api(value = "나의 퀴즈 api", tags = { "MyQuiz" })
 @RestController
-@RequestMapping("/api/heypapa/myquiz")
+@RequestMapping("/heypapa/myquiz")
 public class MyQuizController {
 
 	@Autowired
