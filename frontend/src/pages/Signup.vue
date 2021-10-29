@@ -2,9 +2,9 @@
   <div>
     <q-btn class="back_btn" @click="goLogin" round style="background:rgb(86,86,239); color:white; margin:20px 0px 0px 20px;" icon="arrow_back" />
     <div class="signup_container">
-      <h4 style="font-size:25px; margin-top:120px;">회원 가입</h4>
-      <div style="width:290px; margin:30px 0px 40px 0px;">
-        <q-input label="ID" type="email"
+      <h4 style="font-size:25px; margin-top:70px;">회원 가입</h4>
+      <div style="width:290px; margin:30px 0px 30px 0px;">
+        <q-input label="아이디" type="email"
           v-model="form.email"
           lazy-rules
           :rules="[
@@ -15,19 +15,26 @@
         <q-btn @click="duplicateEmail" rounded class="duplicate_button" label="중복 확인"/>
       </div>
       <div style="width:290px; margin-top:-50px; margin-bottom:20px;">
-        <q-input label="PASSWORD" type="password" v-model="form.password"
+        <q-input label="비밀번호" type="password" v-model="form.password"
         lazy-rules
         :rules="[
           val => val && val.length >= 8 || '8자리 이상 입력해주세요.',
           checkPassWord]"
       />
       </div>
-      <div style="width:290px; margin-bottom:40px;">
-        <q-input label="CONFIRM PASSWORD" type="password" v-model="form.passwordconfirmation"
+      <div style="width:290px; margin-bottom:20px;">
+        <q-input label="비밀번호확인" type="password" v-model="form.passwordconfirmation"
           lazy-rules
           :rules="[
             val => val && val.length > 0 || '필수입력항목 입니다.',
             checkPassWordConfirmation
+          ]"/>
+      </div>
+      <div style="width:290px; margin-bottom:40px;">
+        <q-input label="지역 (예:유성구 (시/군/구))" type="password" v-model="form.region"
+          lazy-rules
+          :rules="[
+            val => val && val.length > 0 || '필수입력항목 입니다.',
           ]"/>
       </div>
       <q-btn @click="goBaby" unelevated rounded color="primary" label="계속" style="width:300px; margin-top:100px;"/>
@@ -46,6 +53,7 @@ export default {
       email: '',
       password: '',
       passwordconfirmation: '',
+      region: '',
     })
     let valid = {
       email: false,

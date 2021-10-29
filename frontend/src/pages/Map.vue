@@ -19,6 +19,8 @@
   </div>
 </template>
 <script>
+import { computed } from 'vue'
+import { useStore } from 'vuex'
 export default {
   data() {
     return {
@@ -32,7 +34,23 @@ export default {
           "lng":127.01763998406159
         },
         {
-          "content":'<div>하이</div>',
+          "content":
+            '<div class="wrap">' + 
+            '    <div class="info">' + 
+            '        <div class="title">' + 
+            '            올리비움' + 
+            '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' + 
+            '        </div>' + 
+            '        <div class="body">' + 
+            '            <div class="desc">' + 
+            '                <div class="ellipsis">서울특별시 종로구 통일로 16길 4-1</div>' + 
+            '                <div class="jibun ellipsis">(일반실) 410석 (특실) 460석</div>' + 
+            '                <div><a href="https://www.kakaocorp.com/main" target="_blank" class="link">홈페이지</a></div>' + 
+            '            </div>' + 
+            '        </div>' + 
+            '    </div>' +    
+            '</div>'
+          ,
           // "latlng": new kakao.maps.LatLng(37.55915668706214,126.92536526611102)
           "lat":37.55915668706214,
           "lng":126.92536526611102
@@ -539,6 +557,14 @@ export default {
       window:[],
     };
   },
+  created(){
+    const store = useStore()
+    const user = computed(()=> store.getters['module/getUser'])
+    this.keyword = user.value[0].region
+    setTimeout(()=>{
+      this.searchSubmit()
+    },200)
+  },
   mounted() {
     if (window.kakao && window.kakao.maps) {
       this.initMap();
@@ -568,7 +594,6 @@ export default {
         var marker = new kakao.maps.Marker({
           map:this.map,
           position : new kakao.maps.LatLng(i.lat, i.lng),
-          // clickable: true
         });
         marker.setMap(this.map) 
         var infowindow = new kakao.maps.InfoWindow({
@@ -577,90 +602,35 @@ export default {
           removable: true
         })
         this.window.push(infowindow)
-        // kakao.maps.event.addListener(marker,'mouseover',() => {
-        //   // 마커 위에 인포윈도우를 표시합니다
-        //   console.log('@@@',marker,'@@')
-        //   infowindow.open(this.map, marker);  
-        // })
-        // kakao.maps.event.addListener(marker,'mouseout',() => {
-        //   // 마커 위에 인포윈도우를 표시합니다
-        //   console.log('나간다잇!')
-        //   infowindow.close();
-        // })
         return marker
       });
-      // console.log(markers,'@@@')
       for (var i=0; i<markers.length;i++){
-        // console.log(this.window[i])
-        kakao.maps.event.addListener(markers[i],'mouseover',this.onclickfunc(this.map,markers[i],this.window[i]))
-        kakao.maps.event.addListener(markers[i],'mouseout',this.outclickfunc(this.window[i]))
+        kakao.maps.event.addListener(markers[i],'click',this.onclickfunc(this.map,markers[i],this.window[i]))
       }
-      // for (var i=0; i<markers.length; i++){
-      //   var infowindow = new kakao.maps.InfoWindow({
-      //     content:this.positions[i].content,
-      //     position: new kakao.maps.LatLng(this.positions[i].lat, this.positions[i].lng),
-      //     removable: true
-      //   })
-      //   console.log(markers[i],'@@')
-      //   kakao.maps.event.addListener(markers[i],'click',() => {
-      //     // 마커 위에 인포윈도우를 표시합니다
-      //     // console.log('@@@',marker,'@@')
-      //     infowindow.open(this.map, markers[i]);  
-      //   })
-      // }
-      // for(var i=0; i<this.positions.length;i++){
-        // var marker = new kakao.maps.Marker({
-        //   position : new kakao.maps.LatLng(this.positions[i].lat, this.positions[i].lng),
-        //   clickable: true
-        // });
-        // marker.setMap(this.map)
-      //   var infowindow = new kakao.maps.InfoWindow({
-      //     content:this.positions[i].content,
-      //     removable : true
-      //   })
-      //   kakao.maps.event.addListener(markers[i],'mouseover',() => {
-      //     // 마커 위에 인포윈도우를 표시합니다
-      //     console.log('@@@',infowindow,'@@')
-      //     infowindow.open(this.map, markers[i]);  
-      //   })
-      //   kakao.maps.event.addListener(markers[i],'mouseout',() => {
-      //     // 마커 위에 인포윈도우를 표시합니다
-      //     console.log('나간다잇!')
-      //     infowindow.close();
-      //   })
-      // }
-
-      // 클러스터링
-      // let clusterer = new kakao.maps.MarkerClusterer({
-      //   map: this.map,
-      //   averageCenter: true,
-      //   minLevel: 6,
-      // });
-      // this.aaa(clusterer)
     },
     onclickfunc(map,marker,infowindow){
-      console.log(map,marker,infowindow,'@@')
+      // var content = '<div class="wrap">' + 
+      //       '    <div class="info">' + 
+      //       '        <div class="title">' + 
+      //       '            카카오 스페이스닷원' + 
+      //       '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' + 
+      //       '        </div>' + 
+      //       '        <div class="body">' + 
+      //       '            <div class="img">' +
+      //       '                <img src="https://cfile181.uf.daum.net/image/250649365602043421936D" width="73" height="70">' +
+      //       '           </div>' + 
+      //       '            <div class="desc">' + 
+      //       '                <div class="ellipsis">제주특별자치도 제주시 첨단로 242</div>' + 
+      //       '                <div class="jibun ellipsis">(우) 63309 (지번) 영평동 2181</div>' + 
+      //       '                <div><a href="https://www.kakaocorp.com/main" target="_blank" class="link">홈페이지</a></div>' + 
+      //       '            </div>' + 
+      //       '        </div>' + 
+      //       '    </div>' +    
+      //       '</div>';
       return function(){
         infowindow.open(map,marker)
       }
     },
-    outclickfunc(infowindow){
-      return function(){
-        infowindow.close();
-      }
-    },
-    // aaa(clusterer) {
-    //     // 데이터에서 좌표 값을 가지고 마커를 표시합니다
-    //     // 마커 클러스터러로 관리할 마커 객체는 생성할 때 지도 객체를 설정하지 않습니다
-    //     var markers = this.res.positions.map((i) => {
-    //         return new kakao.maps.Marker({
-    //             position : new kakao.maps.LatLng(i.lat, i.lng),
-    //         });
-    //     });
-    //     // 클러스터러에 마커들을 추가합니다
-    //     clusterer.addMarkers(markers);
-    // },
-    // 키워드 검색을 요청하는 함수입니다
     searchSubmit() {
       this.geocoder.addressSearch(this.keyword, (result, status) => {
         if (status === kakao.maps.services.Status.OK) {
@@ -676,11 +646,10 @@ export default {
     zoomIn() {
       this.map.setLevel(this.map.getLevel() - 1);
     },
-    // 지도 확대, 축소 컨트롤에서 축소 버튼을 누르면 호출되어 지도를 확대하는 함수입니다
     zoomOut() {
       this.map.setLevel(this.map.getLevel() + 1);
     }
-  }
+  },
 }
 </script>
 
