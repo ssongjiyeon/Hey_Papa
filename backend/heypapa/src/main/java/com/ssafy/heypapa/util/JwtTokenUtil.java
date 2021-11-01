@@ -5,6 +5,7 @@ import java.security.Key;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import com.ssafy.heypapa.entity.User;
@@ -71,9 +72,9 @@ public class JwtTokenUtil {
 		return doGenerateToken(user.getNickname(), REFRESH_TOKEN_VALIDATION_SECOND);
 	}
 	
-	public Boolean validateToken(String token, User user) {
+	public Boolean validateToken(String token, UserDetails userDetails) {
 		final String nickname = getUserNickname(token);
 		
-		return (nickname.equals(user.getNickname()) && !isTokenExpired(token));
+		return (nickname.equals(userDetails.getUsername()) && !isTokenExpired(token));
 	}
 }
