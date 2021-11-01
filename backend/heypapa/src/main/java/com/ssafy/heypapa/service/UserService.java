@@ -14,4 +14,14 @@ public class UserService implements IUserService {
 	@Autowired
 	UserRepository userRepository;
 
+	public User getUserByNickname(String username) {
+		Optional<User> user = userRepository.findByNickname(username);
+		
+		if(user.isPresent()) {
+			return user.get();
+		}
+		
+		return null;
+	}
+
 }
