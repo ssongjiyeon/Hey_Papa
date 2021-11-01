@@ -2,6 +2,7 @@ package com.ssafy.heypapa.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.heypapa.entity.Comment;
 import com.ssafy.heypapa.entity.Quiz;
+import com.ssafy.heypapa.entity.QuizTypeEnum;
 import com.ssafy.heypapa.repository.CommentRepository;
 import com.ssafy.heypapa.repository.QuizRepository;
 import com.ssafy.heypapa.repository.QuizRepositorySupport;
@@ -58,16 +60,47 @@ public class QuizService implements IQuizService {
 	}
 
 	@Override
-	public List<QuizRequest> getAllQuiz(Pageable pageable) {
+	public List<QuizRequest> getAllQuiz(Pageable pageable, Enum<QuizTypeEnum> type) {
 		List<Quiz> qlist = quizRepository.findAll(pageable).getContent();
 		List<QuizRequest> copy = new ArrayList<>();
 		QuizRequest qreq;
-		for(Quiz q : qlist) {
-			qreq = new QuizRequest();
-			qreq.setId(q.getId());
-			qreq.setQuestion(q.getQuestion());
-			qreq.setType(q.getType().name());
-			copy.add(qreq);
+		String quiztype = quizRepository.findByType(type);
+		if(quiztype=="아내") {
+			for(Quiz q : qlist) {
+				qreq = new QuizRequest();
+				qreq.setType(quiztype);
+				qreq.setId(q.getId());
+				qreq.setQuestion(q.getQuestion());
+				qreq.setCandidate(q.getCandidate());
+				copy.add(qreq);
+			}
+		} else if(quiztype=="아기") {
+			for(Quiz q : qlist) {
+				qreq = new QuizRequest();
+				qreq.setType(quiztype);
+				qreq.setId(q.getId());
+				qreq.setQuestion(q.getQuestion());
+				qreq.setCandidate(q.getCandidate());
+				copy.add(qreq);
+			}
+		} else if(quiztype=="음식") {
+			for(Quiz q : qlist) {
+				qreq = new QuizRequest();
+				qreq.setType(quiztype);
+				qreq.setId(q.getId());
+				qreq.setQuestion(q.getQuestion());
+				qreq.setCandidate(q.getCandidate());
+				copy.add(qreq);
+			}
+		} else if(quiztype=="사회") {
+			for(Quiz q : qlist) {
+				qreq = new QuizRequest();
+				qreq.setType(quiztype);
+				qreq.setId(q.getId());
+				qreq.setQuestion(q.getQuestion());
+				qreq.setCandidate(q.getCandidate());
+				copy.add(qreq);
+			}
 		}
 		return copy;
 	}
