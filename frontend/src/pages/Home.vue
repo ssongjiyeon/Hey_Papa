@@ -62,65 +62,66 @@ export default {
       paras,
       goWrite
     }
-
+  }
+}
 </script>
 
-<style scoped>
+  <style scoped>
 
-.my-card {
-  width: 100%;
-}
-.card-box {
-  width: 100%;
-  min-width: 30px;
-  overflow: scroll;
-}
+    .my-card {
+      width: 100%;
+    }
+    .card-box {
+      width: 100%;
+      min-width: 30px;
+      overflow: scroll;
+    }
 
-.text-box {
-  display: -webkit-box;
-  min-width: 300px;
-  width: inherit;
-  white-space: normal;
-  -webkit-line-clamp: 5;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-.heart-button {
-  border: none;
-  background-color: white;
-  color: silver;
-  font-size: 1.4rem;
-}
-.reply-box{
-  display: flex;
-  justify-content: center;
-  margin-bottom: 0.8rem;
-  margin-top: 0.5rem;
-  width: 100%;
-}
-.reply-input{
-  margin-right: 0.8rem;
-  width: 15rem;
-  height: 2.5rem;
-}
-.profile-box{
-  display: flex;
-  align-items: center;
-}
-.more-box{
-  display: -webkit-box;
-  min-width: 300px;
-  width: inherit;
-  white-space: normal;
-  -webkit-box-orient: vertical;
+    .text-box {
+      display: -webkit-box;
+      min-width: 300px;
+      width: inherit;
+      white-space: normal;
+      -webkit-line-clamp: 5;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .heart-button {
+      border: none;
+      background-color: white;
+      color: silver;
+      font-size: 1.4rem;
+    }
+    .reply-box{
+      display: flex;
+      justify-content: center;
+      margin-bottom: 0.8rem;
+      margin-top: 0.5rem;
+      width: 100%;
+    }
+    .reply-input{
+      margin-right: 0.8rem;
+      width: 15rem;
+      height: 2.5rem;
+    }
+    .profile-box{
+      display: flex;
+      align-items: center;
+    }
+    .more-box{
+      display: -webkit-box;
+      min-width: 300px;
+      width: inherit;
+      white-space: normal;
+      -webkit-box-orient: vertical;
 
-}
-.details-box{
-  display: flex;
-  justify-content: flex-end;
-  text-decoration: underline;
-}
-.white-space{
-  height: 50px !important;
-}
-</style>
+    }
+    .details-box{
+      display: flex;
+      justify-content: flex-end;
+      text-decoration: underline;
+    }
+    .white-space{
+      height: 50px !important;
+    }
+  </style>
