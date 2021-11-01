@@ -25,7 +25,7 @@ public class JwtTokenUtil {
 	final static public String ACCESS_TOKEN_NAME = "accessToken";
 	final static public String REFRESH_TOKEN_NAME = "refreshToken";
 	
-	@Value("${spring.jwt.secret")
+	@Value("${spring.jwt.secret}")
 	private String SECRET_KEY;
 	
 	private Key getSigningKey(String secretKey) {
