@@ -2,6 +2,9 @@
 <head>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
 </head>
+  <div>
+    <button @click="goWrite">글쓰기</button>
+  </div>
   <div class="q-pa-xs row items-start card-box">
     <FeedCard v-for="para in paras" :key="para.id" :para="para"/>
   </div>
@@ -13,6 +16,7 @@
 <script>
 // import { ref } from 'vue'
 import FeedCard from '../components/feed/FeedCard.vue'
+import { useRouter } from 'vue-router'
 export default {
   components: { FeedCard },
   setup(){
@@ -48,14 +52,17 @@ export default {
 
       }
     ]
+    const router = useRouter()
+    function goWrite(){
+      router.push('create')
+    }
 
 
     return {
-      paras
+      paras,
+      goWrite
     }
 
-  }
-}
 </script>
 
 <style scoped>
