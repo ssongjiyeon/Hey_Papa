@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.heypapa.entity.Comment;
+import com.ssafy.heypapa.entity.QuizTypeEnum;
 import com.ssafy.heypapa.request.CommentRequest;
 import com.ssafy.heypapa.request.QuizRequest;
 import com.ssafy.heypapa.response.QuizResponse;
@@ -28,21 +29,21 @@ import io.swagger.annotations.ApiResponses;
 
 @Api(value = "퀴즈 api", tags = { "Quiz" })
 @RestController
-@RequestMapping("/heypapa/quiz")
+@RequestMapping("/quiz")
 public class QuizController {
 
 	@Autowired
 	private QuizService quizService;
 	
-	@GetMapping("/all")
+	@GetMapping("/{type}")
 	@ApiOperation(value = "퀴즈 전체 목록", notes = "<strong>퀴즈 전체 리스트</strong>")
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "성공"),
         @ApiResponse(code = 401, message = "토큰 인증 실패"),
         @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<List<QuizRequest>> getAllQuiz(Pageable pageable) {
-		List<QuizRequest> quizList = quizService.getAllQuiz(pageable);
+	public ResponseEntity<List<QuizRequest>> getAllQuiz(Pageable pageable, @PathVariable("type") Enum<QuizTypeEnum> type) {
+		List<QuizRequest> quizList = quizService.getAllQuiz(pageable, type);
 		return ResponseEntity.status(200).body(quizList);
 	}
 	
