@@ -10,21 +10,21 @@ import com.ssafy.heypapa.entity.User;
 import com.ssafy.heypapa.service.IUserService;
 
 @Component
-public class PapaUserDetailService {//implements UserDetailsService {
-//
-//	@Autowired
-//	IUserService userService;
-//	
-//	@Override
-//	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//		User user = userService.getUserByNickname(username);
-//		
-//		if(user != null) {
-//			PapaUserDetails userDetails = new PapaUserDetails(user);
-//			return userDetails;
-//		}
-//		
-//		return null;
-//	}
+public class PapaUserDetailService implements UserDetailsService {
+
+	@Autowired
+	IUserService userService;
+	
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		User user = userService.getUserByNickname(username);
+		
+		if(user != null) {
+			PapaUserDetails userDetails = new PapaUserDetails(user);
+			return userDetails;
+		}
+		
+		return null;
+	}
 
 }
