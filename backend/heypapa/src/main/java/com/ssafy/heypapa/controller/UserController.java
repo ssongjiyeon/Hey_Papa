@@ -9,8 +9,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -51,7 +53,7 @@ public class UserController {
 	
 	@PostMapping("/login")
 	@ApiOperation(value = "로그인", notes = "로그인 성공 시 회원 정보 반환")
-	public ResponseEntity<UserResponse> login(UserRequest userRequest,
+	public ResponseEntity<UserResponse> login(@RequestBody UserRequest userRequest,
 				HttpServletRequest req, HttpServletResponse res) {
 			
 		final User user = userService.getUserByEmail(userRequest.getEmail());
@@ -82,7 +84,7 @@ public class UserController {
 	
 	@PostMapping("/regist")
 	@ApiOperation(value = "회원가입", notes = "회원가입을 한다.")
-	public ResponseEntity<BaseResponseBody> regist(RegistRequest req) {
+	public ResponseEntity<BaseResponseBody> regist(@RequestBody RegistRequest req) {
 		
 		User user = userService.createUser(req);
 		
@@ -95,7 +97,7 @@ public class UserController {
 	
 	@PostMapping("/email")
 	@ApiOperation(value = "이메일 중복 확인")
-	public ResponseEntity<BaseResponseBody> emailVerify(String email) {
+	public ResponseEntity<BaseResponseBody> emailVerify(@RequestBody String email) {
 		User user = userService.getUserByEmail(email);
 		if(user == null) {
 			return ResponseEntity.status(200).body(new BaseResponseBody(200, SUCCESS_MESSAGE));
@@ -103,4 +105,7 @@ public class UserController {
 		
 		return new ResponseEntity<BaseResponseBody>(HttpStatus.BAD_REQUEST);
 	}
+	
+//	@PutMapping("/")
+//	@Api
 }
