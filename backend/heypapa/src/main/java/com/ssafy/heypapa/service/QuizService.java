@@ -125,4 +125,19 @@ public class QuizService implements IQuizService {
 		return quiz;
 	}
 
+	@Override
+	public List<QuizRequest> getWifeQuiz(String type) {
+		List<Quiz> list = quizRepository.findByType("아내".toString());
+		List<QuizRequest> copy = new ArrayList<>();
+		QuizRequest qres;
+		for(Quiz q : list) {
+			qres = new QuizRequest();
+			qres.setId(q.getId());
+			qres.setQuestion(q.getQuestion());
+			qres.setCandidate(q.getCandidate());
+			copy.add(qres);
+		}
+		return copy;
+	}
+
 }

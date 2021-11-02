@@ -1,5 +1,6 @@
 package com.ssafy.heypapa.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,5 +13,6 @@ import com.ssafy.heypapa.entity.QuizTypeEnum;
 public interface QuizRepository extends JpaRepository<Quiz, Long> {
 
 	String findByType(Enum<QuizTypeEnum> type);
+	List<Quiz> findByType(String type);
 	
 }
