@@ -18,8 +18,8 @@ public class CarecenterService implements ICarecenterService {
 	CarecenterRepository carecenterRepository;
 
 	@Override
-	public List<CarecenterResponse> getAllCarecenter(Pageable pageable) {
-		List<Carecenter> list = carecenterRepository.findAll(pageable).getContent();
+	public List<CarecenterResponse> getAllCarecenter() {
+		List<Carecenter> list = carecenterRepository.findAll();
 		List<CarecenterResponse> copy = new ArrayList<>();
 		CarecenterResponse cres;
 		for(Carecenter c: list) {
