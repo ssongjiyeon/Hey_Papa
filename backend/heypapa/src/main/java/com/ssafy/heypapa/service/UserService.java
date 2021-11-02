@@ -32,8 +32,8 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public User getUserByEmail(UserRequest userRequest) {
-		Optional<User> user = userRepository.findByEmail(userRequest.getEmail());
+	public User getUserByEmail(String email) {
+		Optional<User> user = userRepository.findByEmail(email);
 	
 		return user.orElse(null);
 	}

@@ -51,10 +51,10 @@ public class UserController {
 	
 	@PostMapping("/login")
 	@ApiOperation(value = "로그인", notes = "로그인 성공 시 회원 정보 반환")
-	public ResponseEntity<UserResponse> login(@RequestBody UserRequest userRequest,
+	public ResponseEntity<UserResponse> login(UserRequest userRequest,
 				HttpServletRequest req, HttpServletResponse res) {
 			
-		final User user = userService.getUserByEmail(userRequest);
+		final User user = userService.getUserByEmail(userRequest.getEmail());
 		
 		if(!passwordEncoder.matches(userRequest.getPassword(), user.getPassword())) {
 			return new ResponseEntity<UserResponse>(HttpStatus.BAD_REQUEST);
@@ -82,7 +82,7 @@ public class UserController {
 	
 	@PostMapping("/regist")
 	@ApiOperation(value = "회원가입", notes = "회원가입을 한다.")
-	public ResponseEntity<BaseResponseBody> regist(@RequestBody RegistRequest req) {
+	public ResponseEntity<BaseResponseBody> regist(RegistRequest req) {
 		
 		User user = userService.createUser(req);
 		
@@ -91,5 +91,16 @@ public class UserController {
 		}
 		
 		return ResponseEntity.status(200).body(new BaseResponseBody(200, SUCCESS_MESSAGE));
+	}
+	
+	@PostMapping("/email")
+	@ApiOperation(value = "이메일 중복 확인")
+	public ResponseEntity<BaseResponseBody> emailVerify(String email) {
+		User user = userService.getUserByEmail(email);
+		if(user == null) {
+			return ResponseEntity.status(200).body(new BaseResponseBody(200, SUCCESS_MESSAGE));
+		}
+		
+		return new ResponseEntity<BaseResponseBody>(HttpStatus.BAD_REQUEST);
 	}
 }
