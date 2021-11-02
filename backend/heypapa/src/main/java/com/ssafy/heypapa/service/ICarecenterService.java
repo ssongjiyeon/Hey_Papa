@@ -8,6 +8,6 @@ import com.ssafy.heypapa.response.CarecenterResponse;
 
 public interface ICarecenterService {
 
-	List<CarecenterResponse> getAllCarecenter(Pageable pageable);
+	List<CarecenterResponse> getAllCarecenter();
 	
 }

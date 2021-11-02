@@ -18,7 +18,6 @@ public class ArticleRequest {
 	private String content;
 	@ApiModelProperty(name = "게시글 사진")
 	private String img;
-	@ApiModelProperty(name = "등록 시간")
-	private Date created_at;
-	
+	@ApiModelProperty(name = "해시 태그")
+	private String[] hashtag;
 }

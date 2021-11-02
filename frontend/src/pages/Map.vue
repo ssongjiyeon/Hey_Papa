@@ -26,6 +26,7 @@ export default {
     return {
       map: null,
       keyword : '',
+      centers:[],
       positions: [
         {
           // "latlng": new kakao.maps.LatLng(37.279430,127.017639)
@@ -45,7 +46,7 @@ export default {
             '            <div class="desc">' + 
             '                <div class="ellipsis">서울특별시 종로구 통일로 16길 4-1</div>' + 
             '                <div class="jibun ellipsis">(일반실) 410석 (특실) 460석</div>' + 
-            '                <div><a href="https://www.kakaocorp.com/main" target="_blank" class="link">홈페이지</a></div>' + 
+            '                <div>전화번호</div>' + 
             '            </div>' + 
             '        </div>' + 
             '    </div>' +    
@@ -560,6 +561,7 @@ export default {
   created(){
     const store = useStore()
     const user = computed(()=> store.getters['module/getUser'])
+    this.carecenter(this.centers)
     this.keyword = user.value[0].region
     setTimeout(()=>{
       this.searchSubmit()
@@ -589,7 +591,7 @@ export default {
       // -----------------------지도 기본 세팅-------------------
      
      // 마커 표시하기
-      var markers = this.positions.map((i) => {
+      var markers = this.centers.map((i) => {
         // 마커 정보 생성
         var marker = new kakao.maps.Marker({
           map:this.map,
@@ -609,24 +611,24 @@ export default {
       }
     },
     onclickfunc(map,marker,infowindow){
-      // var content = '<div class="wrap">' + 
-      //       '    <div class="info">' + 
-      //       '        <div class="title">' + 
-      //       '            카카오 스페이스닷원' + 
-      //       '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' + 
-      //       '        </div>' + 
-      //       '        <div class="body">' + 
-      //       '            <div class="img">' +
-      //       '                <img src="https://cfile181.uf.daum.net/image/250649365602043421936D" width="73" height="70">' +
-      //       '           </div>' + 
-      //       '            <div class="desc">' + 
-      //       '                <div class="ellipsis">제주특별자치도 제주시 첨단로 242</div>' + 
-      //       '                <div class="jibun ellipsis">(우) 63309 (지번) 영평동 2181</div>' + 
-      //       '                <div><a href="https://www.kakaocorp.com/main" target="_blank" class="link">홈페이지</a></div>' + 
-      //       '            </div>' + 
-      //       '        </div>' + 
-      //       '    </div>' +    
-      //       '</div>';
+      var content = '<div class="wrap">' + 
+            '    <div class="info">' + 
+            '        <div class="title">' + 
+            '            res.data.name' + 
+            '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' + 
+            '        </div>' + 
+            '        <div class="body">' + 
+            '            <div class="img">' +
+            '                <img src="https://cfile181.uf.daum.net/image/250649365602043421936D" width="73" height="70">' +
+            '           </div>' + 
+            '            <div class="desc">' + 
+            '                <div class="ellipsis">제주특별자치도 제주시 첨단로 242</div>' + 
+            '                <div class="jibun ellipsis">(우) 63309 (지번) 영평동 2181</div>' + 
+            '                <div><a href="https://www.kakaocorp.com/main" target="_blank" class="link">홈페이지</a></div>' + 
+            '            </div>' + 
+            '        </div>' + 
+            '    </div>' +    
+            '</div>';
       return function(){
         infowindow.open(map,marker)
       }
@@ -643,12 +645,42 @@ export default {
         }
       });
     },
+    carecenter(centers){
+      console.log(centers,'@@')
+      const store = useStore()
+      store.dispatch('module/getCarecenter')
+        .then(function(res){
+          res.data.forEach(e => {
+            const center = {
+              lat:e.latitude,
+              lng:e.longitude,
+              content :'<div class="wrap">' + 
+                        '    <div class="info">' + 
+                        '        <div class="title">' + 
+                                      e.name + 
+                        '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' + 
+                        '        </div>' + 
+                        '        <div class="body">' + 
+                        '            <div class="desc">' + 
+                        '                <div class="ellipsis">'+e.address+'</div>' + 
+                        '                <div class="jibun ellipsis">(일반실)' +e.generalRoom+ '(특실) '+e.specialRoom+'</div>' + 
+                        '                <div>'+e.phoneNumber+'</div>' + 
+                        '            </div>' + 
+                        '        </div>' + 
+                        '    </div>' +    
+                        '</div>'
+              }
+            centers.push(center)
+          });
+          console.log(centers,'@@@')
+        })
+    },
     zoomIn() {
       this.map.setLevel(this.map.getLevel() - 1);
     },
     zoomOut() {
       this.map.setLevel(this.map.getLevel() + 1);
-    }
+    },
   },
 }
 </script>
