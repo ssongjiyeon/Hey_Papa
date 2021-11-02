@@ -5,21 +5,25 @@
   <div>
     <button @click="goWrite">글쓰기</button>
   </div>
-  <div class="q-pa-xs row items-start card-box">
+  <div id="articles" class="q-pa-xs row items-start card-box">
     <FeedCard v-for="para in paras" :key="para.id" :para="para"/>
   </div>
+  <!-- <infinite-loading @infinite="infiniteHandler"></infinite-loading> -->
+
     <div class="white-space">
       끝
     </div>
 </template>
 
 <script>
-// import { ref } from 'vue'
+import { ref } from 'vue'
 import FeedCard from '../components/feed/FeedCard.vue'
 import { useRouter } from 'vue-router'
+import axios from 'axios'
 export default {
   components: { FeedCard },
   setup(){
+    const page = ref(1)
     const paras = [
       {
         id:1,
@@ -56,11 +60,48 @@ export default {
     function goWrite(){
       router.push('create')
     }
+    // const api = 'https://k5b206.p.ssafy.io/heypapa/article/'
+
+    // const infiniteHandler = ($state) => {
+    //   axios.get(api, {
+    //     params: {
+    //       page: page,
+    //     }
+    //   }).then((data) => {
+    //     console.log(data)
+    //   })
+    // }
+    let count = 0
+    const API_URL = 'https://k5b206.p.ssafy.io/heypapa'
+    const {scrollTop, clientHeight, scrollHeight} = document.documentElement
+    if (scrollTop + clientHeight >= scrollHeight - 2) {
+      console.log('스크롤')
+      axios({
+        method: 'GET',
+        url: API_URL + `/?page=${this.pageNum}`,
+      }).then((res) => {
+        for(let i = 0; i < 10; i++){
+          paras.push(res.data[i])
+        }
+        pageNum += 1
+      })
+    }
+
+    // window.onscroll = function(e) {
+    //   if((window.innerHeight + window.scrollY) >= (document.body.offsetHeight)-2) {
+    //     count++
+    //     console.log(count)
+    //     console.log("스크롤 요청")
+    //     let content = '<div class="block"><p>'+ count +'번째로 추가된 콘텐츠</p></div>'
+    //     document.querySelector("#articles").append(content)
+    //   }
+    // }
 
 
     return {
       paras,
-      goWrite
+      goWrite,
+      // infiniteHandler
     }
   }
 }
