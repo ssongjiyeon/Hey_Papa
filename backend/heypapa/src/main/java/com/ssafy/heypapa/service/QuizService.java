@@ -60,48 +60,45 @@ public class QuizService implements IQuizService {
 	}
 
 	@Override
-	public List<QuizRequest> getAllQuiz(Pageable pageable, Enum<QuizTypeEnum> type) {
+	public List<QuizRequest> getAllQuiz(Pageable pageable) {
 		List<Quiz> qlist = quizRepository.findAll(pageable).getContent();
 		List<QuizRequest> copy = new ArrayList<>();
 		QuizRequest qreq;
-		String quiztype = quizRepository.findByType(type);
-		if(quiztype=="아내") {
-			for(Quiz q : qlist) {
-				qreq = new QuizRequest();
-				qreq.setType(quiztype);
+//		String quiztype = quizRepository.findByType(type);
+		for(Quiz q : qlist) {
+			qreq = new QuizRequest();
+			if(q.getType().name().equals("아내")) {
 				qreq.setId(q.getId());
 				qreq.setQuestion(q.getQuestion());
 				qreq.setCandidate(q.getCandidate());
 				copy.add(qreq);
 			}
-		} else if(quiztype=="아기") {
-			for(Quiz q : qlist) {
-				qreq = new QuizRequest();
-				qreq.setType(quiztype);
-				qreq.setId(q.getId());
-				qreq.setQuestion(q.getQuestion());
-				qreq.setCandidate(q.getCandidate());
-				copy.add(qreq);
-			}
-		} else if(quiztype=="음식") {
-			for(Quiz q : qlist) {
-				qreq = new QuizRequest();
-				qreq.setType(quiztype);
-				qreq.setId(q.getId());
-				qreq.setQuestion(q.getQuestion());
-				qreq.setCandidate(q.getCandidate());
-				copy.add(qreq);
-			}
-		} else if(quiztype=="사회") {
-			for(Quiz q : qlist) {
-				qreq = new QuizRequest();
-				qreq.setType(quiztype);
-				qreq.setId(q.getId());
-				qreq.setQuestion(q.getQuestion());
-				qreq.setCandidate(q.getCandidate());
-				copy.add(qreq);
-			}
+//			qreq.setType(q.getType().name().equals("아내"));
 		}
+//		for(Quiz q : qlist) {
+//			qreq = new QuizRequest();
+//			qreq.setType(quiztype);
+//			qreq.setId(q.getId());
+//			qreq.setQuestion(q.getQuestion());
+//			qreq.setCandidate(q.getCandidate());
+//			copy.add(qreq);
+//		}
+//		for(Quiz q : qlist) {
+//			qreq = new QuizRequest();
+//			qreq.setType(quiztype);
+//			qreq.setId(q.getId());
+//			qreq.setQuestion(q.getQuestion());
+//			qreq.setCandidate(q.getCandidate());
+//			copy.add(qreq);
+//		}
+//		for(Quiz q : qlist) {
+//			qreq = new QuizRequest();
+//			qreq.setType(quiztype);
+//			qreq.setId(q.getId());
+//			qreq.setQuestion(q.getQuestion());
+//			qreq.setCandidate(q.getCandidate());
+//			copy.add(qreq);
+//		}
 		return copy;
 	}
 

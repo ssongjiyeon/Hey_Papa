@@ -42,8 +42,8 @@ public class QuizController {
         @ApiResponse(code = 401, message = "토큰 인증 실패"),
         @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<List<QuizRequest>> getAllQuiz(Pageable pageable, @PathVariable("type") Enum<QuizTypeEnum> type) {
-		List<QuizRequest> quizList = quizService.getAllQuiz(pageable, type);
+	public ResponseEntity<List<QuizRequest>> getAllQuiz(Pageable pageable) {
+		List<QuizRequest> quizList = quizService.getAllQuiz(pageable);
 		return ResponseEntity.status(200).body(quizList);
 	}
 	

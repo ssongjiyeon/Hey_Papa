@@ -19,7 +19,7 @@ import io.swagger.annotations.ApiResponses;
 
 @Api(value = "산후조리원 정보", tags = { "Carecenter" })
 @RestController
-@RequestMapping("/Carecenter")
+@RequestMapping("/carecenter")
 public class CarecenterController {
 
 	@Autowired
@@ -32,8 +32,8 @@ public class CarecenterController {
         @ApiResponse(code = 401, message = "토큰 인증 실패"),
         @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<List<CarecenterResponse>> getAllCarecenter(Pageable pageable) {
-		List<CarecenterResponse> carecenterList = service.getAllCarecenter(pageable);
+	public ResponseEntity<List<CarecenterResponse>> getAllCarecenter() {
+		List<CarecenterResponse> carecenterList = service.getAllCarecenter();
 		return ResponseEntity.status(200).body(carecenterList);
 	}
 	
