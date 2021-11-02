@@ -43,7 +43,7 @@ public class QuizService implements IQuizService {
 		q.setAnswer(quiz.getAnswer());
 		q.setCandidate(quiz.getCandidate());
 		q.setDescription(quiz.getDescription());
-		q.setType(quiz.getType().name());
+		q.setType(quiz.getType());
 		
 		List<Comment> clist = commentRepository.findByQuiz_id(quiz.getId()).get();
 		if(clist != null) {
@@ -129,11 +129,67 @@ public class QuizService implements IQuizService {
 		QuizRequest qres;
 		for(Quiz q : list) {
 			qres = new QuizRequest();
-			qres.setType(q.getType().name());
-			qres.setId(q.getId());
-			qres.setQuestion(q.getQuestion());
-			qres.setCandidate(q.getCandidate());
-			copy.add(qres);
+			if(q.getType().equals("아내")) {
+				qres.setType(q.getType());
+				qres.setId(q.getId());
+				qres.setQuestion(q.getQuestion());
+				qres.setCandidate(q.getCandidate());
+				copy.add(qres);
+			}
+		}
+		return copy;
+	}
+
+	@Override
+	public List<QuizRequest> getAllBabyQuiz() {
+		List<Quiz> list = quizRepository.findAll();
+		List<QuizRequest> copy = new ArrayList<>();
+		QuizRequest qres;
+		for(Quiz q : list) {
+			qres = new QuizRequest();
+			if(q.getType().equals("아기")) {
+				qres.setType(q.getType());
+				qres.setId(q.getId());
+				qres.setQuestion(q.getQuestion());
+				qres.setCandidate(q.getCandidate());
+				copy.add(qres);
+			} 
+		}
+		return copy;
+	}
+
+	@Override
+	public List<QuizRequest> getAllFoodQuiz() {
+		List<Quiz> list = quizRepository.findAll();
+		List<QuizRequest> copy = new ArrayList<>();
+		QuizRequest qres;
+		for(Quiz q : list) {
+			qres = new QuizRequest();
+			if(q.getType().equals("음식")) {
+				qres.setType(q.getType());
+				qres.setId(q.getId());
+				qres.setQuestion(q.getQuestion());
+				qres.setCandidate(q.getCandidate());
+				copy.add(qres);
+			} 
+		}
+		return copy;
+	}
+
+	@Override
+	public List<QuizRequest> getAllSocietyQuiz() {
+		List<Quiz> list = quizRepository.findAll();
+		List<QuizRequest> copy = new ArrayList<>();
+		QuizRequest qres;
+		for(Quiz q : list) {
+			qres = new QuizRequest();
+			if(q.getType().equals("사회")) {
+				qres.setType(q.getType());
+				qres.setId(q.getId());
+				qres.setQuestion(q.getQuestion());
+				qres.setCandidate(q.getCandidate());
+				copy.add(qres);
+			} 
 		}
 		return copy;
 	}

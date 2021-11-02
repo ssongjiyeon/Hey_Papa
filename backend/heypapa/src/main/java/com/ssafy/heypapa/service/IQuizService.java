@@ -26,5 +26,8 @@ public interface IQuizService {
 	Quiz findByQuizId(Long quiz_id);
 	
 	List<QuizRequest> getAllWifeQuiz();
+	List<QuizRequest> getAllBabyQuiz();
+	List<QuizRequest> getAllFoodQuiz();
+	List<QuizRequest> getAllSocietyQuiz();
 	
 }

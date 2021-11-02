@@ -86,8 +86,8 @@ public class QuizController {
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 	
-	@GetMapping()
-	@ApiOperation(value = "종류별 퀴즈", notes = "<strong>종류별 퀴즈 리스트</strong>")
+	@GetMapping("/wife")
+	@ApiOperation(value = "아내 종류별 퀴즈", notes = "<strong>아내 종류별 퀴즈 리스트</strong>")
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "성공"),
         @ApiResponse(code = 401, message = "토큰 인증 실패"),
@@ -98,4 +98,39 @@ public class QuizController {
 		return ResponseEntity.status(200).body(quizList);
 	}
 	
+	@GetMapping("/baby")
+	@ApiOperation(value = "아기 종류별 퀴즈", notes = "<strong>아기 종류별 퀴즈 리스트</strong>")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "성공"),
+        @ApiResponse(code = 401, message = "토큰 인증 실패"),
+        @ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<List<QuizRequest>> getAllBabyQuiz() {
+		List<QuizRequest> quizList = quizService.getAllBabyQuiz();
+		return ResponseEntity.status(200).body(quizList);
+	}
+	
+	@GetMapping("/food")
+	@ApiOperation(value = "음식 종류별 퀴즈", notes = "<strong>음식 종류별 퀴즈 리스트</strong>")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "성공"),
+        @ApiResponse(code = 401, message = "토큰 인증 실패"),
+        @ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<List<QuizRequest>> getAllFoodQuiz() {
+		List<QuizRequest> quizList = quizService.getAllFoodQuiz();
+		return ResponseEntity.status(200).body(quizList);
+	}
+	
+	@GetMapping("/society")
+	@ApiOperation(value = "사회 종류별 퀴즈", notes = "<strong>사회 종류별 퀴즈 리스트</strong>")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "성공"),
+        @ApiResponse(code = 401, message = "토큰 인증 실패"),
+        @ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<List<QuizRequest>> getAllSocietyQuiz() {
+		List<QuizRequest> quizList = quizService.getAllSocietyQuiz();
+		return ResponseEntity.status(200).body(quizList);
+	}
 }
