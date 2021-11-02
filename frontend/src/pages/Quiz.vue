@@ -23,7 +23,7 @@
 </template>
 
 <script>
-// import axios from 'axios'
+import axios from 'axios'
 import { ref } from 'vue'
 import QuizDetail from '../components/quiz/QuizDetail.vue'
 export default {
@@ -59,14 +59,15 @@ export default {
     const QuizDetail = (theme) => {
 
       // api 마련되면 진행
-      // axios({
-      //   method: 'POST',
-      //   url: "",
-      //   params : theme
-      // })
-      // .then((res) => {
-      //   QuizList.value = res.data
-      // })
+      axios({
+        method: 'GET',
+        url: `https://k5b206.p.ssafy.io:8080/api/quiz/${theme}`,
+        params : theme
+      })
+      .then((res) => {
+        console.log('res', res)
+        QuizList.value = res.data
+      })
       isClicked.value = !isClicked.value
       console.log(isClicked.value)
 
