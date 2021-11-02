@@ -562,10 +562,11 @@ export default {
     const store = useStore()
     const user = computed(()=> store.getters['module/getUser'])
     this.carecenter(this.centers)
-    this.keyword = user.value[0].region
+    this.keyword = user.value.region
+    console.log(this.keyword,'키워드')
     setTimeout(()=>{
       this.searchSubmit()
-    },200)
+    },300)
   },
   mounted() {
     if (window.kakao && window.kakao.maps) {
@@ -591,44 +592,28 @@ export default {
       // -----------------------지도 기본 세팅-------------------
      
      // 마커 표시하기
-      var markers = this.centers.map((i) => {
-        // 마커 정보 생성
-        var marker = new kakao.maps.Marker({
-          map:this.map,
-          position : new kakao.maps.LatLng(i.lat, i.lng),
-        });
-        marker.setMap(this.map) 
-        var infowindow = new kakao.maps.InfoWindow({
-          content:i.content,
-          position: new kakao.maps.LatLng(i.lat, i.lng),
-          removable: true
-        })
-        this.window.push(infowindow)
-        return marker
-      });
-      for (var i=0; i<markers.length;i++){
-        kakao.maps.event.addListener(markers[i],'click',this.onclickfunc(this.map,markers[i],this.window[i]))
-      }
+     setTimeout(() => {
+       var markers = this.centers.map((i) => {
+         // 마커 정보 생성
+         var marker = new kakao.maps.Marker({
+           map:this.map,
+           position : new kakao.maps.LatLng(i.lat, i.lng),
+         });
+         marker.setMap(this.map) 
+         var infowindow = new kakao.maps.InfoWindow({
+           content:i.content,
+           position: new kakao.maps.LatLng(i.lat, i.lng),
+           removable: true
+         })
+         this.window.push(infowindow)
+         return marker
+       });
+       for (var i=0; i<markers.length;i++){
+         kakao.maps.event.addListener(markers[i],'click',this.onclickfunc(this.map,markers[i],this.window[i]))
+       }
+     }, 300);
     },
     onclickfunc(map,marker,infowindow){
-      var content = '<div class="wrap">' + 
-            '    <div class="info">' + 
-            '        <div class="title">' + 
-            '            res.data.name' + 
-            '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' + 
-            '        </div>' + 
-            '        <div class="body">' + 
-            '            <div class="img">' +
-            '                <img src="https://cfile181.uf.daum.net/image/250649365602043421936D" width="73" height="70">' +
-            '           </div>' + 
-            '            <div class="desc">' + 
-            '                <div class="ellipsis">제주특별자치도 제주시 첨단로 242</div>' + 
-            '                <div class="jibun ellipsis">(우) 63309 (지번) 영평동 2181</div>' + 
-            '                <div><a href="https://www.kakaocorp.com/main" target="_blank" class="link">홈페이지</a></div>' + 
-            '            </div>' + 
-            '        </div>' + 
-            '    </div>' +    
-            '</div>';
       return function(){
         infowindow.open(map,marker)
       }
@@ -646,7 +631,6 @@ export default {
       });
     },
     carecenter(centers){
-      console.log(centers,'@@')
       const store = useStore()
       store.dispatch('module/getCarecenter')
         .then(function(res){
@@ -657,14 +641,14 @@ export default {
               content :'<div class="wrap">' + 
                         '    <div class="info">' + 
                         '        <div class="title">' + 
-                                      e.name + 
+                                    e.name +
                         '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' + 
                         '        </div>' + 
                         '        <div class="body">' + 
                         '            <div class="desc">' + 
-                        '                <div class="ellipsis">'+e.address+'</div>' + 
-                        '                <div class="jibun ellipsis">(일반실)' +e.generalRoom+ '(특실) '+e.specialRoom+'</div>' + 
-                        '                <div>'+e.phoneNumber+'</div>' + 
+                        '                <div class="ellipsis"> 주소 : '+e.address+'</div>' + 
+                        '                <div class="jibun ellipsis">일반실 : ' + e.generalRoom + ' 특실 : '+e.specialRoom+'</div>' + 
+                        '                <div> 전화번호 : '+e.phoneNumber+'</div>' + 
                         '            </div>' + 
                         '        </div>' + 
                         '    </div>' +    
@@ -672,7 +656,6 @@ export default {
               }
             centers.push(center)
           });
-          console.log(centers,'@@@')
         })
     },
     zoomIn() {
@@ -694,4 +677,20 @@ export default {
 .custom_zoomcontrol span img {width:15px;height:15px;padding:12px 0;border:none;}             
 .custom_zoomcontrol span:first-child{border-bottom:1px solid #bfbfbf;}
 .radius_border{border:1px solid #919191;border-radius:5px;}  
+
+/* 커스텀오버레이 */
+.wrap {font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
+.wrap * {padding: 0;margin: 0;}
+.wrap .info {width: 330px;height: 100px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: hidden;background: #fff;}
+.wrap .info:nth-child(1) {border: 0;box-shadow: 0px 1px 2px #888;}
+.info .title {height: 30px;background: #eee;border-bottom: 1px solid #ddd;font-size: 18px;font-weight: bold;}
+/* .info .close {position: absolute;top: 10px;right: 10px;color: #888;width: 17px;height: 17px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');} */
+.info .close:hover {cursor: pointer;}
+/* .info .body {position: relative;overflow: hidden;} */
+/* .info .desc {position: relative;margin: 13px 0 0 90px;height: 75px;} */
+/* .desc .ellipsis {overflow: hidden;text-overflow: ellipsis;white-space: nowrap;} */
+/* .desc .jibun {font-size: 11px;color: #888;margin-top: -2px;} */
+.info .img {position: absolute;top: 6px;left: 5px;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden;}
+/* .info:after {content: '';position: absolute;margin-left: -12px;left: 50%;bottom: 0;width: 22px;height: 12px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')} */
+/* .info .link {color: #5085BB;} */
 </style>
