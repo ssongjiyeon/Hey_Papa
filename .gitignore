@@ -1,6 +1,40 @@
+.DS_Store
+.thumbs.db
+node_modules
 
-# Created by https://www.toptal.com/developers/gitignore/api/java,eclipse,gradle
-# Edit at https://www.toptal.com/developers/gitignore?templates=java,eclipse,gradle
+# Quasar core related directories
+.quasar
+/dist
+
+# Cordova related directories and files
+/src-cordova/node_modules
+/src-cordova/platforms
+/src-cordova/plugins
+/src-cordova/www
+
+# Capacitor related directories and files
+/src-capacitor/www
+/src-capacitor/node_modules
+
+# BEX related directories and files
+/src-bex/www
+/src-bex/js/core
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor directories and files
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+
+# Created by https://www.toptal.com/developers/gitignore/api/java,eclipse,visualstudiocode,gradle
+# Edit at https://www.toptal.com/developers/gitignore?templates=java,eclipse,visualstudiocode,gradle
 
 ### Eclipse ###
 .metadata
@@ -93,6 +127,25 @@ local.properties
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# Local History for Visual Studio Code
+.history/
+
+### VisualStudioCode Patch ###
+# Ignore all local history of files
+.history
+.ionide
+
+# Support for Project snippet scope
+!.vscode/*.code-snippets
+
 ### Gradle ###
 .gradle
 build/
@@ -118,4 +171,4 @@ gradle-app.setting
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
 
-# End of https://www.toptal.com/developers/gitignore/api/java,eclipse,gradle
+# End of https://www.toptal.com/developers/gitignore/api/java,eclipse,visualstudiocode,gradle
