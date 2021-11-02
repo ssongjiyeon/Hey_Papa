@@ -23,4 +23,10 @@ public class RegistRequest {
 	
 	@ApiModelProperty(name = "dDay", example = "2021119")
 	private Date dDay;
+	
+	@ApiModelProperty(name = "region", example = "봉명동")
+	private String region;
+	
+	@ApiModelProperty(name = "week", example = "7")
+	private int week;
 }

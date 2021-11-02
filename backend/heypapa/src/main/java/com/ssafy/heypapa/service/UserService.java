@@ -32,8 +32,8 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public User getUserByEmail(UserRequest userRequest) {
-		Optional<User> user = userRepository.findByEmail(userRequest.getEmail());
+	public User getUserByEmail(String email) {
+		Optional<User> user = userRepository.findByEmail(email);
 	
 		return user.orElse(null);
 	}
@@ -43,6 +43,7 @@ public class UserService implements IUserService {
 		User user = new User();
 		user.setD_day(req.getDDay());
 		user.setEmail(req.getEmail());
+		user.setRegion(req.getRegion());
 		user.setPassword(passwordEncoder.encode(req.getPassword()));
 		
 		// 닉네임 중복 처리
@@ -56,9 +57,10 @@ public class UserService implements IUserService {
 		}
 
 		user.setNickname(newNickname);
+
+		user.setWeek(req.getWeek());
 		
-		// 주차 계산
-		user.setWeek(4);
+		// 이미지 저장
 		user.setImg("img");
 		userRepository.save(user);
 		
