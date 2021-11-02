@@ -86,4 +86,16 @@ public class QuizController {
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 	
+	@GetMapping("/아내")
+	@ApiOperation(value = "아내 종류 퀴즈", notes = "<strong>아내 종류 퀴즈 리스트</strong>")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "성공"),
+        @ApiResponse(code = 401, message = "토큰 인증 실패"),
+        @ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<List<QuizRequest>> getWifeQuiz(String type) {
+		List<QuizRequest> quizList = quizService.getWifeQuiz(type);
+		return ResponseEntity.status(200).body(quizList);
+	}
+	
 }
