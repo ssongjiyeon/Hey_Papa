@@ -16,7 +16,7 @@ export default defineComponent({
 </script>
 <style scoped>
 .app_container{
-  border:1px solid black;
+  /* border:1px solid black; */
 }
 
 </style>

@@ -6,7 +6,7 @@
 
 
 <div class="card-box" q-pa-lg row item-start q-gutter-md v-if="isClicked">
-  <q-card class="my-card" v-for="theme in themes" :key=theme.id @click="QuizDetail(theme.theme)">
+  <q-card class="my-card" v-for="theme in themes" :key="theme.id" @click="QuizDetail(theme.theme)">
     <img :src="theme.imgUrl">
 
     <q-card-section class="card-section">

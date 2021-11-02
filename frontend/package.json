@@ -9,9 +9,9 @@
     "dev": "quasar dev",
     "build": "quasar build"
   },
-  "eslintConfig":{
-    "globals":{
-      "kakao":false
+  "eslintConfig": {
+    "globals": {
+      "kakao": false
     }
   },
   "dependencies": {
@@ -23,6 +23,7 @@
     "core-js": "^3.6.5",
     "quasar": "^2.0.0",
     "sweetalert2": "^11.1.9",
+    "vue-infinite-loading": "^2.4.5",
     "vuex": "^4.0.1"
   },
   "devDependencies": {

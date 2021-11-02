@@ -33,6 +33,7 @@ const routes = [
       { path: "my", component: () => import("pages/My.vue") },
       { path: "set", component: () => import("pages/Setting.vue") },
       { path: "quiz", component: () => import("pages/Quiz.vue") },
+      { path: "create", component: () => import("pages/Create.vue") },
     ],
   },
 
