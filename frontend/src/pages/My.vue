@@ -5,7 +5,7 @@
       <q-btn flat color="primary" icon="menu" @click="show()" />
     </div>
     <div class="user_info">
-      <img class="profile_img" style="margin-left: margin-right:20px;" src="http://placehold.it/100x100">
+      <img class="profile_img" style="margin-right:20px;" src="https://isobarscience.com/wp-content/uploads/2020/09/default-profile-picture1.jpg">
       <div class="nick_name">17주차 튼튼이 아빠</div>
     </div>
     <q-tabs
@@ -135,6 +135,8 @@ export default {
   display: flex;
 }
 .profile_img{
+  width:100px;
+  height:100px;
   border-radius: 50%;
   margin-left: -30px;
   margin-right: 40px;
