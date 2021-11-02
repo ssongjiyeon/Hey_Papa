@@ -59,29 +59,20 @@ public class QuizService implements IQuizService {
 		return q;
 	}
 
-	@Override
-	public List<QuizRequest> getAllQuiz(Pageable pageable) {
-		List<Quiz> qlist = quizRepository.findAll(pageable).getContent();
-		List<QuizRequest> copy = new ArrayList<>();
-		QuizRequest qreq;
-//		String quiztype = quizRepository.findByType(type);
-		for(Quiz q : qlist) {
-			qreq = new QuizRequest();
-			if(q.getType().name().equals("아내")) {
-				qreq.setId(q.getId());
-				qreq.setQuestion(q.getQuestion());
-				qreq.setCandidate(q.getCandidate());
-				copy.add(qreq);
-			}
-//			qreq.setType(q.getType().name().equals("아내"));
-		}
+//	@Override
+//	public List<QuizRequest> getAllQuiz(Pageable pageable) {
+//		List<Quiz> qlist = quizRepository.findAll(pageable).getContent();
+//		List<QuizRequest> copy = new ArrayList<>();
+//		QuizRequest qreq;
+////		String quiztype = quizRepository.findByType(type);
 //		for(Quiz q : qlist) {
 //			qreq = new QuizRequest();
-//			qreq.setType(quiztype);
-//			qreq.setId(q.getId());
-//			qreq.setQuestion(q.getQuestion());
-//			qreq.setCandidate(q.getCandidate());
-//			copy.add(qreq);
+//			if(q.getType().name().equals("아내")) {
+//				qreq.setId(q.getId());
+//				qreq.setQuestion(q.getQuestion());
+//				qreq.setCandidate(q.getCandidate());
+//				copy.add(qreq);
+//			}
 //		}
 //		for(Quiz q : qlist) {
 //			qreq = new QuizRequest();
@@ -99,8 +90,16 @@ public class QuizService implements IQuizService {
 //			qreq.setCandidate(q.getCandidate());
 //			copy.add(qreq);
 //		}
-		return copy;
-	}
+//		for(Quiz q : qlist) {
+//			qreq = new QuizRequest();
+//			qreq.setType(quiztype);
+//			qreq.setId(q.getId());
+//			qreq.setQuestion(q.getQuestion());
+//			qreq.setCandidate(q.getCandidate());
+//			copy.add(qreq);
+//		}
+//		return copy;
+//	}
 
 	@Override
 	public Comment createComment(Long id, CommentRequest comment) {
@@ -123,12 +122,14 @@ public class QuizService implements IQuizService {
 	}
 
 	@Override
-	public List<QuizRequest> getWifeQuiz(String type) {
-		List<Quiz> list = quizRepository.findByType("아내".toString());
+	public List<QuizRequest> getAllWifeQuiz() {
+//		List<Quiz> list = quizRepository.findAllByType('아내'.toString());
+		List<Quiz> list = quizRepository.findAll();
 		List<QuizRequest> copy = new ArrayList<>();
 		QuizRequest qres;
 		for(Quiz q : list) {
 			qres = new QuizRequest();
+			qres.setType(q.getType().name());
 			qres.setId(q.getId());
 			qres.setQuestion(q.getQuestion());
 			qres.setCandidate(q.getCandidate());
