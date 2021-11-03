@@ -65,12 +65,14 @@ export default {
       week: '',
     })
     const user = computed(()=> store.getters['module/getUser'])
-    form.password = user.value.password
-    form.babyname = user.value.nickname
-    form.birthday = user.value.dday
-    form.region = user.value.region
-    form.week = user.value.week
-    console.log(form,'@@')
+    const pwd = computed(()=> store.getters['module/getLoginpwd'])
+    console.log(pwd,'pwd')
+    // form.password = pwd
+    // form.babyname = user.value.nickname
+    // form.birthday = user.value.dday
+    // form.region = user.value.region
+    // form.week = user.value.week
+    // console.log(form,'@@')
 
     function checkBirth (val) {
         const reg = /^(19[0-9][0-9]|20\d{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/

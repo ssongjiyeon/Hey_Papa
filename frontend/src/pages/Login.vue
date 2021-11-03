@@ -70,7 +70,7 @@ export default {
         email: ''
     })
     const getuser = computed(()=> store.getters['module/getUser'])
-    console.log(getuser.value)
+    console.log(getuser.value,'회원가입유저')
     // 아이디 유효성 검사 
     function checkId (val) {
         const reg = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i
@@ -102,6 +102,7 @@ export default {
       router.push('signup')
     }
     function goMain(){
+      store.commit('module/setPwd', form.password)
       router.push('home')
     }
     return{
