@@ -7,18 +7,22 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.heypapa.entity.Article;
 import com.ssafy.heypapa.entity.ArticleHashtag;
 import com.ssafy.heypapa.entity.ArticleLike;
 import com.ssafy.heypapa.entity.Hashtag;
+import com.ssafy.heypapa.entity.Review;
 import com.ssafy.heypapa.repository.ArticleHashtagRepository;
 import com.ssafy.heypapa.repository.ArticleLikeRepository;
 import com.ssafy.heypapa.repository.ArticleRepository;
 import com.ssafy.heypapa.repository.HashtagRepository;
+import com.ssafy.heypapa.repository.ReviewRepository;
 import com.ssafy.heypapa.repository.UserRepository;
 import com.ssafy.heypapa.request.ArticleRequest;
+import com.ssafy.heypapa.response.ArticleResponse;
 
 @Service("articleService")
 public class ArticleService implements IArticleService {
@@ -36,6 +40,9 @@ public class ArticleService implements IArticleService {
 	
 	@Autowired
 	ArticleLikeRepository articleLikeRepository;
+	
+	@Autowired
+	ReviewRepository reviewRepository;
 	
 	@Override
 	public Article createArticle(ArticleRequest articleRequest) {		
@@ -77,10 +84,38 @@ public class ArticleService implements IArticleService {
 		return articleRepository.save(article);
 	}
 	
-//	@Override
-//	public List<ArticleRequest> getAllArticle(Pageable pageable) {
-//		
-//	}
+	@Override
+	public List<ArticleResponse> getAllArticle(Pageable pageable) {
+		List<Article> list = articleRepository.findAll(pageable).getContent();
+		List<ArticleResponse> copy = new ArrayList<>();
+		ArticleResponse res;
+		for(Article a : list) {
+			res = new ArticleResponse();
+			res.setId(a.getId());
+			res.setContent(a.getContent());
+			res.setImg(a.getImg());
+			res.setCreated_at(a.getCreated_at());
+			// 해시태그 처리
+			List<String> hash = new ArrayList<>();
+			List<ArticleHashtag> hastag = articleHashtagRepository.findByArticleId(a.getId());
+			for(ArticleHashtag ah : hastag) {
+				hash.add(ah.getHashtag().getName());
+			}
+			String[] str = new String[hash.size()];
+			str = (String[]) hash.toArray(str);
+			res.setHashtag(str);
+			// like_cnt 처리
+			List<ArticleLike> al = articleLikeRepository.findByArticleId(a.getId());
+			res.setLike_cnt(al.size());
+			// comment_cnt 처리
+			List<Review> r = reviewRepository.findByArticleId(a.getId());
+			res.setComment_cnt(r.size());
+			//user 닉네임, 프로필이미지 처리
+			res.setNickname(a.getUser().getNickname());
+			res.setUser_img(a.getUser().getImg());
+		}
+		return copy;
+	}
 	
 	@Override
 	public Article updateArticle(ArticleRequest articleRequest, Long id) {		
