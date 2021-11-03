@@ -20,3 +20,9 @@ export function Login ({}, user) {
   const url = baseUrl + '/user/login'
   return $axios.post(url, user)
 }
+// 게시글쓰기
+export function writeArticle ({}, article) {
+  console.log(article,'article')
+  const url = baseUrl + '/article'
+  return $axios.post(url, article)
+}
