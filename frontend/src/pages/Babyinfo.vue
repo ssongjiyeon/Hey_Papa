@@ -73,7 +73,8 @@ export default {
           email:getuser.value.id,
           nickname:form.babyname,
           password:getuser.value.password,
-          // region:getuser.value.region,
+          region:getuser.value.region,
+          week:form.week
         }
       store.dispatch('module/signUp',user)
         .then(function (res){
@@ -84,14 +85,7 @@ export default {
               confirmButtonColor: '#primary',
               confirmButtonText: '<span style="font-size:18px;">확인</span>'
             })
-            store.commit('module/setUser', { 
-              dday:form.birthday,
-              email:getuser.value.id,
-              nickname:form.babyname,
-              password:getuser.value.password,
-              week:form.week,
-              region:'서울시 은평구',
-            })
+            store.commit('module/setUser', user)
             router.push('/')
           }
         })

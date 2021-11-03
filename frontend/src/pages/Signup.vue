@@ -80,25 +80,23 @@ export default {
         })
         return 
       }
-      // store.dispatch('module/checkEmail', { email: form.email })
-      // .then((res) => {
-      //   if (res.data.data==true){
-      //     Swal.fire({
-      //         icon: 'success',
-      //         title: '<span style="font-size:25px;">사용 가능한 이메일 입니다.</span>',
-      //         confirmButtonColor: "rgb(86,86,239)",
-      //         confirmButtonText: '<span style="font-size:18px;">확인</span>'
-      //     })
-      //   }
-      //   else{
-      //     Swal.fire({
-      //         icon: 'error',
-      //         title: '<span style="font-size:25px;">중복된 이메일 입니다.</span>',
-      //         confirmButtonColor: '#ce1919',
-      //         confirmButtonText: '<span style="font-size:18px;">확인</span>'
-      //     })
-      //   }
-      // })
+      store.dispatch('module/checkEmail',  {email:form.email} )
+      .then(() => {
+        Swal.fire({
+            icon: 'success',
+            title: '<span style="font-size:25px;">사용 가능한 이메일 입니다.</span>',
+            confirmButtonColor: "rgb(86,86,239)",
+            confirmButtonText: '<span style="font-size:18px;">확인</span>'
+        })
+      })
+      .catch(()=>{
+        Swal.fire({
+              icon: 'error',
+              title: '<span style="font-size:25px;">중복된 이메일 입니다.</span>',
+              confirmButtonColor: '#ce1919',
+              confirmButtonText: '<span style="font-size:18px;">확인</span>'
+          })
+      })
     }
     function checkPassWord (val) {
       const reg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/
