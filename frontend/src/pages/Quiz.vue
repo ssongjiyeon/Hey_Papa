@@ -16,7 +16,7 @@
   </q-card>
 </div>
 <div v-if="!isClicked">
-  <QuizDetail @OtherTheme="OtherTheme"/>
+  <QuizDetail @OtherTheme="OtherTheme" />
 </div>
 
 
@@ -26,31 +26,32 @@
 import axios from 'axios'
 import { ref } from 'vue'
 import QuizDetail from '../components/quiz/QuizDetail.vue'
+import { useStore } from 'vuex'
 export default {
   components: { QuizDetail },
   setup() {
-    const QuizList = ref([])
+    const store = useStore()
     const isClicked = ref(true)
     // quiz detail 정보
     let themes = [
       {
         id: 1,
-        theme: '아기',
+        theme: 'baby',
         imgUrl: "https://ifh.cc/g/0nA9O0.png"
       },
       {
         id: 2,
-        theme: '음식',
+        theme: 'food',
         imgUrl: "https://ifh.cc/g/sOxIcm.png"
       },
       {
         id: 3,
-        theme: '사회',
+        theme: 'society',
         imgUrl: "https://ifh.cc/g/gSUEJu.png"
       },
       {
         id: 4,
-        theme: '아내',
+        theme: 'wife',
         imgUrl: "https://ifh.cc/g/lajTXv.png"
       },
     ]
@@ -66,8 +67,8 @@ export default {
         // params : theme
       })
       .then((res) => {
-        console.log('res', res)
-        QuizList.value = res.data
+        console.log('res', res.data)
+        store.commit('module/quizList', res.data)
       })
       isClicked.value = !isClicked.value
       console.log(isClicked.value)
@@ -85,7 +86,8 @@ export default {
       themes,
       QuizDetail,
       isClicked,
-      OtherTheme
+      OtherTheme,
+
 
     }
   }

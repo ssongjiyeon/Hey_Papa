@@ -5,15 +5,22 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.heypapa.entity.Article;
+import com.ssafy.heypapa.entity.Review;
 import com.ssafy.heypapa.request.ArticleRequest;
+import com.ssafy.heypapa.request.ReviewRequest;
+import com.ssafy.heypapa.response.ArticleResponse;
+import com.ssafy.heypapa.response.ReviewResponse;
 import com.ssafy.heypapa.service.ArticleService;
 import com.ssafy.heypapa.util.BaseResponseBody;
 
@@ -42,27 +49,75 @@ public class ArticleController {
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 	
-//	@GetMapping()
-//	@ApiOperation(value = "게시글 전체 목록", notes = "<strong>게시글 전체 리스트</strong>")
-//	@ApiResponses({
-//		@ApiResponse(code = 200, message = "성공"),
-//        @ApiResponse(code = 401, message = "토큰 인증 실패"),
-//        @ApiResponse(code = 500, message = "서버 오류")
-//	})
-//	public ResponseEntity<List<ArticleRequest>> getAllArticle(Pageable pageable) {
-//		List<ArticleRequest> articleList = articleService.getAllArticle(pageable);
-//		return ResponseEntity.status(200).body(articleList);
+	@GetMapping()
+	@ApiOperation(value = "게시글 전체 목록", notes = "<strong>게시글 전체 리스트</strong>")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "성공"),
+        @ApiResponse(code = 401, message = "토큰 인증 실패"),
+        @ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<List<ArticleResponse>> getAllArticle(Pageable pageable) {
+		List<ArticleResponse> articleList = articleService.getAllArticle(pageable);
+		return ResponseEntity.status(200).body(articleList);
+	}
+
+	@PostMapping("/{article_id}")
+	@ApiOperation(value = "댓글 작성", notes = "<strong>댓글 작성하기</strong>")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "성공"),
+        @ApiResponse(code = 401, message = "토큰 인증 실패"),
+        @ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<BaseResponseBody> createReview(@RequestBody ReviewRequest reviewRequest, @PathVariable Long id) {
+		Review review = articleService.createReview(reviewRequest, id);
+		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+	}
 	
-	@PutMapping("")
+	@GetMapping("/{article_id}")
+	@ApiOperation(value = "댓글 보기", notes = "<strong>댓글 보기</strong>")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "성공"),
+        @ApiResponse(code = 401, message = "토큰 인증 실패"),
+        @ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<BaseResponseBody> getReview(@PathVariable Long id) {
+		List<ReviewResponse> review = articleService.getReview(id);
+		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+	}
+	
+	@PutMapping("/{article_id}")
 	@ApiOperation(value = "게시글 수정", notes = "<strong>게시글 수정하기</strong>")
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "성공"),
         @ApiResponse(code = 401, message = "토큰 인증 실패"),
         @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<BaseResponseBody> updateArticle(@RequestBody ArticleRequest articleRequest, Long id) {
+	public ResponseEntity<BaseResponseBody> updateArticle(@RequestBody ArticleRequest articleRequest, @PathVariable Long id) {
 		Article article = articleService.updateArticle(articleRequest, id);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
-
+		
+	@DeleteMapping("/{article_id}")
+	@ApiOperation(value = "게시글 삭제", notes = "<strong>게시글 삭제하기</strong>")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "성공"),
+        @ApiResponse(code = 401, message = "토큰 인증 실패"),
+        @ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<BaseResponseBody> deleteArticle(@PathVariable Long id) {
+		articleService.deleteArticle(id);
+		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+	}
+	
+	@PostMapping("/{article_id}/like")
+	@ApiOperation(value = "좋아요", notes = "<strong>좋아요 하기</strong>")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "성공"),
+        @ApiResponse(code = 401, message = "토큰 인증 실패"),
+        @ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<BaseResponseBody> likeArticle(@RequestParam("flag") Boolean flag, @PathVariable Long id) {
+		articleService.likeArticle(flag, id);
+		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+	}
 }

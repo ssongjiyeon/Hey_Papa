@@ -1,8 +1,8 @@
 <template>
   <div>
-    <q-btn class="back_btn" @click="goLogin" round style="background:rgb(86,86,239); color:white; margin:20px 0px 0px 20px;" icon="arrow_back" />
+    <q-btn class="back_btn" @click="goLogin" round style="background:rgb(235,137,181); color:white; margin:30px 0px 0px 20px;" icon="arrow_back" />
     <div class="signup_container">
-      <h4 style="font-size:25px; margin-top:70px;">회원 가입</h4>
+      <h4 style="font-size:25px; margin-top:50px;">회원 가입</h4>
       <div style="width:290px; margin:30px 0px 30px 0px;">
         <q-input label="아이디" type="email"
           v-model="form.email"
@@ -38,7 +38,7 @@
             checkRegion
           ]"/>
       </div>
-      <q-btn @click="goBaby" unelevated rounded color="primary" label="계속" style="width:300px; margin-top:100px;"/>
+      <q-btn @click="goBaby" unelevated rounded label="계속" style="width:300px; margin-top:50px; color:white; background:rgb(235,137,181);"/>
     </div>
   </div>
 </template>
@@ -80,25 +80,23 @@ export default {
         })
         return 
       }
-      // store.dispatch('module/checkEmail', { email: form.email })
-      // .then((res) => {
-      //   if (res.data.data==true){
-      //     Swal.fire({
-      //         icon: 'success',
-      //         title: '<span style="font-size:25px;">사용 가능한 이메일 입니다.</span>',
-      //         confirmButtonColor: "rgb(86,86,239)",
-      //         confirmButtonText: '<span style="font-size:18px;">확인</span>'
-      //     })
-      //   }
-      //   else{
-      //     Swal.fire({
-      //         icon: 'error',
-      //         title: '<span style="font-size:25px;">중복된 이메일 입니다.</span>',
-      //         confirmButtonColor: '#ce1919',
-      //         confirmButtonText: '<span style="font-size:18px;">확인</span>'
-      //     })
-      //   }
-      // })
+      store.dispatch('module/checkEmail',  {email:form.email} )
+      .then(() => {
+        Swal.fire({
+            icon: 'success',
+            title: '<span style="font-size:25px;">사용 가능한 이메일 입니다.</span>',
+            confirmButtonColor: "rgb(86,86,239)",
+            confirmButtonText: '<span style="font-size:18px;">확인</span>'
+        })
+      })
+      .catch(()=>{
+        Swal.fire({
+              icon: 'error',
+              title: '<span style="font-size:25px;">중복된 이메일 입니다.</span>',
+              confirmButtonColor: '#ce1919',
+              confirmButtonText: '<span style="font-size:18px;">확인</span>'
+          })
+      })
     }
     function checkPassWord (val) {
       const reg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/
@@ -168,7 +166,7 @@ export default {
  float:right;
  top:-60px;
  font-size:12px;
- background-color: rgb(86,86,239);
+ background-color: rgb(235,137,181);
  color:white;
 }
 </style>

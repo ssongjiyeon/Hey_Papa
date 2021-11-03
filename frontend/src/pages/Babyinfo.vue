@@ -1,8 +1,8 @@
 <template>
   <div>
-    <q-btn class="back_btn" @click="goSignup" round style="background:rgb(86,86,239); color:white; margin:20px 0px 0px 20px;" icon="arrow_back" />
+    <q-btn class="back_btn" @click="goSignup" round style="background:rgb(235,137,181); color:white; margin:30px 0px 0px 20px;" icon="arrow_back" />
     <div class="baby_container">
-      <h4 style="font-size:25px; margin-top:100px;">우리 아기 태명과 생일은?</h4>
+      <h4 style="font-size:25px; margin-top:50px;">우리 아기 태명과 생일은?</h4>
       <div style="width:290px; margin:30px 0px 20px 0px;">
         <q-input label="태명을 입력해주세요." type="email"
           v-model="form.babyname"
@@ -31,7 +31,7 @@
           ]"
         />
       </div>
-      <q-btn @click="goLogin" unelevated rounded color="primary" label="완료" style="width:300px; margin-top:100px;"/>
+      <q-btn @click="goLogin" unelevated rounded label="완료" style="color: white; width:300px; margin-top:50px; background:rgb(235,137,181);"/>
     </div>
   </div>
 </template>
@@ -73,7 +73,8 @@ export default {
           email:getuser.value.id,
           nickname:form.babyname,
           password:getuser.value.password,
-          // region:getuser.value.region,
+          region:getuser.value.region,
+          week:form.week
         }
       store.dispatch('module/signUp',user)
         .then(function (res){
@@ -84,14 +85,7 @@ export default {
               confirmButtonColor: '#primary',
               confirmButtonText: '<span style="font-size:18px;">확인</span>'
             })
-            store.commit('module/setUser', { 
-              dday:form.birthday,
-              email:getuser.value.id,
-              nickname:form.babyname,
-              password:getuser.value.password,
-              week:form.week,
-              region:'서울시 은평구',
-            })
+            store.commit('module/setUser', user)
             router.push('/')
           }
         })
