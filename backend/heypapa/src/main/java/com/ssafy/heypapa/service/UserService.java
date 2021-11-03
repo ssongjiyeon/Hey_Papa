@@ -28,7 +28,9 @@ public class UserService implements IUserService {
 
 	public User getUserByNickname(String username) {
 		Optional<User> user = userRepository.findByNickname(username);
-		
+		if(user.isPresent()) {
+			System.out.println("service " + user.get().getEmail());
+		}
 		return user.orElse(null);
 	}
 
@@ -64,8 +66,11 @@ public class UserService implements IUserService {
 			user.setD_day(req.getDDay());
 			user.setRegion(req.getRegion());
 			user.setPassword(passwordEncoder.encode(req.getPassword()));
-			user.setNickname(makeNickname(req.getNickname()));
-
+			System.out.println(user.getNickname() + " " + req.getNickname());
+			if(!user.getNickname().equals(req.getNickname())) {
+				user.setNickname(makeNickname(req.getNickname()));
+			}
+			
 			user.setWeek(req.getWeek());
 			userRepository.save(user);
 			

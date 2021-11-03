@@ -3,10 +3,12 @@ package com.ssafy.heypapa.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -25,6 +27,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private PapaUserDetailService papaUserDetailService;
 	
+	@Autowired
+	private JwtRequestFilter jwtFilter;
+	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
@@ -38,11 +43,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return daoAuthenticationProvider;
     }
 	
-	@Bean
-    public JwtRequestFilter jwtAuthenticationFilter() {
-        return new JwtRequestFilter();
-    }
-	
 	@Override
     protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(authenticationProvider());
@@ -50,19 +50,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
+		
         http
-                .httpBasic().disable()
-                .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 토큰 기반 인증이므로 세션 사용 하지않음
-                .and()
-//                .addFilter(new JwtRequestFilter()) //HTTP 요청에 JWT 토큰 인증 필터를 거치도록 필터를 추가
-                .authorizeRequests()
-                .antMatchers("/api/user/login").anonymous()
-                .antMatchers("/api/user/regist").anonymous()
-    	        	    .anyRequest().denyAll()
-                .and().cors();
-        
-        http.antMatcher("/api").addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-        
+    		.httpBasic().disable()
+//    		.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+	        .csrf().disable()
+            .authorizeRequests()
+            .antMatchers("/api/user/login").permitAll()
+            .antMatchers("/api/user/regist").permitAll()
+            .antMatchers("/swagger-resources/**").permitAll()
+            .antMatchers("/api/swagger-ui.html/**").permitAll()
+            .antMatchers(HttpMethod.OPTIONS, "/api/**").permitAll()
+			.antMatchers(HttpMethod.OPTIONS).permitAll();
+//	        .anyRequest().authenticated();
+    }
+	
+	@Override
+    public void configure(WebSecurity web) {
+		// swagger 
+		web.ignoring()
+			.antMatchers( "/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security", "/swagger-ui.html", "/webjars/**","/swagger/**")
+			.antMatchers("/api/user/login", "/api/user/regist");
     }
 }
