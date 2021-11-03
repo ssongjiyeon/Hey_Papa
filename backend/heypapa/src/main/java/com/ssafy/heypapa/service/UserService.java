@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.ssafy.heypapa.entity.User;
 import com.ssafy.heypapa.repository.UserRepository;
 import com.ssafy.heypapa.request.RegistRequest;
+import com.ssafy.heypapa.request.UserModifyRequest;
 import com.ssafy.heypapa.request.UserRequest;
 
 @Service("userService")
@@ -45,18 +46,7 @@ public class UserService implements IUserService {
 		user.setEmail(req.getEmail());
 		user.setRegion(req.getRegion());
 		user.setPassword(passwordEncoder.encode(req.getPassword()));
-		
-		// 닉네임 중복 처리
-		String nowNickname = req.getNickname();
-		String newNickname = req.getNickname();
-		Optional<User> dUser = userRepository.findByNickname(nowNickname);
-		Random rand = new Random();
-		while(dUser.isPresent()) {
-			newNickname = preNickname[rand.nextInt(16)] + nowNickname;
-			dUser = userRepository.findByNickname(newNickname);
-		}
-
-		user.setNickname(newNickname);
+		user.setNickname(makeNickname(req.getNickname()));
 
 		user.setWeek(req.getWeek());
 		
@@ -65,6 +55,39 @@ public class UserService implements IUserService {
 		userRepository.save(user);
 		
 		return user;
+	}
+
+	@Override
+	public boolean putUser(User user, UserModifyRequest req) {
+		
+		try {
+			user.setD_day(req.getDDay());
+			user.setRegion(req.getRegion());
+			user.setPassword(passwordEncoder.encode(req.getPassword()));
+			user.setNickname(makeNickname(req.getNickname()));
+
+			user.setWeek(req.getWeek());
+			userRepository.save(user);
+			
+			return true;
+		} catch(Exception e) {
+			return false;
+		}
+	}
+	
+	public String makeNickname(String nickname) {
+		// 닉네임 중복 처리
+		
+		String nowNickname = nickname;
+		String newNickname = nickname;
+		Optional<User> dUser = userRepository.findByNickname(nowNickname);
+		Random rand = new Random();
+		while(dUser.isPresent()) {
+			newNickname = preNickname[rand.nextInt(16)] + nowNickname;
+			dUser = userRepository.findByNickname(newNickname);
+		}
+		
+		return newNickname;
 	}
 
 }
