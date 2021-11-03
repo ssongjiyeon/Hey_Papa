@@ -7,18 +7,25 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.heypapa.entity.Article;
 import com.ssafy.heypapa.entity.ArticleHashtag;
 import com.ssafy.heypapa.entity.ArticleLike;
 import com.ssafy.heypapa.entity.Hashtag;
+import com.ssafy.heypapa.entity.Review;
+import com.ssafy.heypapa.entity.User;
 import com.ssafy.heypapa.repository.ArticleHashtagRepository;
 import com.ssafy.heypapa.repository.ArticleLikeRepository;
 import com.ssafy.heypapa.repository.ArticleRepository;
 import com.ssafy.heypapa.repository.HashtagRepository;
+import com.ssafy.heypapa.repository.ReviewRepository;
 import com.ssafy.heypapa.repository.UserRepository;
 import com.ssafy.heypapa.request.ArticleRequest;
+import com.ssafy.heypapa.request.ReviewRequest;
+import com.ssafy.heypapa.response.ArticleResponse;
+import com.ssafy.heypapa.response.ReviewResponse;
 
 @Service("articleService")
 public class ArticleService implements IArticleService {
@@ -36,6 +43,9 @@ public class ArticleService implements IArticleService {
 	
 	@Autowired
 	ArticleLikeRepository articleLikeRepository;
+	
+	@Autowired
+	ReviewRepository reviewRepository;
 	
 	@Override
 	public Article createArticle(ArticleRequest articleRequest) {		
@@ -77,10 +87,38 @@ public class ArticleService implements IArticleService {
 		return articleRepository.save(article);
 	}
 	
-//	@Override
-//	public List<ArticleRequest> getAllArticle(Pageable pageable) {
-//		
-//	}
+	@Override
+	public List<ArticleResponse> getAllArticle(Pageable pageable) {
+		List<Article> list = articleRepository.findAll(pageable).getContent();
+		List<ArticleResponse> copy = new ArrayList<>();
+		ArticleResponse res;
+		for(Article a : list) {
+			res = new ArticleResponse();
+			res.setId(a.getId());
+			res.setContent(a.getContent());
+			res.setImg(a.getImg());
+			res.setCreated_at(a.getCreated_at());
+			// 해시태그 처리
+			List<String> hash = new ArrayList<>();
+			List<ArticleHashtag> hastag = articleHashtagRepository.findByArticleId(a.getId());
+			for(ArticleHashtag ah : hastag) {
+				hash.add(ah.getHashtag().getName());
+			}
+			String[] str = new String[hash.size()];
+			str = (String[]) hash.toArray(str);
+			res.setHashtag(str);
+			// like_cnt 처리
+			List<ArticleLike> al = articleLikeRepository.findByArticleId(a.getId());
+			res.setLike_cnt(al.size());
+			// comment_cnt 처리
+			List<Review> r = reviewRepository.findByArticleId(a.getId());
+			res.setComment_cnt(r.size());
+			//user 닉네임, 프로필이미지 처리
+			res.setNickname(a.getUser().getNickname());
+			res.setUser_img(a.getUser().getImg());
+		}
+		return copy;
+	}
 	
 	@Override
 	public Article updateArticle(ArticleRequest articleRequest, Long id) {		
@@ -150,5 +188,40 @@ public class ArticleService implements IArticleService {
 			 ArticleLike like = articleLikeRepository.findByArticleIdAndUserId(id, id).get();
 			 articleLikeRepository.delete(like);
 		}
+	}
+	
+	@Override
+	public void deleteArticle(Long id) {
+		Article article = articleRepository.findById(id).get();
+		articleRepository.delete(article);
+	}
+	
+	@Override
+	public Review createReview(ReviewRequest reviewRequest, Long id) {
+		Review review = new Review();
+		Article article = articleRepository.findById(id).get();
+		// 댓글 작성하는 User 객체 필요
+		//review.setUser(user);
+		review.setArticle(article);
+		review.setContent(reviewRequest.getContent());
+		review.setCreated_at(new Date());
+		return reviewRepository.save(review);
+	}
+	
+	@Override
+	public List<ReviewResponse> getReview(Long id) {
+		List<Review> list = reviewRepository.findByArticleId(id);
+		List<ReviewResponse> copy = new ArrayList<>();
+		ReviewResponse review;
+		for(Review r : list) {
+			User user = r.getUser();
+			review = new ReviewResponse();
+			review.setUser_id(user.getId());
+			review.setUser_img(user.getImg());
+			review.setNickname(user.getNickname());
+			review.setContent(r.getContent());
+			review.setCreated_at(r.getCreated_at());
+		}
+		return copy;
 	}
 }

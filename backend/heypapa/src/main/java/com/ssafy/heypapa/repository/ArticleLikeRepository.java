@@ -9,6 +9,6 @@ import com.ssafy.heypapa.entity.Article;
 import com.ssafy.heypapa.entity.ArticleLike;
 
 public interface ArticleLikeRepository extends JpaRepository<ArticleLike, Long>{
-	List<Article> findByArticleId(Long id);
+	List<ArticleLike> findByArticleId(Long id);
 	Optional<ArticleLike> findByArticleIdAndUserId(Long articlrId, Long userId);
 }

@@ -1,24 +1,9 @@
 <template>
   <div>
     <div class="top">
-      <q-btn class="back_btn" @click="goHome" round icon="arrow_back" />
-      <div class="logo">Hey PaPa!</div>
+      <q-btn class="back_btn" @click="goHome" dense round icon="arrow_back" />
+      <img class="logo" src="../assets/horizon_logo.png">
     </div>
-    <!-- <div style="display:flex; justify-content:center; margin-top:20px; margin-bottom:20px;">
-      <img @src="dataUrl" class="show_img" style="border:1px solid black; height:300px;">
-    </div>
-    <div flat bordered style="width:90%; margin-left:20px;">
-      <div style="display:flex;" v-html="editor"></div>
-    </div>
-    <span>사진첨부</span>
-    <div id="q-app">
-      <div class="q-pa-md q-gutter-sm">
-        <q-editor min-height="5rem"
-                  :definitions="definitions"
-                  :toolbar="[['insert_img']]"></q-editor>
-      </div>
-    </div> -->
-
     <div style="width:90%; margin-left:20px; margin-top:20px; margin-bottom:20px;">
       <div class="text-subitle2" style="height:400px; margin-bottom:20px;">
         <div :style="{ 'background-image': `url(${imageData})` }" @click="choosepicture" style="object-fit:cover;">
@@ -28,13 +13,12 @@
             style="width:100%; height:400px;"
             icon="photo_camera"
           />
-          <input hidden class="file-input" ref="fileInput" type="file" @input="onSelectFile" />
+          <input hidden class="file-input" ref="fileInput" type="file" @input="onSelectFile()" />
         </div>
-        <q-img :src="imageData" style="cursor: pointer; object-fit:cover;" @click="choosepicture" />
+        <q-img :src="imageData" style="cursor: pointer; object-fit:cover;" @click="choosepicture()" />
       </div>
     </div>
     <div style="margin-top:4  0px;">
-      <!-- <span style="margin-left:20px;">내용</span> -->
       <div class="q-pa-md" style="width:100%;">
         <q-input
           v-model="text"
@@ -47,22 +31,25 @@
     </div>
     <div style="width:90%; margin-left:20px;">
       <span>해시태그</span>
-      <q-input v-model="text" label="ex)#육아#미역국"/>
+      <q-input v-model="hashtag" label="ex)#육아#미역국"/>
     </div>
     <div style="display:flex; justify-content: center; margin-top:50px;">
-       <q-btn unelevated rounded color="primary" label="게시글 작성" style="width:300px;"/>
+       <q-btn @click="goWrite" unelevated rounded color="primary" label="게시글 작성" style="width:300px;"/>
     </div>
   </div>
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref,reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
 export default {
   el: '#q-app',
   data() {
     return {
       imageData: null,
+      text: '',
+      hashtag: '',
     }
   },
   methods: {
@@ -70,6 +57,7 @@ export default {
       const input = this.$refs.fileInput;
       const files = input.files;
       this.FileImage = files[0];
+      console.log(this.FileImage,'@@@@')
       if (files && files[0]) {
         const reader = new FileReader();
         reader.onload = e => {
@@ -82,57 +70,31 @@ export default {
     choosepicture() {
       this.$refs.fileInput.click();
     },
+    goHome(){
+      const router = useRouter()
+      router.push('/')
+    },
+    goWrite(){
+      const store = useStore()
+      const router = useRouter()
+      const article = {
+        content:this.text,
+        hashtag:[
+          this.hashtag
+        ],
+        img:this.imageData,
+        user_id:localStorage.getItem('userId')
+      }
+      this.$store.dispatch('module/writeArticle',article)
+        .then((res)=>{
+          console.log(res)
+        })
+      // console.log(this.text,"@@")
+      // console.log(this.hashtag,"@@")
+      // console.log(this.imageData,'v2')
+      // router.push('/detail')
+    }
   },
-  // data () {
-  //   return {
-  //     editor: '',
-  //     definitions: {
-  //       insert_img: {
-  //         label: '사진넣기',
-  //         icon: 'photo',
-  //         handler: this.insertImg 
-  //       }
-  //     },
-  //     dataUrl : ''
-  //   }
-  // },
-  // methods: {
-  //   insertImg() { 
-  //           const input = document.createElement('input')
-  //           input.type = 'file'
-  //           input.accept = '.png, .jpg'
-  //           let file
-  //           input.onchange = _ => {
-  //               const files = Array.from(input.files)
-  //               file = files[0]
-  //               const reader = new FileReader()
-  //               reader.onloadend = () => {
-  //                   this.dataUrl = reader.result
-  //                   this.editor += '<div style="display:flex;"><img style="max-width: 100px; height:100px;" src="' + this.dataUrl + '" /></div>' 
-  //               }
-  //               reader.readAsDataURL(file)
-  //           }
-  //           input.click()
-  //       },
-  // },
-  setup(){
-    const router = useRouter()
-    const model = ref(null)
-    const text = ref('')
-    function check(){
-      console.log("@@@")
-      console.log(model)
-    }
-    function goHome(){
-      router.push('home')
-    }
-    return{
-      check,
-      goHome,
-      text,
-      model
-    }
-  }
 } 
 </script>
 
@@ -140,24 +102,21 @@ export default {
 .top{
   display:flex;
   align-items: center;
-  width:100%;
+  /* width:100%; */
 }
 .logo{
-  width:100%;
-  text-align: center;
+  width:50%;
+  margin:0px 0px 0px 55px;
 }
 .back_btn{
-  background:rgb(86,86,239);
+  background:rgb(235, 137, 181);
   color:white;
-  width:20px;
-  height:20px;
-  margin:20px 0px 0px 20px;
+  width:10px;
+  height:10px;
+  margin:0px 0px 0px 20px;
 }
 .show_img{
-  /* display */
   width:90%;
-  /* height: 40vw; */
-  /* height:200px; */
 }
 
 </style>

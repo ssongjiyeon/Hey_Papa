@@ -2,41 +2,60 @@
   <div>
     <router-view />
     <div class="navbar">
-      <div class="nav-btn"><button @click="GoQuiz">퀴즈</button></div>
-      <div class="nav-btn"><button @click="GoMap">지도</button></div>
-      <div class="nav-btn"><button @click="GoHome">홈</button></div>
-      <div class="nav-btn"><button @click="GoInfo">정보</button></div>
-      <div class="nav-btn"><button @click="GoMy">MY</button></div>
+      <div class="nav-btn"><button @click="GoQuiz">
+        <div class="btn-contain">
+          <q-icon name="quiz" size="md" v-bind:class="{'main-color':page==1}"/><span>퀴즈</span></div></button></div>
+      <div class="nav-btn"><button @click="GoMap">
+        <div class="btn-contain">
+          <q-icon name="place" size="md" v-bind:class="{'main-color':page==2}"/><span>지도</span></div></button></div>
+      <div class="nav-btn"><button @click="GoHome">
+        <div class="btn-contain">
+          <q-icon name="home" size="md" v-bind:class="{'main-color':page==3}"/><span>홈</span></div></button></div>
+      <div class="nav-btn"><button @click="GoInfo">
+        <div class="btn-contain">
+          <q-icon name="info" size="md" v-bind:class="{'main-color':page==4}"/><span>정보</span></div></button></div>
+      <div class="nav-btn"><button @click="GoMy">
+        <div class="btn-contain">
+          <q-icon name="account_circle" size="md" v-bind:class="{'main-color':page==5}"/><span>마이</span></div></button></div>
     </div>
 
   </div>
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent,computed } from 'vue'
 import { useRouter } from 'vue-router'
-
+import { useStore } from 'vuex'
 export default defineComponent({
   name: 'MainLayout',
 
   setup () {
+    const store = useStore()
     const router = useRouter()
+    const page = computed(()=> store.getters['module/getPage'])
+    console.log(page,'!!')
     const GoQuiz = () => {
+      store.commit('module/setPage', 1)
       router.push('/quiz')
     }
     const GoMap = () => {
+      store.commit('module/setPage', 2)
       router.push('/map')
     }
     const GoHome = () => {
+      store.commit('module/setPage', 3)
       router.push('/home')
     }
     const GoInfo = () => {
+      store.commit('module/setPage', 4)
       router.push('/info')
     }
     const GoMy = () => {
+      store.commit('module/setPage', 5)
       router.push('/my')
     }
     return {
+      page,
       GoMap,
       GoHome,
       GoInfo,
@@ -47,21 +66,13 @@ export default defineComponent({
 })
 </script>
 <style scoped>
+.main-color{
+  color:rgb(235,137,181);
+}
 .navbar{
   position: fixed;
   width: 100%;
-  height: 8%;
-  bottom:0px;
-  display: flex;
-  flex-direction: row;
-  z-index: 990;
-  max-width: 420px;
-}
-
-.navbar {
-  position: fixed;
-  width: 100%;
-  height: 8%;
+  height: 10%;
   bottom:0px;
   display: flex;
   flex-direction: row;
@@ -76,5 +87,10 @@ export default defineComponent({
   border: none;
   width: 100%;
   height: 100%;
+}
+.btn-contain{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
 }
 </style>
