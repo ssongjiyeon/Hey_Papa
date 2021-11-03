@@ -71,21 +71,22 @@ export default {
     //     console.log(data)
     //   })
     // }
+
     let count = 0
-    const API_URL = 'https://k5b206.p.ssafy.io/heypapa'
+    const API_URL = 'https://k5b206.p.ssafy.io/heypapa/article'
     const {scrollTop, clientHeight, scrollHeight} = document.documentElement
-    if (scrollTop + clientHeight >= scrollHeight - 2) {
-      console.log('스크롤')
-      axios({
-        method: 'GET',
-        url: API_URL + `/?page=${this.pageNum}`,
-      }).then((res) => {
-        for(let i = 0; i < 10; i++){
-          paras.push(res.data[i])
-        }
-        pageNum += 1
-      })
-    }
+    // if (scrollTop + clientHeight >= scrollHeight-2) {
+    //   console.log('스크롤')
+    //   axios({
+    //     method: 'GET',
+    //     url: API_URL + `/?page=${page}`,
+    //   }).then((res) => {
+    //     for(let i = 0; i < 10; i++){
+    //       paras.push(res.data[i])
+    //     }
+    //     page.value += 1
+    //   })
+    // }
 
     // window.onscroll = function(e) {
     //   if((window.innerHeight + window.scrollY) >= (document.body.offsetHeight)-2) {
@@ -101,6 +102,7 @@ export default {
     return {
       paras,
       goWrite,
+      page
       // infiniteHandler
     }
   }
