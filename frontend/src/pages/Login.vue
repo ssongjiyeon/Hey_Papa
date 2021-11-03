@@ -54,7 +54,7 @@
 
 <script>
 import { useRouter } from 'vue-router'
-import { reactive, ref, computed } from 'vue'
+import { reactive, ref } from 'vue'
 import { useStore } from 'vuex'
 
 export default {
@@ -69,8 +69,7 @@ export default {
     const find = reactive({
         email: ''
     })
-    const getuser = computed(()=> store.getters['module/getUser'])
-    console.log(getuser.value,'회원가입유저')
+    localStorage.clear() // 로컬스토리지 초기화
     // 아이디 유효성 검사 
     function checkId (val) {
         const reg = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i
@@ -87,23 +86,42 @@ export default {
     }
     // 이메일 발송
     const findPwd = function() {
-        store.dispatch('module/findPwd', { email: find.email })
-            .then(() => {
-                Swal.fire({
-                    icon: 'success',
-                    title: '<span style="font-size:25px;">이메일을 발송했습니다.</span>',
-                    confirmButtonColor: '#primary',
-                    confirmButtonText: '<span style="font-size:18px;">확인</span>'
-                })
-                pwdMode.value = false
+      store.dispatch('module/findPwd', { email: find.email })
+        .then(() => {
+            Swal.fire({
+                icon: 'success',
+                title: '<span style="font-size:25px;">이메일을 발송했습니다.</span>',
+                confirmButtonColor: '#primary',
+                confirmButtonText: '<span style="font-size:18px;">확인</span>'
             })
+            pwdMode.value = false
+        })
     }
     function goSignup(){
       router.push('signup')
     }
     function goMain(){
       store.commit('module/setPwd', form.password)
-      router.push('home')
+      store.dispatch('module/Login', { email: form.email, password:form.password })
+        .then((result) => {
+          console.log(result.data,'login')
+          const userId = result.data.id
+          localStorage.setItem('userId',userId)
+          // 회원정보 가져오기
+          // store.dispatch('module/requestInfo', userId)
+          //   .then((res) => {
+          //     const loginUser = {
+          //         nickname: res.data.nickname,
+          //         img: res.data.img,
+          //         week: res.data.week,
+          //         dday: res.data.dday,
+          //         region: res.data.region,
+          //     }
+          //     // store에 저장
+          //     store.commit('module/setUser', loginUser)
+          //     router.push('/')
+          //   })
+        })
     }
     return{
       form,

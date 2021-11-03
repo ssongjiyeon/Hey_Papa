@@ -15,3 +15,8 @@ export function checkEmail ({}, email) {
   const url = baseUrl + '/user/email'
   return $axios.post(url, email)
 }
+// 로그인
+export function Login ({}, user) {
+  const url = baseUrl + '/user/login'
+  return $axios.post(url, user)
+}
