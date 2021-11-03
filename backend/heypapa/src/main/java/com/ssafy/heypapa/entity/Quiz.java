@@ -22,7 +22,8 @@ public class Quiz extends BaseEntity {
 	private int answer; // 답
 	
 	@Column(nullable = false)
-	private Enum<QuizTypeEnum> type; // 문제 타입
+//	private Enum<QuizTypeEnum> type; 
+	private String type; // 문제 타입
 	
 	@Column(nullable = false)
 	private String candidate; // 보기

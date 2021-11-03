@@ -11,8 +11,5 @@ import com.ssafy.heypapa.entity.QuizTypeEnum;
 
 @Repository
 public interface QuizRepository extends JpaRepository<Quiz, Long> {
-
-	String findByType(Enum<QuizTypeEnum> type);
-	List<Quiz> findByType(String type);
 	
 }
