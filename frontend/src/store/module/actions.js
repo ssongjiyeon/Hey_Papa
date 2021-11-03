@@ -12,8 +12,6 @@ export function signUp ({}, user) {
 }
 // 이메일 중복 확인
 export function checkEmail ({}, email) {
-  console.log(email,'email')
   const url = baseUrl + '/user/email'
-  console.log(url,'url')
   return $axios.post(url, email)
 }
