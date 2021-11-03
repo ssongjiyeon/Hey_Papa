@@ -9,6 +9,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -140,22 +141,29 @@ public class UserController {
 		return ResponseEntity.status(200).body(new BaseResponseBody(200, SUCCESS_MESSAGE)); 
 	}
 	
-//	@PutMapping("/")
-//	@ApiOperation(value = "회원 정보 수정")
-//	public ResponseEntity<BaseResponseBody> modify(@RequestBody UserModifyRequest req, 
-//			@ApiIgnore Authentication authentication) {
-//		
-//		try {
-//			PapaUserDetails userDetails = (PapaUserDetails) authentication.getDetails();
-//			User user = userService.getUserByNickname(userDetails.getUsername());
-//			System.out.println(user.getEmail());
-//			if(userService.putUser(user, req)) {
-//				return ResponseEntity.status(200).body(new BaseResponseBody(200, SUCCESS_MESSAGE));
-//			}
-//			
-//			return new ResponseEntity<BaseResponseBody>(HttpStatus.BAD_REQUEST);
-//		} catch(Exception e) {
-//			return new ResponseEntity<BaseResponseBody>(HttpStatus.BAD_REQUEST);
-//		}	
-//	}
+	@PutMapping("/")
+	@ApiOperation(value = "회원 정보 수정")
+	public ResponseEntity<BaseResponseBody> modify(@RequestBody UserModifyRequest req, 
+			HttpServletRequest request) {
+		
+		User user = null;
+		String refreshJwt = "", refreshNickname = "";
+		Cookie refreshToken = cookieUtil.getCookie(request, JwtTokenUtil.REFRESH_TOKEN_NAME);
+
+		if(refreshToken != null) {
+			refreshJwt = refreshToken.getValue();
+			
+			if(refreshJwt != null) {
+				refreshNickname = redisUtil.getData(refreshJwt);
+				user = userService.getUserByNickname(refreshNickname);
+			}
+		}
+
+		if(userService.putUser(user, req)) {
+			return ResponseEntity.status(200).body(new BaseResponseBody(200, SUCCESS_MESSAGE));
+		}
+		
+		return new ResponseEntity<BaseResponseBody>(HttpStatus.BAD_REQUEST);
+			
+	}
 }
