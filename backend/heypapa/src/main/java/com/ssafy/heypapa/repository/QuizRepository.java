@@ -12,4 +12,6 @@ import com.ssafy.heypapa.entity.QuizTypeEnum;
 @Repository
 public interface QuizRepository extends JpaRepository<Quiz, Long> {
 	
+//	Optional<Quiz> findByIdAndImg(Long id);
+	
 }

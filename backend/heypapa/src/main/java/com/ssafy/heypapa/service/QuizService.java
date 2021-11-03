@@ -34,6 +34,8 @@ public class QuizService implements IQuizService {
 	@Autowired
 	CommentRepository commentRepository;
 	
+	private S3Service s3Service;
+	
 	@Override
 	public QuizResponse getoneQuiz(Long id) {
 		Quiz quiz = quizRepository.findById(id).get();
@@ -194,4 +196,7 @@ public class QuizService implements IQuizService {
 		return copy;
 	}
 
+//	public Optional<Quiz> getQuizImg(Long id) {
+//		return quizRepository.findByIdAndImg(id);
+//	}
 }

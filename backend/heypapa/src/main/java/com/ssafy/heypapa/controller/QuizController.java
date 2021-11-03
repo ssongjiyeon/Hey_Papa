@@ -1,6 +1,9 @@
 package com.ssafy.heypapa.controller;
 
 import java.util.List;
+import java.util.Optional;
+
+import javax.persistence.Column;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.heypapa.entity.Comment;
+import com.ssafy.heypapa.entity.Quiz;
 import com.ssafy.heypapa.entity.QuizTypeEnum;
 import com.ssafy.heypapa.request.CommentRequest;
 import com.ssafy.heypapa.request.QuizRequest;
@@ -58,6 +62,16 @@ public class QuizController {
 		QuizResponse quiz = quizService.getoneQuiz(id);
 		return ResponseEntity.status(200).body(quiz);
 	}
+	
+//	@GetMapping("{quizId}/getImg")
+//	public String getImg(@PathVariable(name = "quizId") Long id) {
+//		Optional<Quiz> result = quizService.getQuizImg(id);
+//		if(result.isPresent()==false) {
+//			return "등록이미지 없음";
+//		} else {
+//			return result.get().getImg();
+//		}
+//	}
 	
 	// 퀴즈 댓글
 	@PostMapping("/{quizId}")
