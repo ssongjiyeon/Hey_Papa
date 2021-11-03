@@ -34,5 +34,6 @@ public class User extends BaseEntity {
 	private int week; // 주차
 	private Date d_day; // 출산예정일
 	private String img; // 프로필 사진
+	private String region;
 	
 }

@@ -54,7 +54,7 @@
 
 <script>
 import { useRouter } from 'vue-router'
-import { reactive, ref } from 'vue'
+import { reactive, ref, computed } from 'vue'
 import { useStore } from 'vuex'
 
 export default {
@@ -69,6 +69,8 @@ export default {
     const find = reactive({
         email: ''
     })
+    const getuser = computed(()=> store.getters['module/getUser'])
+    console.log(getuser.value)
     // 아이디 유효성 검사 
     function checkId (val) {
         const reg = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i

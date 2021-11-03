@@ -7,7 +7,7 @@ import com.ssafy.heypapa.request.UserRequest;
 public interface IUserService {
 
 	User getUserByNickname(String username);
-	User getUserByEmail(UserRequest userRequest);
+	User getUserByEmail(String email);
 	User createUser(RegistRequest req);
 	
 }

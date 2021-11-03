@@ -31,10 +31,11 @@
           ]"/>
       </div>
       <div style="width:290px; margin-bottom:40px;">
-        <q-input label="지역 (예:유성구 (시/군/구))" type="password" v-model="form.region"
+        <q-input label="지역 (예:유성구 (시/군/구))" type="text" v-model="form.region"
           lazy-rules
           :rules="[
             val => val && val.length > 0 || '필수입력항목 입니다.',
+            checkRegion
           ]"/>
       </div>
       <q-btn @click="goBaby" unelevated rounded color="primary" label="계속" style="width:300px; margin-top:100px;"/>
@@ -45,9 +46,11 @@
 <script>
 import { useRouter } from 'vue-router'
 import { reactive } from 'vue'
+import { useStore } from 'vuex'
 export default {
   setup(){
     const router = useRouter()
+    const store = useStore()
     const Swal = require('sweetalert2')
     const form = reactive({
       email: '',
@@ -59,6 +62,7 @@ export default {
       email: false,
       password: false,
       passwordconfirmation: false,
+      region: false,
     }
     function checkEmail (val) {
       const reg = /^[0-9a-zA-Z]([-.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i
@@ -111,10 +115,33 @@ export default {
         valid.passwordconfirmation = true
       }
     }
+    function checkRegion(val){
+      if (val.length>=2){
+        valid.region = true
+      }
+      else{
+        valid.region = true
+      }
+    }
     function goLogin(){
       router.push('/')
     }
     function goBaby(){
+      if (valid.email == false || valid.password == false || valid.passwordconfirmation == false || valid.region == false){
+        Swal.fire({
+          icon: 'error',
+          title: '<span style="font-size:25px;">항목들을 모두 입력해주세요.</span>',
+          confirmButtonColor: '#ce1919',
+          confirmButtonText: '<span style="font-size:18px;">확인</span>'
+        })
+        return
+      }
+      const user = {
+        id:form.email,
+        password:form.password,
+        region:form.region,
+      }
+      store.commit('module/setUser', user)
       router.push('baby')
     }
     return {
@@ -123,6 +150,7 @@ export default {
       duplicateEmail,
       checkPassWord,
       checkPassWordConfirmation,
+      checkRegion,
       goLogin,
       goBaby
     }

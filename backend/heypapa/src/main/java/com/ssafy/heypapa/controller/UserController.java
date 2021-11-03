@@ -9,8 +9,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -54,7 +56,7 @@ public class UserController {
 	public ResponseEntity<UserResponse> login(@RequestBody UserRequest userRequest,
 				HttpServletRequest req, HttpServletResponse res) {
 			
-		final User user = userService.getUserByEmail(userRequest);
+		final User user = userService.getUserByEmail(userRequest.getEmail());
 		
 		if(!passwordEncoder.matches(userRequest.getPassword(), user.getPassword())) {
 			return new ResponseEntity<UserResponse>(HttpStatus.BAD_REQUEST);
@@ -92,4 +94,18 @@ public class UserController {
 		
 		return ResponseEntity.status(200).body(new BaseResponseBody(200, SUCCESS_MESSAGE));
 	}
+	
+	@PostMapping("/email")
+	@ApiOperation(value = "이메일 중복 확인")
+	public ResponseEntity<BaseResponseBody> emailVerify(@RequestBody String email) {
+		User user = userService.getUserByEmail(email);
+		if(user == null) {
+			return ResponseEntity.status(200).body(new BaseResponseBody(200, SUCCESS_MESSAGE));
+		}
+		
+		return new ResponseEntity<BaseResponseBody>(HttpStatus.BAD_REQUEST);
+	}
+	
+//	@PutMapping("/")
+//	@Api
 }
