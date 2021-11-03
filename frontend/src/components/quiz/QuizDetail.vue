@@ -2,8 +2,11 @@
   <div class="q-pa-md">
     <div class="row justify-center">
       <button @click="$emit('OtherTheme')">다른주제</button>
-      <input class="quiz-number-input" type="number" v-model="slide"> / {{QuizList.length}}
+      <input class="quiz-number-input" type="number" v-model="slide"> / {{quizList.length}}
+      <br>
+      {{quizList}}
     </div>
+
     <q-carousel
       v-model="slide"
       transition-prev="slide-right && BeforeTransition"
@@ -15,26 +18,29 @@
       class="rounded-borders"
       @before-transition = "BeforeTransition"
 
+
     >
 
       <q-carousel-slide
         class="column no-wrap flex-center"
-        v-for="quiz in QuizList"
+        v-for="quiz in quizList"
         :key="quiz.id"
         :name="quiz.id"
         >
+
+
         <!-- <q-icon name="quiz.id" color="primary" size="56px" /> -->
         <!-- 문제 출제 시 -->
         <div class="q-mt-md text-center column" v-show="!isAnswered">
           <span>{{quiz.id}}번 문제</span>
-          {{ quiz.content }}
+          {{ quiz.question }}
         </div>
 
         <!-- 문제 제출시  -->
-        <div class="q-mt-md text-center column" v-if="isAnswered">
-          <span>{{Description}}</span>
+        <div class="q-mt-md text-center column" v-show="isAnswered">
+          <span>{{quiz.description}}</span>
           <span v-if="Description === '틀렸습니다'">정답은 {{quiz.answer}}</span>
-          {{ quiz.answer_content }}
+          {{ quiz.description }}
           <input type="text" v-model="Reply">
           <button @click="EnrollReply">댓글달기</button>
           <!-- 댓글목록 -->
@@ -44,14 +50,15 @@
         <!-- 선지 -->
         <div class="row wrap justify-center" v-show="!isAnswered">
           <div class="answer-box row no-wrap justify-center"
-              v-for="option in quiz.options"
-              :key="option.answer"
-              @click="ChooseAnswer(option.name, quiz.answer)" >
-            <span>{{option.name}}</span>
+              v-for="option in quiz.candidate"
+              :key="option"
+              @click="ChooseAnswer(option, quiz.answer)" >
+            <span>{{option}}</span>
           </div>
         </div>
       </q-carousel-slide>
     </q-carousel>
+
 
     <div class="row justify-center">
       <!-- <q-btn-toggle
@@ -71,108 +78,116 @@
 </template>
 
 <script>
-import { ref } from 'vue'
-
+import { computed, ref } from 'vue'
+import { useStore } from 'vuex'
 export default {
-  setup () {
-    const QuizList = [
-      {
-        id: 1,
-        answer: "가",
-        answer_content: "정답내용",
-        content: "1번문제입니다.",
-        options: [
-          {
-            id: "가",
-            name: "가"
-          },
-          {
-            id: 2,
-            name: '나'
-          },
-          {
-            id: 3,
-            name: '다'
-          },
-          {
-            id: 4,
-            name: '라'
-          },
-        ]
-      },
-      {
-        id: 2,
-        answer: "가",
-        answer_content: "정답내용",
-        content: "2번문제입니다.",
-        options: [
-          {
-            id: 1,
-            name: "가"
-          },
-          {
-            id: 2,
-            name: '나'
-          },
-          {
-            id: 3,
-            name: '다'
-          },
-          {
-            id: 4,
-            name: '라'
-          },
-        ]
-      },
-      {
-        id: 3,
-        answer: "가",
-        answer_content: "정답내용",
-        content: "3번문제입니다.",
-        options: [
-          {
-            id: 1,
-            name: "가"
-          },
-          {
-            id: 2,
-            name: '나'
-          },
-          {
-            id: 3,
-            name: '다'
-          },
-          {
-            id: 4,
-            name: '라'
-          },
-        ]
-      },
-      {
-        id: 4,
-        answer: "가",
-        answer_content: "정답내용",
-        content: "4번문제입니다.",
-        options: [
-          {
-            id: 1,
-            name: "가"
-          },
-          {
-            id: 2,
-            name: '나'
-          },
-          {
-            id: 3,
-            name: '다'
-          },
-          {
-            id: 4,
-            name: '라'
-          },
-        ]
-      },
-    ]
+  setup (){
+
+    const store = useStore()
+    let quizList = computed(()=>
+      store.getters['module/quizList']
+    )
+
+
+
+      // let quizList = [
+      // {
+      //   id: 1,
+      //   answer: "가",
+      //   answer_content: "정답내용",
+      //   content: "1번문제입니다.",
+      //   options: [
+      //     {
+      //       id: 1,
+      //       name: "가"
+      //     },
+      //     {
+      //       id: 2,
+      //       name: '나'
+      //     },
+      //     {
+      //       id: 3,
+      //       name: '다'
+      //     },
+      //     {
+      //       id: 4,
+      //       name: '라'
+      //     },
+      //   ]
+      // },
+      // {
+      //   id: 2,
+      //   answer: "가",
+      //   answer_content: "정답내용",
+      //   content: "2번문제입니다.",
+      //   options: [
+      //     {
+      //       id: 1,
+      //       name: "가"
+      //     },
+      //     {
+      //       id: 2,
+      //       name: '나'
+      //     },
+      //     {
+      //       id: 3,
+      //       name: '다'
+      //     },
+      //     {
+      //       id: 4,
+      //       name: '라'
+      //     },
+      //   ]
+      // },
+    //   {
+    //     id: 3,
+    //     answer: "가",
+    //     answer_content: "정답내용",
+    //     content: "3번문제입니다.",
+    //     options: [
+    //       {
+    //         id: 1,
+    //         name: "가"
+    //       },
+    //       {
+    //         id: 2,
+    //         name: '나'
+    //       },
+    //       {
+    //         id: 3,
+    //         name: '다'
+    //       },
+    //       {
+    //         id: 4,
+    //         name: '라'
+    //       },
+    //     ]
+    //   },
+    //   {
+    //     id: 4,
+    //     answer: "가",
+    //     answer_content: "정답내용",
+    //     content: "4번문제입니다.",
+    //     options: [
+    //       {
+    //         id: 1,
+    //         name: "가"
+    //       },
+    //       {
+    //         id: 2,
+    //         name: '나'
+    //       },
+    //       {
+    //         id: 3,
+    //         name: '다'
+    //       },
+    //       {
+    //         id: 4,
+    //         name: '라'
+    //       },
+    //     ]
+    //   },
+    // ]
     const Description = ref("")
     const isAnswered = ref(false)
     const BeforeTransition = () => {
@@ -202,7 +217,6 @@ export default {
 
     }
     return {
-      QuizList,
       //default 화면? 단계를 설정하는 것(ref 안에 btn-toggle options 밸류 쓰면 됨 )
       slide: ref(1),
       lorem: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Itaque voluptatem totam, architecto cupiditate officia rerum, error dignissimos praesentium libero ab nemo provident incidunt ducimus iusto perferendis porro earum. Totam, numquam?',
@@ -211,7 +225,11 @@ export default {
       Description,
       BeforeTransition,
       Reply,
-      EnrollReply
+      EnrollReply,
+      quizList,
+
+
+
     }
   }
 }
@@ -229,10 +247,10 @@ export default {
   /* float: left; */
   display: flex;
   flex-wrap: wrap;
-  width: 7rem;
-  height: 7rem;
+  width: 15rem;
+  height: 4rem;
   background-color: pink;
-  margin: 1rem;
+  margin: 0.5rem;
   align-items: center;
 }
 </style>

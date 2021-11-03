@@ -9,11 +9,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@ApiModel("RegistRequest")
-public class RegistRequest {
-	
-	@ApiModelProperty(name = "email", example = "ssafy@ssafy.com")
-	private String email;
+@ApiModel("UserModifyRequest")
+public class UserModifyRequest {
 	
 	@ApiModelProperty(name = "password", example = "1234")
 	private String password;

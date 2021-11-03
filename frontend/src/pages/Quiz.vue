@@ -1,6 +1,6 @@
 <template>
 <div class="quiz-text">
-  <h5 style="margin: 0.5rem">hey! papa</h5>
+  <!-- <h5 style="margin: 0.5rem">hey! papa</h5> -->
   <h3 style="margin: 0.5rem">Quiz</h3>
 </div>
 
@@ -16,7 +16,7 @@
   </q-card>
 </div>
 <div v-if="!isClicked">
-  <QuizDetail @OtherTheme="OtherTheme"/>
+  <QuizDetail @OtherTheme="OtherTheme" />
 </div>
 
 
@@ -26,47 +26,49 @@
 import axios from 'axios'
 import { ref } from 'vue'
 import QuizDetail from '../components/quiz/QuizDetail.vue'
+import { useStore } from 'vuex'
 export default {
   components: { QuizDetail },
   setup() {
-    const QuizList = ref([])
+    const store = useStore()
     const isClicked = ref(true)
     // quiz detail 정보
     let themes = [
       {
         id: 1,
-        theme: '아기',
+        theme: 'baby',
         imgUrl: "https://ifh.cc/g/0nA9O0.png"
       },
       {
         id: 2,
-        theme: '음식',
+        theme: 'food',
         imgUrl: "https://ifh.cc/g/sOxIcm.png"
       },
       {
         id: 3,
-        theme: '사회',
+        theme: 'society',
         imgUrl: "https://ifh.cc/g/gSUEJu.png"
       },
       {
         id: 4,
-        theme: '아내',
+        theme: 'wife',
         imgUrl: "https://ifh.cc/g/lajTXv.png"
       },
     ]
 
     // quiz detail로 가는 함수
     const QuizDetail = (theme) => {
-
+      console.log(theme)
       // api 마련되면 진행
+
       axios({
         method: 'GET',
-        url: `https://k5b206.p.ssafy.io:8080/api/quiz/${theme}`,
-        params : theme
+        url: `https://k5b206.p.ssafy.io/api/quiz/${theme}`,
+        // params : theme
       })
       .then((res) => {
-        console.log('res', res)
-        QuizList.value = res.data
+        console.log('res', res.data)
+        store.commit('module/quizList', res.data)
       })
       isClicked.value = !isClicked.value
       console.log(isClicked.value)
@@ -84,7 +86,8 @@ export default {
       themes,
       QuizDetail,
       isClicked,
-      OtherTheme
+      OtherTheme,
+
 
     }
   }

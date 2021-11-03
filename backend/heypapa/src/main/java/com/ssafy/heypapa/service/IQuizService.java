@@ -15,7 +15,7 @@ public interface IQuizService {
 
 	QuizResponse getoneQuiz(Long id); // 하나의 퀴즈 보기
 	
-	List<QuizRequest> getAllQuiz(Pageable pageable); // 타입별로 퀴즈 리스트 보기
+//	List<QuizRequest> getAllQuiz(Pageable pageable);
 	
 	Comment createComment(Long id, CommentRequest comment); // 퀴즈 댓글 달기
 	
@@ -25,6 +25,9 @@ public interface IQuizService {
 	
 	Quiz findByQuizId(Long quiz_id);
 	
-	List<QuizRequest> getWifeQuiz(String type);
+	List<QuizRequest> getAllWifeQuiz();
+	List<QuizRequest> getAllBabyQuiz();
+	List<QuizRequest> getAllFoodQuiz();
+	List<QuizRequest> getAllSocietyQuiz();
 	
 }

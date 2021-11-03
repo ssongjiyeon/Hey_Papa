@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.ssafy.heypapa.entity.User;
 import com.ssafy.heypapa.repository.UserRepository;
 import com.ssafy.heypapa.request.RegistRequest;
+import com.ssafy.heypapa.request.UserModifyRequest;
 import com.ssafy.heypapa.request.UserRequest;
 
 @Service("userService")
@@ -32,8 +33,8 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public User getUserByEmail(UserRequest userRequest) {
-		Optional<User> user = userRepository.findByEmail(userRequest.getEmail());
+	public User getUserByEmail(String email) {
+		Optional<User> user = userRepository.findByEmail(email);
 	
 		return user.orElse(null);
 	}
@@ -43,26 +44,50 @@ public class UserService implements IUserService {
 		User user = new User();
 		user.setD_day(req.getDDay());
 		user.setEmail(req.getEmail());
+		user.setRegion(req.getRegion());
 		user.setPassword(passwordEncoder.encode(req.getPassword()));
+		user.setNickname(makeNickname(req.getNickname()));
+
+		user.setWeek(req.getWeek());
 		
+		// 이미지 저장
+		user.setImg("img");
+		userRepository.save(user);
+		
+		return user;
+	}
+
+	@Override
+	public boolean putUser(User user, UserModifyRequest req) {
+		
+		try {
+			user.setD_day(req.getDDay());
+			user.setRegion(req.getRegion());
+			user.setPassword(passwordEncoder.encode(req.getPassword()));
+			user.setNickname(makeNickname(req.getNickname()));
+
+			user.setWeek(req.getWeek());
+			userRepository.save(user);
+			
+			return true;
+		} catch(Exception e) {
+			return false;
+		}
+	}
+	
+	public String makeNickname(String nickname) {
 		// 닉네임 중복 처리
-		String nowNickname = req.getNickname();
-		String newNickname = req.getNickname();
+		
+		String nowNickname = nickname;
+		String newNickname = nickname;
 		Optional<User> dUser = userRepository.findByNickname(nowNickname);
 		Random rand = new Random();
 		while(dUser.isPresent()) {
 			newNickname = preNickname[rand.nextInt(16)] + nowNickname;
 			dUser = userRepository.findByNickname(newNickname);
 		}
-
-		user.setNickname(newNickname);
 		
-		// 주차 계산
-		user.setWeek(4);
-		user.setImg("img");
-		userRepository.save(user);
-		
-		return user;
+		return newNickname;
 	}
 
 }
