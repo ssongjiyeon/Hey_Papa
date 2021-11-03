@@ -1,9 +1,10 @@
 <template>
   <div class="login_container">
-    <h3 style="margin-top:160px;">Hey PaPa !</h3>
+    <img class="logo" src="../assets/vertical_logo.png">
     <div>
       <div class="id_wrap">
         <q-input label="ID" type="email"
+          color="pink-3"
           v-model="form.email"
           lazy-rules
             :rules="[
@@ -15,12 +16,13 @@
       <div style="margin-top:-30px; margin-bottom:70px;">
         <q-input label="PASSWORD" type="password" v-model="form.password"
           lazy-rules
+          color="pink-3"
           :rules="[
             val => val && val.length > 0 || '비밀번호를 입력해주세요.',
             checkPassWord
           ]"/>
       </div>
-      <q-btn @click="goMain" unelevated rounded color="primary" label="로그인 하기" style="width:300px;"/>
+      <q-btn @click="goMain" unelevated rounded label="로그인 하기" style="width:300px; color:white; background:rgb(235,137,181);"/>
       <div class="plus">
         <div>
           <span>이메일로 가입하시겠어요?</span>
@@ -54,7 +56,7 @@
 
 <script>
 import { useRouter } from 'vue-router'
-import { reactive, ref, computed } from 'vue'
+import { reactive, ref } from 'vue'
 import { useStore } from 'vuex'
 
 export default {
@@ -69,8 +71,7 @@ export default {
     const find = reactive({
         email: ''
     })
-    const getuser = computed(()=> store.getters['module/getUser'])
-    console.log(getuser.value,'회원가입유저')
+    localStorage.clear() // 로컬스토리지 초기화
     // 아이디 유효성 검사 
     function checkId (val) {
         const reg = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i
@@ -87,23 +88,44 @@ export default {
     }
     // 이메일 발송
     const findPwd = function() {
-        store.dispatch('module/findPwd', { email: find.email })
-            .then(() => {
-                Swal.fire({
-                    icon: 'success',
-                    title: '<span style="font-size:25px;">이메일을 발송했습니다.</span>',
-                    confirmButtonColor: '#primary',
-                    confirmButtonText: '<span style="font-size:18px;">확인</span>'
-                })
-                pwdMode.value = false
+      store.dispatch('module/findPwd', { email: find.email })
+        .then(() => {
+            Swal.fire({
+                icon: 'success',
+                title: '<span style="font-size:25px;">이메일을 발송했습니다.</span>',
+                confirmButtonColor: '#primary',
+                confirmButtonText: '<span style="font-size:18px;">확인</span>'
             })
+            pwdMode.value = false
+        })
     }
     function goSignup(){
       router.push('signup')
     }
     function goMain(){
       store.commit('module/setPwd', form.password)
-      router.push('home')
+      store.dispatch('module/Login', { email: form.email, password:form.password })
+        .then((result) => {
+          console.log(result.data,'login')
+          const userId = result.data.id
+          localStorage.setItem('userId',userId)
+          // 회원정보 가져오기
+          // store.dispatch('module/requestInfo', userId)
+          //   .then((res) => {
+          //     const loginUser = {
+          //         nickname: res.data.nickname,
+          //         img: res.data.img,
+          //         week: res.data.week,
+          //         dday: res.data.dday,
+          //         region: res.data.region,
+          //     }
+          //     // store에 저장
+          //     store.commit('module/setUser', loginUser)
+          //     router.push('/')
+          //   })
+          router.push('/home')
+          store.commit('module/setPage', 3)
+        })
     }
     return{
       form,
@@ -125,6 +147,10 @@ export default {
   display: flex;
   flex-direction: column;
   align-items:center;
+}
+.logo{
+  margin-top:100px;
+  width:70%;
 }
 .id_wrap{
   width:300px;

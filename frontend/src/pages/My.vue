@@ -1,8 +1,8 @@
 <template>
   <div class="my_container">
     <div class="my_top">
-      <h4 class="logo">Hey PaPa!</h4>
-      <q-btn flat color="primary" icon="menu" @click="show()" />
+      <img src="../assets/horizon_logo.png" class="logo">
+      <q-btn flat style="color:rgb(235,137,181); margin-right:70px;" icon="menu" @click="show()" />
     </div>
     <div class="user_info">
       <img class="profile_img" style="margin-right:20px;" src="https://isobarscience.com/wp-content/uploads/2020/09/default-profile-picture1.jpg">
@@ -114,17 +114,17 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .my_top{
   display:flex;
-  align-items: center;
+  /* align-items: center; */
   justify-content: center;
-  width:100%;
-  height:100px;
+  height:70px;
 }
 .logo{
-  margin: 0 auto;
-  padding-left:60px;
+  margin: 0px 50px 0px 175px;
+  width: 180px;
+  /* padding-left:40px; */
 }
 .my_container{
   display: flex;
