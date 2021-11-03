@@ -13,22 +13,22 @@
       class="text-black"
       style="width:100%; margin-top:50px;"
     >
-      <q-tab @click="goArticle" name="article" label="내 게시글" />
-      <q-tab name="like" label="좋아요한 글" />
-      <q-tab name="zzim" label="찜 문제" />
+      <q-tab class="text-red" @click="goArticle" name="article" label="내 게시글" />
+      <q-tab class="text-green" @click="goLike" name="like" label="좋아요한 글" />
+      <q-tab class="text-blue" @click="goZzim" name="zzim" label="찜 문제" />
     </q-tabs>
     <q-tab-panels v-model="tab" animated
-      style="background-color: whitesmoke; width:100%;">
+      style="width:100%;">
       <span name="article" style="display:flex; flex-wrap:wrap;">
         <img v-for="myArticle in myArticles" :key="myArticle" :src="myArticle.img" style="width:33.3%">
       </span>
     </q-tab-panels>
-    <q-tab-panels v-model="tab" animated style="background-color: whitesmoke; width:100%;">
+    <q-tab-panels v-model="tab" animated style="width:100%;">
       <span name="like" style="display:flex; flex-wrap:wrap;">
         <img v-for="mylike in myLikes" :key="mylike" :src="mylike.img" style="width:33.3%">
       </span>
     </q-tab-panels>
-    <q-tab-panels v-model="tab" animated style="background-color: whitesmoke; width:100%;">
+    <q-tab-panels v-model="tab" animated style="width:100%;">
       <q-tab-panel name="zzim">
         <div v-for="quiz in myQuiz" :key="quiz" class="my_quiz">
           {{ quiz.Question }}
@@ -48,6 +48,7 @@ export default {
     const $q = useQuasar()
     const store = useStore()
     const router = useRouter()
+    const img_path = '../assets/default_user.png'
     const myQuiz= [
       {
         Question:'Q. 아이가 변비일 때 먹이면 좋지 않은 과일은?'
@@ -102,11 +103,20 @@ export default {
     function goArticle(){
       console.log('아티클')
     }
+    function goLike(){
+      console.log('좋아요')
+    }
+    function goZzim(){
+      console.log('찜')
+    }
     return {
       tab: ref('zzim'),
       myArticles,
       myLikes,
       myQuiz,
+      img_path,
+      goLike,
+      goZzim,
       show,
       goArticle
     }
