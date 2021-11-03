@@ -1,6 +1,6 @@
 <template>
 <div class="quiz-text">
-  <h5 style="margin: 0.5rem">hey! papa</h5>
+  <!-- <h5 style="margin: 0.5rem">hey! papa</h5> -->
   <h3 style="margin: 0.5rem">Quiz</h3>
 </div>
 
@@ -57,12 +57,13 @@ export default {
 
     // quiz detail로 가는 함수
     const QuizDetail = (theme) => {
-
+      console.log(theme)
       // api 마련되면 진행
+
       axios({
         method: 'GET',
-        url: `https://k5b206.p.ssafy.io:8080/api/quiz/${theme}`,
-        params : theme
+        url: `https://k5b206.p.ssafy.io/api/quiz/${theme}`,
+        // params : theme
       })
       .then((res) => {
         console.log('res', res)
