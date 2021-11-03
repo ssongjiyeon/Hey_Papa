@@ -229,10 +229,10 @@ export default {
   /* float: left; */
   display: flex;
   flex-wrap: wrap;
-  width: 7rem;
-  height: 7rem;
+  width: 15rem;
+  height: 4rem;
   background-color: pink;
-  margin: 1rem;
+  margin: 0.5rem;
   align-items: center;
 }
 </style>
