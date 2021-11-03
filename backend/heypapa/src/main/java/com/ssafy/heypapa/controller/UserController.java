@@ -7,7 +7,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,8 +18,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.heypapa.auth.PapaUserDetails;
 import com.ssafy.heypapa.entity.User;
+import com.ssafy.heypapa.request.EmailRequest;
 import com.ssafy.heypapa.request.RegistRequest;
+import com.ssafy.heypapa.request.UserModifyRequest;
 import com.ssafy.heypapa.request.UserRequest;
 import com.ssafy.heypapa.response.UserResponse;
 import com.ssafy.heypapa.service.IUserService;
@@ -28,6 +33,7 @@ import com.ssafy.heypapa.util.RedisUtil;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import springfox.documentation.annotations.ApiIgnore;
 
 @Api(value = "유저 api", tags = { "User" })
 @RestController
@@ -97,8 +103,8 @@ public class UserController {
 	
 	@PostMapping("/email")
 	@ApiOperation(value = "이메일 중복 확인")
-	public ResponseEntity<BaseResponseBody> emailVerify(@RequestBody String email) {
-		User user = userService.getUserByEmail(email);
+	public ResponseEntity<BaseResponseBody> emailVerify(@RequestBody EmailRequest email) {
+		User user = userService.getUserByEmail(email.getEmail());
 		if(user == null) {
 			return ResponseEntity.status(200).body(new BaseResponseBody(200, SUCCESS_MESSAGE));
 		}
@@ -106,6 +112,28 @@ public class UserController {
 		return new ResponseEntity<BaseResponseBody>(HttpStatus.BAD_REQUEST);
 	}
 	
+//	@GetMapping("/logout")
+//	@ApiOperation(value = "로그아웃")
+//	public ResponseEntity<BaseResponseBody> logout() {
+//		redisUtil.deleteData();
+//	}
+	
 //	@PutMapping("/")
-//	@Api
+//	@ApiOperation(value = "회원 정보 수정")
+//	public ResponseEntity<BaseResponseBody> modify(@RequestBody UserModifyRequest req, 
+//			@ApiIgnore Authentication authentication) {
+//		
+//		try {
+//			PapaUserDetails userDetails = (PapaUserDetails) authentication.getDetails();
+//			User user = userService.getUserByNickname(userDetails.getUsername());
+//			System.out.println(user.getEmail());
+//			if(userService.putUser(user, req)) {
+//				return ResponseEntity.status(200).body(new BaseResponseBody(200, SUCCESS_MESSAGE));
+//			}
+//			
+//			return new ResponseEntity<BaseResponseBody>(HttpStatus.BAD_REQUEST);
+//		} catch(Exception e) {
+//			return new ResponseEntity<BaseResponseBody>(HttpStatus.BAD_REQUEST);
+//		}	
+//	}
 }
