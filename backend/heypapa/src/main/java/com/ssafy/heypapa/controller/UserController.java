@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -56,6 +57,7 @@ public class UserController {
 	private PasswordEncoder passwordEncoder;
 	
 	final String SUCCESS_MESSAGE = "success";
+	final String FAIL_MESSAGE = "error";
 	
 	@PostMapping("/login")
 	@ApiOperation(value = "로그인", notes = "로그인 성공 시 회원 정보 반환")
@@ -112,11 +114,31 @@ public class UserController {
 		return new ResponseEntity<BaseResponseBody>(HttpStatus.BAD_REQUEST);
 	}
 	
-//	@GetMapping("/logout")
-//	@ApiOperation(value = "로그아웃")
-//	public ResponseEntity<BaseResponseBody> logout() {
-//		redisUtil.deleteData();
-//	}
+	@GetMapping("/logout")
+	@ApiOperation(value = "로그아웃")
+	public ResponseEntity<BaseResponseBody> logout(HttpServletRequest req, HttpServletResponse res) {
+		
+		// refresh token 처리
+		Cookie refreshToken = cookieUtil.getCookie(req, JwtTokenUtil.REFRESH_TOKEN_NAME);
+
+		if(refreshToken != null) {
+			String refreshJwt = refreshToken.getValue();
+			
+			if(refreshJwt != null) {
+				redisUtil.deleteData(refreshJwt);
+			}
+		}
+		
+		Cookie accessToken = new Cookie(JwtTokenUtil.ACCESS_TOKEN_NAME, null);
+		refreshToken = new Cookie(JwtTokenUtil.REFRESH_TOKEN_NAME, null);
+		accessToken.setMaxAge(0);
+		refreshToken.setMaxAge(0);
+		res.addCookie(accessToken);
+		res.addCookie(refreshToken);
+
+
+		return ResponseEntity.status(200).body(new BaseResponseBody(200, SUCCESS_MESSAGE)); 
+	}
 	
 //	@PutMapping("/")
 //	@ApiOperation(value = "회원 정보 수정")
