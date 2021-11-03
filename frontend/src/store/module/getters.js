@@ -7,3 +7,6 @@ export function getMylike (state) {
 export function getUser (state) {
   return state.user
 }
+export function getLoginpwd (state) {
+  return state.loginPwd
+}

@@ -31,9 +31,11 @@ export default function () {
     },
   ]
   const user = {}
+  const loginPwd = ''
   return {
     myArticle,
     myLike,
-    user
+    user,
+    loginPwd
   }
 }
