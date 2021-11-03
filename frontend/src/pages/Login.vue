@@ -1,9 +1,10 @@
 <template>
   <div class="login_container">
-    <h3 style="margin-top:160px;">Hey PaPa !</h3>
+    <img class="logo" src="../assets/vertical_logo.png">
     <div>
       <div class="id_wrap">
         <q-input label="ID" type="email"
+          color="pink-3"
           v-model="form.email"
           lazy-rules
             :rules="[
@@ -15,12 +16,13 @@
       <div style="margin-top:-30px; margin-bottom:70px;">
         <q-input label="PASSWORD" type="password" v-model="form.password"
           lazy-rules
+          color="pink-3"
           :rules="[
             val => val && val.length > 0 || '비밀번호를 입력해주세요.',
             checkPassWord
           ]"/>
       </div>
-      <q-btn @click="goMain" unelevated rounded color="primary" label="로그인 하기" style="width:300px;"/>
+      <q-btn @click="goMain" unelevated rounded label="로그인 하기" style="width:300px; color:white; background:rgb(235,137,181);"/>
       <div class="plus">
         <div>
           <span>이메일로 가입하시겠어요?</span>
@@ -121,6 +123,8 @@ export default {
           //     store.commit('module/setUser', loginUser)
           //     router.push('/')
           //   })
+          router.push('/home')
+          store.commit('module/setPage', 3)
         })
     }
     return{
@@ -143,6 +147,10 @@ export default {
   display: flex;
   flex-direction: column;
   align-items:center;
+}
+.logo{
+  margin-top:100px;
+  width:70%;
 }
 .id_wrap{
   width:300px;

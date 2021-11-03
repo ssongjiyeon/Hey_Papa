@@ -10,3 +10,6 @@ export function getUser (state) {
 export function getLoginpwd (state) {
   return state.loginPwd
 }
+export function getPage (state) {
+  return state.current_page
+}
