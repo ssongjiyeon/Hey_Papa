@@ -21,8 +21,8 @@ public class RegistRequest {
 	@ApiModelProperty(name = "nickname", example = "쑥쑥이")
 	private String nickname;
 	
-	@ApiModelProperty(name = "dDay", example = "2021119")
-	private Date dDay;
+	@ApiModelProperty(name = "dDay", example = "2021-11-09")
+	private String dDay;
 	
 	@ApiModelProperty(name = "region", example = "봉명동")
 	private String region;

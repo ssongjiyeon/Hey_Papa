@@ -1,5 +1,7 @@
 package com.ssafy.heypapa.controller;
 
+import java.util.List;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,6 +29,7 @@ import com.ssafy.heypapa.request.EmailRequest;
 import com.ssafy.heypapa.request.RegistRequest;
 import com.ssafy.heypapa.request.UserModifyRequest;
 import com.ssafy.heypapa.request.UserRequest;
+import com.ssafy.heypapa.response.MyArticleResponse;
 import com.ssafy.heypapa.response.ProfileResponse;
 import com.ssafy.heypapa.response.UserResponse;
 import com.ssafy.heypapa.service.IUserService;
@@ -163,6 +166,13 @@ public class UserController {
 		
 		ProfileResponse res = userService.getProfile(userId);
 		
+		return ResponseEntity.status(200).body(res);
+	}
+	
+	@GetMapping("/article/{user_id}")
+	@ApiOperation(value = "회원 게시글 전체 조회")
+	public ResponseEntity<List<MyArticleResponse>> getArticle(@PathVariable("user_id") long userId) {
+		List<MyArticleResponse> res = userService.getArticle(userId);
 		return ResponseEntity.status(200).body(res);
 	}
 }
