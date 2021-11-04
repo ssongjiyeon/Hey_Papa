@@ -1,8 +1,9 @@
 <template>
-  <div>
+  <div style="padding-bottom:100px;">
     <div class="top">
       <q-btn class="back_btn" @click="goHome" dense round icon="arrow_back" />
       <img class="logo" src="../assets/horizon_logo.png">
+      <!-- <q-btn class="back_btn" @click="goHome" dense round icon="edit" /> -->
     </div>
     <div style="width:90%; margin-left:20px; margin-top:20px; margin-bottom:20px;">
       <div class="text-subitle2" style="height:400px; margin-bottom:20px;">
@@ -33,8 +34,8 @@
       <span>해시태그</span>
       <q-input v-model="hashtag" label="ex)#육아#미역국"/>
     </div>
-    <div style="display:flex; justify-content: center; margin-top:50px;">
-       <q-btn @click="goWrite" unelevated rounded color="primary" label="게시글 작성" style="width:300px;"/>
+    <div style="display:flex; justify-content: center; margin-top:40px;">
+       <q-btn @click="goWrite" unelevated rounded label="게시글 작성" style="width:300px; color:white; background:rgb(235,137,181);"/>
     </div>
   </div>
 </template>
@@ -71,17 +72,13 @@ export default {
       this.$refs.fileInput.click();
     },
     goHome(){
-      const router = useRouter()
-      router.push('/')
+      this.$router.push('/home')
     },
     goWrite(){
-      const store = useStore()
-      const router = useRouter()
+      const hashlist = this.hashtag.split('#').slice(1,)
       const article = {
         content:this.text,
-        hashtag:[
-          this.hashtag
-        ],
+        hashtag:hashlist,
         img:this.imageData,
         user_id:localStorage.getItem('userId')
       }
@@ -89,10 +86,8 @@ export default {
         .then((res)=>{
           console.log(res)
         })
-      // console.log(this.text,"@@")
-      // console.log(this.hashtag,"@@")
-      // console.log(this.imageData,'v2')
-      // router.push('/detail')
+      console.log(article,'@@')
+      this.$router.push('/detail')
     }
   },
 } 

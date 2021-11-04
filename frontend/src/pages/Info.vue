@@ -1,7 +1,6 @@
 <template>
-  <div class="quiz-text">
-    <h5 style="margin: 0.5rem">hey! papa</h5>
-    <h3 style="margin: 0.5rem">Info</h3>
+  <div style="height:70px; display:flex; justify-content:center;">
+    <img src="../assets/horizon_logo.png" class="logo">
   </div>
   <InfoDetail/>
 
