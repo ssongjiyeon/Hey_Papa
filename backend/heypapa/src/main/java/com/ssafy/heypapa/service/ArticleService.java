@@ -57,6 +57,7 @@ public class ArticleService implements IArticleService {
 		article.setImg(articleRequest.getImg());
 		article.setCreated_at(new Date());
 		article.setUpdated_at(new Date());
+		articleRepository.save(article);
 		
 		// hashtag 처리
 		// 요청에서 들어온 해시태그 스트링 배열을 순회하면서
@@ -85,7 +86,7 @@ public class ArticleService implements IArticleService {
 				articleHashtagRepository.save(articleHashtag);	
 			}	
 		}
-		return articleRepository.save(article);
+		return article;
 	}
 	
 	@Override
@@ -117,6 +118,7 @@ public class ArticleService implements IArticleService {
 			//user 닉네임, 프로필이미지 처리
 			res.setNickname(a.getUser().getNickname());
 			res.setUser_img(a.getUser().getImg());
+			copy.add(res);
 		}
 		return copy;
 	}
@@ -193,6 +195,18 @@ public class ArticleService implements IArticleService {
 	
 	@Override
 	public void deleteArticle(Long id) {
+		List<ArticleHashtag> ahList = articleHashtagRepository.findByArticleId(id);
+		for(ArticleHashtag ah : ahList) {
+			articleHashtagRepository.delete(ah);
+		};
+		List<ArticleLike> alList = articleLikeRepository.findByArticleId(id);
+		for(ArticleLike al : alList) {
+			articleLikeRepository.delete(al);
+		};
+		List<Review> rList = reviewRepository.findByArticleId(id);
+		for(Review r : rList) {
+			reviewRepository.delete(r);
+		};
 		Article article = articleRepository.findById(id).get();
 		articleRepository.delete(article);
 	}
@@ -223,6 +237,7 @@ public class ArticleService implements IArticleService {
 			review.setNickname(user.getNickname());
 			review.setContent(r.getContent());
 			review.setCreated_at(r.getCreated_at());
+			copy.add(review);
 		}
 		return copy;
 	}
