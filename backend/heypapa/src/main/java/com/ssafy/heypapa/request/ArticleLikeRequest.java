@@ -7,10 +7,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@ApiModel("ReviewRequest")
-public class ReviewRequest {
+@ApiModel("ArticleLikeRequest")
+public class ArticleLikeRequest {
 	@ApiModelProperty(name = "유저id")
 	private Long user_id;
-	@ApiModelProperty(name = "리뷰 내용")
-	private String content;
+	@ApiModelProperty(name = "좋아요 여부")
+	private Boolean check;
 }

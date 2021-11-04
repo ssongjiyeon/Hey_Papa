@@ -22,6 +22,7 @@ import com.ssafy.heypapa.repository.ArticleRepository;
 import com.ssafy.heypapa.repository.HashtagRepository;
 import com.ssafy.heypapa.repository.ReviewRepository;
 import com.ssafy.heypapa.repository.UserRepository;
+import com.ssafy.heypapa.request.ArticleLikeRequest;
 import com.ssafy.heypapa.request.ArticleRequest;
 import com.ssafy.heypapa.request.ReviewRequest;
 import com.ssafy.heypapa.response.ArticleResponse;
@@ -50,8 +51,8 @@ public class ArticleService implements IArticleService {
 	@Override
 	public Article createArticle(ArticleRequest articleRequest) {		
 		Article article = new Article();
-		// user객체를 setUser() 안에 넣어주세요
-		//article.setUser();
+		User user = userRepository.findById(articleRequest.getUser_id()).get();
+		article.setUser(user);
 		article.setContent(articleRequest.getContent());
 		article.setImg(articleRequest.getImg());
 		article.setCreated_at(new Date());
@@ -172,21 +173,21 @@ public class ArticleService implements IArticleService {
 	}
 	
 	@Override
-	public void likeArticle(Boolean flag, Long id) {
+	public void likeArticle(ArticleLikeRequest articleLikeRequest, Long id) {
 		// (좋아요) like가 안되어 있으면 해당 게시글 객체와 요청보낸 유저 객체를 articleLike에 담아서 repo에 저장 
-		if(flag==false) {
+		if(articleLikeRequest.getCheck()==false) {
 			Article article = articleRepository.findById(id).get();
+			User user = userRepository.findById(articleLikeRequest.getUser_id()).get();
 			ArticleLike like = new ArticleLike();
 			like.setArticle(article);
-			// user객체를 setUser() 안에 넣어주세요
-			// like.setUser(user);
+			like.setUser(user);
 			articleLikeRepository.save(like);
 		} 
 		// (좋아요 취소) like가 되어 있으면 게시글id와 유저id값으로 articlelike 객체를 찾고, repo에서 삭제 
 		else {
-			// user정보에서 id받아와서 findByArticleIdAndUserId()의 두번째 id자리에 넣어주세요
-			 ArticleLike like = articleLikeRepository.findByArticleIdAndUserId(id, id).get();
-			 articleLikeRepository.delete(like);
+			Long userId = articleLikeRequest.getUser_id();
+			ArticleLike like = articleLikeRepository.findByArticleIdAndUserId(id, userId).get();
+			articleLikeRepository.delete(like);
 		}
 	}
 	
@@ -200,8 +201,9 @@ public class ArticleService implements IArticleService {
 	public Review createReview(ReviewRequest reviewRequest, Long id) {
 		Review review = new Review();
 		Article article = articleRepository.findById(id).get();
-		// 댓글 작성하는 User 객체 필요
-		//review.setUser(user);
+		Long userId = reviewRequest.getUser_id();
+		User user = userRepository.findById(userId).get();
+		review.setUser(user);
 		review.setArticle(article);
 		review.setContent(reviewRequest.getContent());
 		review.setCreated_at(new Date());
