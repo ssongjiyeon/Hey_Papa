@@ -22,7 +22,7 @@
             checkPassWord
           ]"/>
       </div>
-      <q-btn @click="goMain" unelevated rounded label="로그인 하기" style="width:300px; color:white; background:rgb(235,137,181);"/>
+      <q-btn @click="goMain" unelevated rounded label="로그인 하기" style="margin-top:-20px;width:300px; color:white; background:rgb(235,137,181);"/>
       <div class="plus">
         <div>
           <span>이메일로 가입하시겠어요?</span>
@@ -106,25 +106,23 @@ export default {
       store.commit('module/setPwd', form.password)
       store.dispatch('module/Login', { email: form.email, password:form.password })
         .then((result) => {
-          console.log(result.data,'login')
           const userId = result.data.id
           localStorage.setItem('userId',userId)
           // 회원정보 가져오기
-          // store.dispatch('module/requestInfo', userId)
-          //   .then((res) => {
-          //     const loginUser = {
-          //         nickname: res.data.nickname,
-          //         img: res.data.img,
-          //         week: res.data.week,
-          //         dday: res.data.dday,
-          //         region: res.data.region,
-          //     }
-          //     // store에 저장
-          //     store.commit('module/setUser', loginUser)
-          //     router.push('/')
-          //   })
-          router.push('/home')
-          store.commit('module/setPage', 3)
+          store.dispatch('module/requestInfo', userId)
+            .then((res) => {
+              const loginUser = {
+                  nickname: res.data.nickname,
+                  img: res.data.img,
+                  week: res.data.week,
+                  dday: res.data.dday,
+                  region: res.data.region,
+              }
+              // store에 저장
+              store.commit('module/setUser', loginUser)
+              router.push('/home')
+              store.commit('module/setPage', 3)
+            })
         })
     }
     return{
@@ -149,7 +147,7 @@ export default {
   align-items:center;
 }
 .logo{
-  margin-top:100px;
+  margin-top:60px;
   width:70%;
 }
 .id_wrap{
@@ -160,6 +158,6 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top:50px;
+  margin-top:80px;
 }
 </style>

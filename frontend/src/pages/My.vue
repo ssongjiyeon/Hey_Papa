@@ -6,7 +6,7 @@
     </div>
     <div class="user_info">
       <img class="profile_img" style="margin-right:20px;" src="https://isobarscience.com/wp-content/uploads/2020/09/default-profile-picture1.jpg">
-      <div class="nick_name">17주차 튼튼이 아빠</div>
+      <div class="nick_name">{{user.week}}주차 {{user.nickname}} 아빠</div>
     </div>
     <q-tabs
       v-model="tab"
@@ -40,11 +40,12 @@
 
 <script>
 import { useQuasar } from 'quasar'
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 export default {
   setup () {
+    const user = computed(()=> store.getters['module/getUser'])
     const $q = useQuasar()
     const store = useStore()
     const router = useRouter()
@@ -65,7 +66,7 @@ export default {
     ]
     const myArticles = computed(()=> store.getters['module/getMyarticle'])
     const myLikes = computed(()=> store.getters['module/getMylike'])
-
+  
     function show () {
       $q.bottomSheet({
         message: '메뉴',
@@ -88,7 +89,9 @@ export default {
           router.push('set')
         }
         else if (action.id == 'logout'){
-          console.log('로그아웃시키기')
+          store.dispatch('module/logout').then(()=>{
+            router.push('/')
+          })
         }
       }).onCancel(() => {
         // console.log('바텀시트 빠져나올때')
@@ -97,11 +100,17 @@ export default {
       })
     }
 
-    // onMounted(()=>{
-    //   store.dispatch('유저가쓴글받아오기')
-    // })
+    onMounted(()=>{
+      store.dispatch('module/myArticle').then((res)=>{
+        console.log(res.data,'나의 게시글들')
+        // store.commit('module/setArticle', res.data)
+      })
+    })
     function goArticle(){
-      console.log('아티클')
+      store.dispatch('module/myArticle').then((res)=>{
+        console.log(res.data,'나의 게시글들')
+        // store.commit('module/setArticle', res.data)
+      })
     }
     function goLike(){
       console.log('좋아요')
@@ -115,6 +124,7 @@ export default {
       myLikes,
       myQuiz,
       img_path,
+      user,
       goLike,
       goZzim,
       show,

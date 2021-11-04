@@ -13,7 +13,7 @@
         />
       </div>
       <div style="width:290px; margin-top:-20px;">
-        <q-input label="생년월일 8자리 (예: 20220823)" type="email"
+        <q-input label="생년월일 8자리 (예: 2022-08-23)" type="email"
           v-model="form.birthday"
           lazy-rules
           :rules="[
@@ -52,8 +52,8 @@ export default {
     })
     const getuser = computed(()=> store.getters['module/getUser'])
     function checkBirth (val) {
-      const reg = /^(19[0-9][0-9]|20\d{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/
-      return (reg.test(val)|| '숫자 8개로 입력해주세요.')
+      const reg = /^(19[0-9][0-9]|20\d{2})-(0[0-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/
+      return (reg.test(val)|| '형식을 맞춰주세요.')
     }
     function goSignup(){
       router.push('signup')

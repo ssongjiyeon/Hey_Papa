@@ -22,7 +22,26 @@ export function Login ({}, user) {
 }
 // 게시글쓰기
 export function writeArticle ({}, article) {
-  console.log(article,'article')
   const url = baseUrl + '/article'
   return $axios.post(url, article)
+}
+// 유저 정보 수정
+export function setUser ({},user) {
+  const url = baseUrl + '/user/'+ localStorage.getItem('userId')
+  return $axios.put(url, user)
+}
+// 유저 정보 불러오기
+export function requestInfo ({},id) {
+  const url = baseUrl + '/user/'+ id
+  return $axios.get(url)
+}
+// 로그아웃
+export function logout ({}) {
+  const url = baseUrl + '/user/logout'
+  return $axios.get(url)
+}
+// 게시글 가져오기
+export function myArticle ({}) {
+  const url = baseUrl + '/user/article/' + localStorage.getItem('userId')
+  return $axios.get(url)
 }
