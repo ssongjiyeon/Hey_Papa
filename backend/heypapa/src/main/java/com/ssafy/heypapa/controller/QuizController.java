@@ -15,12 +15,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.heypapa.entity.Comment;
 import com.ssafy.heypapa.entity.Quiz;
 import com.ssafy.heypapa.entity.QuizTypeEnum;
 import com.ssafy.heypapa.request.CommentRequest;
+import com.ssafy.heypapa.request.MyQuizRequest;
 import com.ssafy.heypapa.request.QuizRequest;
 import com.ssafy.heypapa.response.QuizResponse;
 import com.ssafy.heypapa.service.QuizService;
@@ -147,4 +149,17 @@ public class QuizController {
 		List<QuizRequest> quizList = quizService.getAllSocietyQuiz();
 		return ResponseEntity.status(200).body(quizList);
 	}
+	
+	@PostMapping("{quizId}/myquiz")
+	@ApiOperation(value = "나의 퀴즈", notes = "<strong>나의 퀴즌</strong>")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "성공"),
+        @ApiResponse(code = 401, message = "토큰 인증 실패"),
+        @ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<BaseResponseBody> likeQuiz(@RequestBody MyQuizRequest myquizRequest, @PathVariable(name = "quizId") Long id) {
+		quizService.myQuiz(myquizRequest, id);
+		return ResponseEntity.status(200).body(BaseResponseBody.of(200,"Success"));
+	}
+	
 }

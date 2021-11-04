@@ -30,6 +30,7 @@ import com.ssafy.heypapa.request.RegistRequest;
 import com.ssafy.heypapa.request.UserModifyRequest;
 import com.ssafy.heypapa.request.UserRequest;
 import com.ssafy.heypapa.response.MyArticleResponse;
+import com.ssafy.heypapa.response.MyQuizResponse;
 import com.ssafy.heypapa.response.ProfileResponse;
 import com.ssafy.heypapa.response.UserResponse;
 import com.ssafy.heypapa.service.IUserService;
@@ -175,4 +176,12 @@ public class UserController {
 		List<MyArticleResponse> res = userService.getArticle(userId);
 		return ResponseEntity.status(200).body(res);
 	}
+	
+	@GetMapping("/quiz/{user_id}")
+	@ApiOperation(value = "회원 찜 퀴즈 전체 조회")
+	public ResponseEntity<List<MyQuizResponse>> getQuiz(@PathVariable("user_id") long userId) {
+		List<MyQuizResponse> res = userService.getQuiz(userId);
+		return ResponseEntity.status(200).body(res);
+	}
+	
 }

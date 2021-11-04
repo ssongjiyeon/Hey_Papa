@@ -5,8 +5,8 @@ import com.ssafy.heypapa.request.MyQuizRequest;
 
 public interface IMyQuizService {
 
-	MyQuiz createMyQuiz(MyQuizRequest myquizRequest);
-	
-	void deleteMyQuiz(Long id);
+//	MyQuiz createMyQuiz(MyQuizRequest myquizRequest);
+//	
+//	void deleteMyQuiz(Long id);
 	
 }
