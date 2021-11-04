@@ -9,13 +9,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.heypapa.entity.Comment;
+import com.ssafy.heypapa.entity.MyQuiz;
 import com.ssafy.heypapa.entity.Quiz;
 import com.ssafy.heypapa.entity.QuizTypeEnum;
+import com.ssafy.heypapa.entity.User;
 import com.ssafy.heypapa.repository.CommentRepository;
+import com.ssafy.heypapa.repository.MyQuizRepository;
 import com.ssafy.heypapa.repository.QuizRepository;
 import com.ssafy.heypapa.repository.QuizRepositorySupport;
 import com.ssafy.heypapa.repository.UserRepository;
 import com.ssafy.heypapa.request.CommentRequest;
+import com.ssafy.heypapa.request.MyQuizRequest;
 import com.ssafy.heypapa.request.QuizRequest;
 import com.ssafy.heypapa.response.QuizResponse;
 
@@ -33,6 +37,9 @@ public class QuizService implements IQuizService {
 	
 	@Autowired
 	CommentRepository commentRepository;
+	
+	@Autowired
+	MyQuizRepository myquizRepository;
 	
 	private S3Service s3Service;
 	
@@ -194,6 +201,18 @@ public class QuizService implements IQuizService {
 			} 
 		}
 		return copy;
+	}
+
+	@Override
+	public void myQuiz(MyQuizRequest myquizRequest, Long id) {
+		Quiz quiz = quizRepository.findById(id).get();
+		User user = userRepository.findById(myquizRequest.getUser_id()).get();
+		MyQuiz myquiz = new MyQuiz();
+		myquiz.setQuizcheck(myquizRequest.getQuizcheck());
+		myquiz.setQuizlike(myquizRequest.getQuizlike());
+		myquiz.setQuiz(quiz);
+		myquiz.setUser(user);
+		myquizRepository.save(myquiz);
 	}
 
 //	public Optional<Quiz> getQuizImg(Long id) {

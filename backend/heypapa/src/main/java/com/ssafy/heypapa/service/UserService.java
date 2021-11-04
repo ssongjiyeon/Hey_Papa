@@ -14,16 +14,21 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.heypapa.entity.Article;
 import com.ssafy.heypapa.entity.ArticleLike;
+import com.ssafy.heypapa.entity.MyQuiz;
+import com.ssafy.heypapa.entity.Quiz;
 import com.ssafy.heypapa.entity.Review;
 import com.ssafy.heypapa.entity.User;
 import com.ssafy.heypapa.repository.ArticleLikeRepository;
 import com.ssafy.heypapa.repository.ArticleRepository;
+import com.ssafy.heypapa.repository.MyQuizRepository;
+import com.ssafy.heypapa.repository.QuizRepository;
 import com.ssafy.heypapa.repository.ReviewRepository;
 import com.ssafy.heypapa.repository.UserRepository;
 import com.ssafy.heypapa.request.RegistRequest;
 import com.ssafy.heypapa.request.UserModifyRequest;
 import com.ssafy.heypapa.request.UserRequest;
 import com.ssafy.heypapa.response.MyArticleResponse;
+import com.ssafy.heypapa.response.MyQuizResponse;
 import com.ssafy.heypapa.response.ProfileResponse;
 
 @Service("userService")
@@ -40,6 +45,12 @@ public class UserService implements IUserService {
 	
 	@Autowired
 	ArticleLikeRepository articleLikeRepository;
+	
+	@Autowired
+	QuizRepository quizRepository;
+	
+	@Autowired
+	MyQuizRepository myquizRepository;
 	
 	@Autowired
 	ReviewRepository reviewRepository;
@@ -177,6 +188,34 @@ public class UserService implements IUserService {
 			List<Review> review = reviewRepository.findByArticleId(article.getId());
 			mArticle.setComment_cnt(review.size());
 			res.add(mArticle);
+		}
+		
+		return res;
+	}
+
+	@Override
+	public List<MyQuizResponse> getQuiz(long userId) {
+		List<MyQuizResponse> res = new ArrayList<>();
+		Optional<User> user = userRepository.findById(userId);
+		
+		if(user == null) return null;
+		
+		List<MyQuiz> myquizs = myquizRepository.findByUser(user.get());
+		for(MyQuiz mq : myquizs) {
+			MyQuizResponse mQuiz = new MyQuizResponse();
+//			mQuiz.setId(mq.getId());
+			mQuiz.setQuizcheck(mq.isQuizcheck());
+			mQuiz.setQuizlike(mq.isQuizlike());
+			mQuiz.setQuiz_id(mq.getQuiz().getId());
+			mQuiz.setQuestion(mq.getQuiz().getQuestion());
+			mQuiz.setType(mq.getQuiz().getType());
+			mQuiz.setAnswer(mq.getQuiz().getAnswer());
+			mQuiz.setCandidate(mq.getQuiz().getCandidate());
+			mQuiz.setDescription(mq.getQuiz().getDescription());
+			mQuiz.setImg(mq.getQuiz().getImg());
+			
+			List<MyQuiz> myquiz = myquizRepository.findByQuizId(mq.getId());
+			res.add(mQuiz);
 		}
 		
 		return res;
