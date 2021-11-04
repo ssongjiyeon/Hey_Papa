@@ -68,8 +68,8 @@ public class ArticleController {
         @ApiResponse(code = 401, message = "토큰 인증 실패"),
         @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<BaseResponseBody> createReview(@RequestBody ReviewRequest reviewRequest, @PathVariable Long id) {
-		Review review = articleService.createReview(reviewRequest, id);
+	public ResponseEntity<BaseResponseBody> createReview(@RequestBody ReviewRequest reviewRequest, @PathVariable Long article_id) {
+		Review review = articleService.createReview(reviewRequest, article_id);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 	
@@ -80,9 +80,10 @@ public class ArticleController {
         @ApiResponse(code = 401, message = "토큰 인증 실패"),
         @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<BaseResponseBody> getReview(@PathVariable Long id) {
-		List<ReviewResponse> review = articleService.getReview(id);
-		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+	public ResponseEntity<List<ReviewResponse>> getReview(@PathVariable Long article_id) {
+		List<ReviewResponse> reviewList = articleService.getReview(article_id);
+		return ResponseEntity.status(200).body(reviewList);
+		
 	}
 	
 	@PutMapping("/{article_id}")
@@ -92,8 +93,8 @@ public class ArticleController {
         @ApiResponse(code = 401, message = "토큰 인증 실패"),
         @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<BaseResponseBody> updateArticle(@RequestBody ArticleRequest articleRequest, @PathVariable Long id) {
-		Article article = articleService.updateArticle(articleRequest, id);
+	public ResponseEntity<BaseResponseBody> updateArticle(@RequestBody ArticleRequest articleRequest, @PathVariable Long article_id) {
+		Article article = articleService.updateArticle(articleRequest, article_id);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 		
@@ -104,8 +105,8 @@ public class ArticleController {
         @ApiResponse(code = 401, message = "토큰 인증 실패"),
         @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<BaseResponseBody> deleteArticle(@PathVariable Long id) {
-		articleService.deleteArticle(id);
+	public ResponseEntity<BaseResponseBody> deleteArticle(@PathVariable Long article_id) {
+		articleService.deleteArticle(article_id);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 	
@@ -116,8 +117,8 @@ public class ArticleController {
         @ApiResponse(code = 401, message = "토큰 인증 실패"),
         @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<BaseResponseBody> likeArticle(@RequestBody ArticleLikeRequest articleLikeRequest, @PathVariable Long id) {
-		articleService.likeArticle(articleLikeRequest, id);
+	public ResponseEntity<BaseResponseBody> likeArticle(@RequestBody ArticleLikeRequest articleLikeRequest, @PathVariable Long article_id) {
+		articleService.likeArticle(articleLikeRequest, article_id);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 }

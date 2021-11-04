@@ -5,7 +5,6 @@ INDEX VERSION 1.131+C:\Users\multicampus\Desktop\Heypapa\S05P31B206\backend\.met
 3416486480.index
 410656942.index
 3932223372.index
-1151929990.index
 3029207743.index
 2030542020.index
 3413380264.index
