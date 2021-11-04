@@ -1,6 +1,9 @@
 package com.ssafy.heypapa.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -63,21 +66,34 @@ public class UserService implements IUserService {
 	@Override
 	public User createUser(RegistRequest req) {
 		User user = new User();
-		user.setD_day(req.getDDay());
-		user.setEmail(req.getEmail());
-		user.setRegion(req.getRegion());
-		user.setPassword(passwordEncoder.encode(req.getPassword()));
-		user.setNickname(makeNickname(req.getNickname()));
+		
+		try {
+			user.setD_day(changeDate(req.getDDay()));
+			
+			user.setEmail(req.getEmail());
+			user.setRegion(req.getRegion());
+			user.setPassword(passwordEncoder.encode(req.getPassword()));
+			user.setNickname(makeNickname(req.getNickname()));
 
-		user.setWeek(req.getWeek());
-		
-		// 이미지 저장
-		user.setImg("img");
-		userRepository.save(user);
-		
+			user.setWeek(req.getWeek());
+			
+			// 이미지 저장
+			user.setImg("img");
+			userRepository.save(user);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		return user;
 	}
 
+	public Date changeDate(String date) throws ParseException {
+		SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
+		Date res = fm.parse(date);
+		return res;
+	}
+	
 	@Override
 	public boolean putUser(long userId, UserModifyRequest req) {
 		
@@ -89,7 +105,7 @@ public class UserService implements IUserService {
 				return false;
 			}
 			
-			user.get().setD_day(req.getDDay());
+			user.get().setD_day(changeDate(req.getDDay()));
 			user.get().setRegion(req.getRegion());
 			user.get().setPassword(passwordEncoder.encode(req.getPassword()));
 
