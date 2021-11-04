@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.ssafy.heypapa.entity.Article;
 import com.ssafy.heypapa.entity.Review;
+import com.ssafy.heypapa.request.ArticleLikeRequest;
 import com.ssafy.heypapa.request.ArticleRequest;
 import com.ssafy.heypapa.request.ReviewRequest;
 import com.ssafy.heypapa.response.ArticleResponse;
@@ -19,7 +20,7 @@ public interface IArticleService {
 	
 	Article updateArticle(ArticleRequest articleRequest, Long id);
 	
-	void likeArticle(Boolean flag, Long id);
+	void likeArticle(ArticleLikeRequest articleLikeRequest, Long id);
 	
 	void deleteArticle(Long id);
 	

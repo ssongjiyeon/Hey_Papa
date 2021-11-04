@@ -9,4 +9,5 @@
 <fullyQualifiedTypeName name="com.ssafy.heypapa.entity.ArticleHashtag"/>
 <fullyQualifiedTypeName name="java.util.Optional"/>
 <fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="com.ssafy.heypapa.entity.User"/>
 </qualifiedTypeNameHistroy>
