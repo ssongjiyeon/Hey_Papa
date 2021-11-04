@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.heypapa.entity.Article;
 import com.ssafy.heypapa.entity.Review;
+import com.ssafy.heypapa.request.ArticleLikeRequest;
 import com.ssafy.heypapa.request.ArticleRequest;
 import com.ssafy.heypapa.request.ReviewRequest;
 import com.ssafy.heypapa.response.ArticleResponse;
@@ -116,8 +116,8 @@ public class ArticleController {
         @ApiResponse(code = 401, message = "토큰 인증 실패"),
         @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<BaseResponseBody> likeArticle(@RequestParam("flag") Boolean flag, @PathVariable Long id) {
-		articleService.likeArticle(flag, id);
+	public ResponseEntity<BaseResponseBody> likeArticle(@RequestBody ArticleLikeRequest articleLikeRequest, @PathVariable Long id) {
+		articleService.likeArticle(articleLikeRequest, id);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 }
