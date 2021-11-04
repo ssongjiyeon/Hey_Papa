@@ -1,5 +1,7 @@
 package com.ssafy.heypapa.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -7,11 +9,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.ssafy.heypapa.entity.Article;
+import com.ssafy.heypapa.entity.ArticleLike;
+import com.ssafy.heypapa.entity.Review;
 import com.ssafy.heypapa.entity.User;
+import com.ssafy.heypapa.repository.ArticleLikeRepository;
+import com.ssafy.heypapa.repository.ArticleRepository;
+import com.ssafy.heypapa.repository.ReviewRepository;
 import com.ssafy.heypapa.repository.UserRepository;
 import com.ssafy.heypapa.request.RegistRequest;
 import com.ssafy.heypapa.request.UserModifyRequest;
 import com.ssafy.heypapa.request.UserRequest;
+import com.ssafy.heypapa.response.MyArticleResponse;
 import com.ssafy.heypapa.response.ProfileResponse;
 
 @Service("userService")
@@ -22,6 +31,15 @@ public class UserService implements IUserService {
 	
 	@Autowired
 	PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	ArticleRepository articleRepository;
+	
+	@Autowired
+	ArticleLikeRepository articleLikeRepository;
+	
+	@Autowired
+	ReviewRepository reviewRepository;
 	
 	final String[] preNickname = new String[] 
 			{"예쁜 ", "멋진 ", "우아한 ", "활발한 ", "고상한 ", "귀여운 ", "다정한 ", "대담한 ", "잘생긴 ", "따뜻한 ", "매력적인 ",
@@ -117,6 +135,33 @@ public class UserService implements IUserService {
 		res.setNickname(user.get().getNickname());
 		res.setRegion(user.get().getRegion());
 		res.setWeek(user.get().getWeek());
+		
+		return res;
+	}
+
+	@Override
+	public List<MyArticleResponse> getArticle(long userId) {
+		List<MyArticleResponse> res = new ArrayList<>();
+		Optional<User> user = userRepository.findById(userId);
+		
+		if(user == null) return null;
+		
+		List<Article> articles = articleRepository.findByUser(user.get());
+		for(Article article : articles) {
+			MyArticleResponse mArticle = new MyArticleResponse();
+			
+			mArticle.setContent(article.getContent());
+			mArticle.setId(article.getId());
+			mArticle.setImg(article.getImg());
+			mArticle.setCreated_at(article.getCreated_at());
+			
+			List<ArticleLike> like = articleLikeRepository.findByArticleId(article.getId());
+			mArticle.setLike_cnt(like.size());
+			
+			List<Review> review = reviewRepository.findByArticleId(article.getId());
+			mArticle.setComment_cnt(review.size());
+			res.add(mArticle);
+		}
 		
 		return res;
 	}
