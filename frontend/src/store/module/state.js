@@ -33,9 +33,6 @@ export default function () {
   const user = {};
   const loginPwd = "";
   const quizList = [];
-
-  const loginPwd = "";
-
   const current_page = 0;
   return {
     myArticle,
@@ -43,7 +40,6 @@ export default function () {
     user,
     loginPwd,
     quizList,
-
     current_page,
   };
 }

@@ -13,9 +13,6 @@ export function getLoginpwd(state) {
 export function quizList(state) {
   return state.quizList;
 }
-export function getLoginpwd(state) {
-  return state.loginPwd;
-}
 export function getPage(state) {
   return state.current_page;
 }
