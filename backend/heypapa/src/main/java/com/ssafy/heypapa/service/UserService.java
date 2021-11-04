@@ -12,6 +12,7 @@ import com.ssafy.heypapa.repository.UserRepository;
 import com.ssafy.heypapa.request.RegistRequest;
 import com.ssafy.heypapa.request.UserModifyRequest;
 import com.ssafy.heypapa.request.UserRequest;
+import com.ssafy.heypapa.response.ProfileResponse;
 
 @Service("userService")
 public class UserService implements IUserService {
@@ -60,19 +61,26 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public boolean putUser(User user, UserModifyRequest req) {
+	public boolean putUser(long userId, UserModifyRequest req) {
 		
 		try {
-			user.setD_day(req.getDDay());
-			user.setRegion(req.getRegion());
-			user.setPassword(passwordEncoder.encode(req.getPassword()));
-			System.out.println(user.getNickname() + " " + req.getNickname());
-			if(!user.getNickname().equals(req.getNickname())) {
-				user.setNickname(makeNickname(req.getNickname()));
+			
+			Optional<User> user = userRepository.findById(userId);
+			
+			if(!user.isPresent()) {
+				return false;
 			}
 			
-			user.setWeek(req.getWeek());
-			userRepository.save(user);
+			user.get().setD_day(req.getDDay());
+			user.get().setRegion(req.getRegion());
+			user.get().setPassword(passwordEncoder.encode(req.getPassword()));
+
+			if(!user.get().getNickname().equals(req.getNickname())) {
+				user.get().setNickname(makeNickname(req.getNickname()));
+			}
+			
+			user.get().setWeek(req.getWeek());
+			userRepository.save(user.get());
 			
 			return true;
 		} catch(Exception e) {
@@ -93,6 +101,24 @@ public class UserService implements IUserService {
 		}
 		
 		return newNickname;
+	}
+
+	@Override
+	public ProfileResponse getProfile(long userId) {
+		ProfileResponse res = new ProfileResponse();
+		Optional<User> user = userRepository.findById(userId);
+		
+		if(!user.isPresent()) {
+			return null;
+		}
+		
+		res.setD_day(user.get().getD_day());
+		res.setImg(user.get().getImg());
+		res.setNickname(user.get().getNickname());
+		res.setRegion(user.get().getRegion());
+		res.setWeek(user.get().getWeek());
+		
+		return res;
 	}
 
 }

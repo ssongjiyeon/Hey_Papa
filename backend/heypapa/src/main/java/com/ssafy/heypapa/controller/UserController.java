@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,6 +27,7 @@ import com.ssafy.heypapa.request.EmailRequest;
 import com.ssafy.heypapa.request.RegistRequest;
 import com.ssafy.heypapa.request.UserModifyRequest;
 import com.ssafy.heypapa.request.UserRequest;
+import com.ssafy.heypapa.response.ProfileResponse;
 import com.ssafy.heypapa.response.UserResponse;
 import com.ssafy.heypapa.service.IUserService;
 import com.ssafy.heypapa.util.BaseResponseBody;
@@ -141,29 +143,26 @@ public class UserController {
 		return ResponseEntity.status(200).body(new BaseResponseBody(200, SUCCESS_MESSAGE)); 
 	}
 	
-	@PutMapping("/")
+	@PutMapping("/{user_id}")
 	@ApiOperation(value = "회원 정보 수정")
 	public ResponseEntity<BaseResponseBody> modify(@RequestBody UserModifyRequest req, 
-			HttpServletRequest request) {
+			@PathVariable("user_id") long userId) {
 		
-		User user = null;
-		String refreshJwt = "", refreshNickname = "";
-		Cookie refreshToken = cookieUtil.getCookie(request, JwtTokenUtil.REFRESH_TOKEN_NAME);
 
-		if(refreshToken != null) {
-			refreshJwt = refreshToken.getValue();
-			
-			if(refreshJwt != null) {
-				refreshNickname = redisUtil.getData(refreshJwt);
-				user = userService.getUserByNickname(refreshNickname);
-			}
-		}
-
-		if(userService.putUser(user, req)) {
+		if(userService.putUser(userId, req)) {
 			return ResponseEntity.status(200).body(new BaseResponseBody(200, SUCCESS_MESSAGE));
 		}
 		
 		return new ResponseEntity<BaseResponseBody>(HttpStatus.BAD_REQUEST);
 			
+	}
+	
+	@GetMapping("/{user_id}")
+	@ApiOperation(value = "회원 정보 조회")
+	public ResponseEntity<ProfileResponse> getProfile(@PathVariable("user_id") long userId) {
+		
+		ProfileResponse res = userService.getProfile(userId);
+		
+		return ResponseEntity.status(200).body(res);
 	}
 }
