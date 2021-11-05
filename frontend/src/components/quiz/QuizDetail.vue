@@ -1,10 +1,21 @@
 <template>
   <div class="q-pa-md">
-    <div class="row justify-center">
-      <button @click="$emit('OtherTheme')">다른주제</button>
-      <input class="quiz-number-input" type="number" v-model="slide"> / {{quizList.length}}
-      <br>
-      {{quizList}}
+    <div class="quiz-detail-page-box">
+      <div class=" q-gutter-sm other-theme-btn">
+        <q-btn style="background-color: #F48FB1; color: white" label="다른 주제" @click="$emit('OtherTheme')"></q-btn>
+      </div>
+      <div class="pagnation-box">
+        <q-pagination
+        v-model="current"
+        color="purple"
+        :max="quizList.length"
+        :max-pages="6"
+        boundary-numbers
+        @click="page(current.value)"
+        />
+      </div>
+      <!-- <input class="quiz-number-input" type="number" v-model="slide"> / {{quizList.length}} -->
+
     </div>
 
     <q-carousel
@@ -22,24 +33,25 @@
     >
 
       <q-carousel-slide
-        class="column no-wrap flex-center"
-        v-for="quiz in quizList"
+        class="column no-wrap flex-center carousel-slide"
+        v-for="(quiz, i) in quizList"
         :key="quiz.id"
-        :name="quiz.id"
+        :name="i+1"
         >
 
 
         <!-- <q-icon name="quiz.id" color="primary" size="56px" /> -->
         <!-- 문제 출제 시 -->
         <div class="q-mt-md text-center column" v-show="!isAnswered">
-          <span>{{quiz.id}}번 문제</span>
+          <span>{{i+1}}번 문제</span>
           {{ quiz.question }}
         </div>
 
         <!-- 문제 제출시  -->
         <div class="q-mt-md text-center column" v-show="isAnswered">
-          <span>{{quiz.description}}</span>
+          <span>{{Description}}</span>
           <span v-if="Description === '틀렸습니다'">정답은 {{quiz.answer}}</span>
+          {{quiz.img}}
           {{ quiz.description }}
           <input type="text" v-model="Reply">
           <button @click="EnrollReply">댓글달기</button>
@@ -50,9 +62,9 @@
         <!-- 선지 -->
         <div class="row wrap justify-center" v-show="!isAnswered">
           <div class="answer-box row no-wrap justify-center"
-              v-for="option in quiz.candidate"
+              v-for="(option, opt_idx) in quiz.candidate"
               :key="option"
-              @click="ChooseAnswer(option, quiz.answer)" >
+              @click="ChooseAnswer(opt_idx+1, quiz.answer)" >
             <span>{{option}}</span>
           </div>
         </div>
@@ -88,106 +100,6 @@ export default {
       store.getters['module/quizList']
     )
 
-
-
-      // let quizList = [
-      // {
-      //   id: 1,
-      //   answer: "가",
-      //   answer_content: "정답내용",
-      //   content: "1번문제입니다.",
-      //   options: [
-      //     {
-      //       id: 1,
-      //       name: "가"
-      //     },
-      //     {
-      //       id: 2,
-      //       name: '나'
-      //     },
-      //     {
-      //       id: 3,
-      //       name: '다'
-      //     },
-      //     {
-      //       id: 4,
-      //       name: '라'
-      //     },
-      //   ]
-      // },
-      // {
-      //   id: 2,
-      //   answer: "가",
-      //   answer_content: "정답내용",
-      //   content: "2번문제입니다.",
-      //   options: [
-      //     {
-      //       id: 1,
-      //       name: "가"
-      //     },
-      //     {
-      //       id: 2,
-      //       name: '나'
-      //     },
-      //     {
-      //       id: 3,
-      //       name: '다'
-      //     },
-      //     {
-      //       id: 4,
-      //       name: '라'
-      //     },
-      //   ]
-      // },
-    //   {
-    //     id: 3,
-    //     answer: "가",
-    //     answer_content: "정답내용",
-    //     content: "3번문제입니다.",
-    //     options: [
-    //       {
-    //         id: 1,
-    //         name: "가"
-    //       },
-    //       {
-    //         id: 2,
-    //         name: '나'
-    //       },
-    //       {
-    //         id: 3,
-    //         name: '다'
-    //       },
-    //       {
-    //         id: 4,
-    //         name: '라'
-    //       },
-    //     ]
-    //   },
-    //   {
-    //     id: 4,
-    //     answer: "가",
-    //     answer_content: "정답내용",
-    //     content: "4번문제입니다.",
-    //     options: [
-    //       {
-    //         id: 1,
-    //         name: "가"
-    //       },
-    //       {
-    //         id: 2,
-    //         name: '나'
-    //       },
-    //       {
-    //         id: 3,
-    //         name: '다'
-    //       },
-    //       {
-    //         id: 4,
-    //         name: '라'
-    //       },
-    //     ]
-    //   },
-    // ]
     const Description = ref("")
     const isAnswered = ref(false)
     const BeforeTransition = () => {
@@ -195,6 +107,7 @@ export default {
       console.log('transition')
     }
     const ChooseAnswer = (name, answer) => {
+      console.log(name, 'name')
       isAnswered.value = !isAnswered.value
       if(name !== answer){
 
@@ -236,13 +149,28 @@ export default {
 </script>
 
 <style scoped>
-.quiz-number-input {
-  width: 3rem;
+.other-theme-btn{
   display: flex;
-  align-items: center;
+  justify-content: center;
+  padding: none;
+  padding-bottom: 1rem;
 }
+.pagnation-box{
+  display: flex;
+  justify-content: center;
+}
+.quiz-detail-page-box{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
-
+}
+.carousel-slide{
+  flex-direction: column;
+  justify-content: start;
+  overflow: scroll;
+  border: 3px solid pink;
+}
 .answer-box {
   /* float: left; */
   display: flex;
@@ -252,5 +180,7 @@ export default {
   background-color: pink;
   margin: 0.5rem;
   align-items: center;
+  border-radius: 0.5rem;
+
 }
 </style>

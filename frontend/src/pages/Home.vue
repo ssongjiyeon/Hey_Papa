@@ -2,8 +2,11 @@
 <head>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
 </head>
-  <div>
-    <button @click="goWrite">글쓰기</button>
+  <div class="home-top-bar">
+    <img src="../assets/horizon_logo.png" style="width: 10rem; heigth:3rem;">
+    <div class="q-pa-md q-gutter-sm">
+      <q-btn style="background-color: #F48FB1; color: white" label="글쓰기" @click="goWrite"></q-btn>
+    </div>
   </div>
   <div id="articles" class="q-pa-xs row items-start card-box">
     <FeedCard v-for="para in paras" :key="para.id" :para="para"/>
@@ -110,7 +113,11 @@ export default {
 </script>
 
   <style scoped>
-
+    .home-top-bar{
+      display: flex;
+      justify-content: space-between;
+      align-content: center;
+    }
     .my-card {
       width: 100%;
     }
