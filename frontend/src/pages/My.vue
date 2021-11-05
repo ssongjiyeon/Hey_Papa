@@ -105,7 +105,12 @@ export default {
         console.log(res.data,'나의 게시글들')
         // store.commit('module/setArticle', res.data)
       })
+      store.dispatch('module/myZzim').then((res)=>{
+        console.log(res.data,'나의 찜한 문제들')
+        // store.commit('module/setMyQuiz', res.data)
+      })
     })
+
     function goArticle(){
       store.dispatch('module/myArticle').then((res)=>{
         console.log(res.data,'나의 게시글들')
@@ -117,6 +122,10 @@ export default {
     }
     function goZzim(){
       console.log('찜')
+      store.dispatch('module/myZzim').then((res)=>{
+        console.log(res.data,'나의 찜한 문제들')
+        // store.commit('module/setArticle', res.data)
+      })
     }
     return {
       tab: ref('zzim'),

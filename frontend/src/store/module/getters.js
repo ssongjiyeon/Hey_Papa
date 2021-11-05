@@ -16,3 +16,6 @@ export function quizList(state) {
 export function getPage(state) {
   return state.current_page;
 }
+export function getSelectArticle(state) {
+  return state.selectArticle;
+}

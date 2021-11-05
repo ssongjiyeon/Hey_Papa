@@ -45,3 +45,13 @@ export function myArticle ({}) {
   const url = baseUrl + '/user/article/' + localStorage.getItem('userId')
   return $axios.get(url)
 }
+// 찜한 문제 가져오기
+export function myZzim ({}) {
+  const url = baseUrl + '/user/quiz/' + localStorage.getItem('userId')
+  return $axios.get(url)
+}
+// 게시글 수정하기
+export function modifyArticle ({},object) {
+  const url = baseUrl + '/article/' + object.id
+  return $axios.put(url,object.article)
+}
