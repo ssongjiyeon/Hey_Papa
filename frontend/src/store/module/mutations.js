@@ -13,3 +13,6 @@ export function setPage(state, page) {
 export function setArticle(state, article) {
   state.myArticle = article;
 }
+export function setMyQuiz(state, quiz) {
+  state.myQuiz = quiz;
+}

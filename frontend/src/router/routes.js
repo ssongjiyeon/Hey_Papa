@@ -34,6 +34,7 @@ const routes = [
       { path: "set", component: () => import("pages/Setting.vue") },
       { path: "quiz", component: () => import("pages/Quiz.vue") },
       { path: "create", component: () => import("pages/Create.vue") },
+      { path: "modify", component: () => import("pages/ModifyArticle.vue") },
     ],
   },
 

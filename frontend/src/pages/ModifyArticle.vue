@@ -35,12 +35,13 @@
       <q-input v-model="hashtag" label="ex)#육아#미역국"/>
     </div>
     <div style="display:flex; justify-content: center; margin-top:40px;">
-       <q-btn @click="goWrite" unelevated rounded label="게시글 작성" style="width:300px; color:white; background:rgb(235,137,181);"/>
+       <q-btn @click="goWrite" unelevated rounded label="게시글 수정" style="width:300px; color:white; background:rgb(235,137,181);"/>
     </div>
   </div>
 </template>
 
 <script>
+import { computed } from 'vue'
 export default {
   el: '#q-app',
   data() {
@@ -49,6 +50,15 @@ export default {
       text: '',
       hashtag: '',
     }
+  },
+  created(){
+    const article = computed(()=> this.$store.getters['module/getSelectArticle'])
+    // this.imageData = article.value.img 이미지 불러오는 부분 잘될지..
+    this.text = article.value.content
+    article.value.hashtag.forEach(e => {
+      this.hashtag = this.hashtag + '#' + e  
+    });
+    console.log(this.hashtag,'과연3')
   },
   methods: {
     onSelectFile() {
@@ -72,6 +82,7 @@ export default {
       this.$router.push('/home')
     },
     goWrite(){
+      const selectarticle = computed(()=> this.$store.getters['module/getSelectArticle'])
       const hashlist = this.hashtag.split('#').slice(1,)
       const article = {
         content:this.text,
@@ -79,12 +90,11 @@ export default {
         img:this.imageData,
         user_id:localStorage.getItem('userId')
       }
-      this.$store.dispatch('module/writeArticle',article)
+      this.$store.dispatch('module/modifyArticle',{article:article,id:selectarticle.value.id})
         .then((res)=>{
           console.log(res)
         })
-      console.log(article,'@@')
-      this.$router.push('/detail')
+      // this.$router.push('/detail')
     }
   },
 } 
