@@ -1,10 +1,21 @@
 <template>
   <div class="q-pa-md">
-    <div class="row justify-center">
-      <button @click="$emit('OtherTheme')">다른주제</button>
-      <input class="quiz-number-input" type="number" v-model="slide"> / {{quizList.length}}
-      <br>
-      {{quizList}}
+    <div class="quiz-detail-page-box">
+      <div class=" q-gutter-sm other-theme-btn">
+        <q-btn style="background-color: #F48FB1; color: white" label="다른 주제" @click="$emit('OtherTheme')"></q-btn>
+      </div>
+      <div class="pagnation-box">
+        <q-pagination
+        v-model="current"
+        color="purple"
+        :max="quizList.length"
+        :max-pages="6"
+        boundary-numbers
+        @click="page(current.value)"
+        />
+      </div>
+      <!-- <input class="quiz-number-input" type="number" v-model="slide"> / {{quizList.length}} -->
+
     </div>
 
     <q-carousel
@@ -22,7 +33,7 @@
     >
 
       <q-carousel-slide
-        class="column no-wrap flex-center"
+        class="column no-wrap flex-center carousel-slide"
         v-for="(quiz, i) in quizList"
         :key="quiz.id"
         :name="i+1"
@@ -138,13 +149,28 @@ export default {
 </script>
 
 <style scoped>
-.quiz-number-input {
-  width: 3rem;
+.other-theme-btn{
   display: flex;
-  align-items: center;
+  justify-content: center;
+  padding: none;
+  padding-bottom: 1rem;
 }
+.pagnation-box{
+  display: flex;
+  justify-content: center;
+}
+.quiz-detail-page-box{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
-
+}
+.carousel-slide{
+  flex-direction: column;
+  justify-content: start;
+  overflow: scroll;
+  border: 3px solid pink;
+}
 .answer-box {
   /* float: left; */
   display: flex;
@@ -154,5 +180,7 @@ export default {
   background-color: pink;
   margin: 0.5rem;
   align-items: center;
+  border-radius: 0.5rem;
+
 }
 </style>
