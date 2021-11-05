@@ -16,3 +16,7 @@ export function setArticle(state, article) {
 export function setMyQuiz(state, quiz) {
   state.myQuiz = quiz;
 }
+export function setAllarticle(state, articles) {
+  console.log(articles,'뮤테이션')
+  state.allArticle = articles;
+}

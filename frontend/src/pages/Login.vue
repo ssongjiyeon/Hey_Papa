@@ -123,6 +123,9 @@ export default {
               router.push('/home')
               store.commit('module/setPage', 3)
             })
+          store.dispatch('module/allArticle').then((res)=>{
+            store.commit('module/setAllarticle', res.data)
+          })
         })
     }
     return{

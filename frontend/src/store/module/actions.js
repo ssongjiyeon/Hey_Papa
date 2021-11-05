@@ -40,7 +40,7 @@ export function logout ({}) {
   const url = baseUrl + '/user/logout'
   return $axios.get(url)
 }
-// 게시글 가져오기
+// 나의 게시글 가져오기
 export function myArticle ({}) {
   const url = baseUrl + '/user/article/' + localStorage.getItem('userId')
   return $axios.get(url)
@@ -54,4 +54,9 @@ export function myZzim ({}) {
 export function modifyArticle ({},object) {
   const url = baseUrl + '/article/' + object.id
   return $axios.put(url,object.article)
+}
+// 게시글 수정하기
+export function allArticle ({}) {
+  const url = baseUrl + '/article'
+  return $axios.get(url)
 }

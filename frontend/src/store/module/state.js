@@ -43,12 +43,14 @@ export default function () {
     "nickname": "string",
     "user_img": "string"
   }
+  const allArticle = []
   const myQuiz = []
   const user = {};
   const loginPwd = "";
   const quizList = [];
   const current_page = 0;
   return {
+    allArticle,
     myArticle,
     myLike,
     user,
