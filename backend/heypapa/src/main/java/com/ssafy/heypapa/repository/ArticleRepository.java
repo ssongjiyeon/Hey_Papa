@@ -14,4 +14,5 @@ public interface ArticleRepository extends JpaRepository<Article, Long>{
 	public Optional<Article> findById(Long id);
 	public List<Article> findAll();
 	public List<Article> findByUser(User user);
+	public Optional<Article> findByImg(Long article_id);
 }
