@@ -9,7 +9,8 @@
     </div>
   </div>
   <div id="articles" class="q-pa-xs row items-start card-box">
-    <FeedCard v-for="para in paras" :key="para.id" :para="para"/>
+    <FeedCard v-for="para in paras" :key="para.id" :para="para"
+    @click="detail(para.id)&&backup(para.content, para.imgUrl)" />
   </div>
   <!-- <infinite-loading @infinite="infiniteHandler"></infinite-loading> -->
 
@@ -22,10 +23,12 @@
 import { ref } from 'vue'
 import FeedCard from '../components/feed/FeedCard.vue'
 import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
 import axios from 'axios'
 export default {
   components: { FeedCard },
   setup(){
+    const store = useStore()
     const page = ref(1)
     const paras = [
       {
@@ -63,6 +66,16 @@ export default {
     function goWrite(){
       router.push('create')
     }
+    const detail = (para) => {
+      router.push({ name: 'feed', params: {article_id: para }})
+    }
+    const backup = (content, img) => {
+      store.commit('module/feedContent', content)
+      store.commit('module/feedImg', img)
+
+    }
+
+
     // const api = 'https://k5b206.p.ssafy.io/heypapa/article/'
 
     // const infiniteHandler = ($state) => {
@@ -105,7 +118,9 @@ export default {
     return {
       paras,
       goWrite,
-      page
+      page,
+      detail,
+      backup
       // infiniteHandler
     }
   }

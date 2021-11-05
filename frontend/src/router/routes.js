@@ -24,6 +24,11 @@ const routes = [
     component: () => import("pages/Babyinfo.vue"),
   },
   {
+    path: "/feed/:article_id",
+    name: "feed",
+    component: () => import("components/feed/FeedDetail.vue"),
+  },
+  {
     path: "/",
     component: () => import("layouts/MainLayout.vue"),
     children: [
