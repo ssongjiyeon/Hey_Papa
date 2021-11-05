@@ -11,7 +11,8 @@
     </div>
   </div>
   <div id="articles" class="q-pa-xs row items-start card-box">
-    <FeedCard v-for="para in paras" :key="para.id" :para="para"/>
+    <FeedCard v-for="para in paras" :key="para.id" :para="para"
+    @click="detail(para.id)&&backup(para.content, para.imgUrl)" />
   </div>
 
   <!-- <infinite-loading @infinite="infiniteHandler"></infinite-loading> -->
@@ -26,6 +27,8 @@ import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
 import FeedCard from '../components/feed/FeedCard.vue'
 import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
+import axios from 'axios'
 export default {
   components: { FeedCard },
   setup(){
@@ -56,10 +59,33 @@ export default {
     const articles = computed(()=> store.getters['module/getallArticle'])
     console.log(articles.value,'앙잉')
     const paras = articles.value
-    console.log(paras,'파라스') 
+    console.log(paras,'파라스')
     function goWrite(){
       router.push('create')
     }
+    const detail = (para) => {
+      router.push({ name: 'feed', params: {article_id: para }})
+    }
+    const backup = (content, img) => {
+      store.commit('module/feedContent', content)
+      store.commit('module/feedImg', img)
+
+    }
+
+
+    // const api = 'https://k5b206.p.ssafy.io/heypapa/article/'
+
+    // const infiniteHandler = ($state) => {
+    //   axios.get(api, {
+    //     params: {
+    //       page: page,
+    //     }
+    //   }).then((data) => {
+    //     console.log(data)
+    //   })
+    // }
+
+
     // let count = 0
     // const API_URL = 'https://k5b206.p.ssafy.io/heypapa/article'
     // const {scrollTop, clientHeight, scrollHeight} = document.documentElement
@@ -89,6 +115,8 @@ export default {
       paras,
       goWrite,
       page,
+      detail,
+      backup
       // infiniteHandler
     }
   }
