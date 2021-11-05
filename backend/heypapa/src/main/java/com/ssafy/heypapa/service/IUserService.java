@@ -19,4 +19,5 @@ public interface IUserService {
 	ProfileResponse getProfile(long userId);
 	List<MyArticleResponse> getArticle(long userId);
 	List<MyQuizResponse> getQuiz(long userId);
+	List<MyArticleResponse> getLikeArticle(long userId);
 }

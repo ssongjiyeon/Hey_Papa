@@ -184,4 +184,10 @@ public class UserController {
 		return ResponseEntity.status(200).body(res);
 	}
 	
+	@GetMapping("/like/{user_id}")
+	@ApiOperation(value = "회원 좋아요한 글 전체 조회")
+	public ResponseEntity<List<MyArticleResponse>> getLikeArticle(@PathVariable("user_id") long userId) {
+		List<MyArticleResponse> res = userService.getLikeArticle(userId);
+		return ResponseEntity.status(200).body(res);
+	}
 }

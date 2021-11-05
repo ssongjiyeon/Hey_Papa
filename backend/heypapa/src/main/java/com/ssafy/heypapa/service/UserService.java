@@ -221,4 +221,30 @@ public class UserService implements IUserService {
 		return res;
 	}
 
+	@Override
+	public List<MyArticleResponse> getLikeArticle(long userId) {
+		List<ArticleLike> likes = articleLikeRepository.findByUserId(userId);
+		List<MyArticleResponse> res = new ArrayList<>();
+		
+		for(ArticleLike like : likes) {
+			if(userId == like.getArticle().getUser().getId()) continue;
+			
+			MyArticleResponse lArticle = new MyArticleResponse();
+			lArticle.setContent(like.getArticle().getContent());
+			lArticle.setId(like.getArticle().getId());
+			lArticle.setImg(like.getArticle().getImg());
+			lArticle.setCreated_at(like.getArticle().getCreated_at());
+			
+			List<ArticleLike> likeCnt = articleLikeRepository.findByArticleId(like.getArticle().getId());
+			lArticle.setLike_cnt(likeCnt.size());
+			
+			List<Review> review = reviewRepository.findByArticleId(like.getArticle().getId());
+			lArticle.setComment_cnt(review.size());
+			res.add(lArticle);
+		}
+		
+		
+		return res;
+	}
+
 }
