@@ -103,7 +103,6 @@ export default {
     min-width: 30px;
     overflow: scroll;
   }
-
   .text-box {
     display: -webkit-box;
     min-width: 300px;
