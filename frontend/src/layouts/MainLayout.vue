@@ -33,7 +33,6 @@ export default defineComponent({
     const store = useStore()
     const router = useRouter()
     const page = computed(()=> store.getters['module/getPage'])
-    console.log(page,'!!')
     const GoQuiz = () => {
       store.commit('module/setPage', 1)
       router.push('/quiz')

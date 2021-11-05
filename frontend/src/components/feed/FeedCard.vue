@@ -1,78 +1,35 @@
 <template>
-  <q-card class="my-card" flat bordered
-    >
-
+  <div style="width:100%; margin-bottom:20px;">
+    <q-card class="my-card" flat bordered>
       <q-card-section>
-        <div class="text-overline text-orange-9">날짜</div>
+        <div class="text-overline text-orange-9">{{para.created_at.slice(0,10)}}</div>
         <!-- 프로필 박스 -->
         <div class="profile-box">
-            <img :src="para.profileUrl" alt="" class="profile-img" >
-          <div class="text-h6 q-mt-sm q-mb-sm q-ml-sm">{{para.name}}</div>
+            <img :src="para.user_img" alt="" class="profile-img" >
+          <div class="text-h6 q-mt-sm q-mb-sm q-ml-sm">{{para.nickname}}</div>
         </div>
-
         <div :class="extended ? 'more-box' : 'text-box'" transition: fade>
-          <div >
+          <div>
             {{ para.content }}
           </div>
         </div>
-        <div class="details-box" v-if="para.content.length >= 265">
-          <a @click="extended = !extended" v-show="!extended">자세히</a>
-          <a @click="extended = !extended" v-show="extended">닫기</a>
-        </div>
-        <!-- <q-menu
-        transition: fade>
-        <div v-show="extended">
-          <q-card-section class="more-content">
-            <div>
-            {{ para.content }}
-            </div>
-          </q-card-section>
-
-        </div>
-      </q-menu> -->
       </q-card-section>
       <q-separator />
       <q-img
-        :src="para.imgUrl"
-        v-if="para.imgUrl.length > 0"
+        :src="para.img"
+        v-if="para.img.length > 0"
       />
       <q-separator />
       <q-card-actions>
         <button
         class="fas fa-heart heart-button"
         @click="getHeart"
-        :style="heart ? 'color: red': 'color: silver'"/>
+        :style="heart ? 'color: red': 'color: silver'"/>{{para.like_cnt}}명이 좋아요를 눌렀습니다.
         <q-space />
-
-        <q-btn
-          label="댓글"
-          color="grey"
-          round
-          flat
-          dense
-          :icon="expanded ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
-          @click="expanded = !expanded"
-
-
-        />
+        댓글 개수 {{para.comment_cnt}}개
       </q-card-actions>
-
-      <q-slide-transition>
-        <div v-show="expanded">
-
-          <q-separator />
-          <q-card-section class="text-subitle2" v-for="reply in para.reply" :key='reply'>
-            {{ reply }}
-          </q-card-section>
-          <!-- 댓글달기 박스 -->
-          <div class="reply-box">
-            <input type="text" class="reply-input">
-            <button>댓글달기</button>
-          </div>
-
-        </div>
-      </q-slide-transition>
     </q-card>
+  </div>
 </template>
 
 <script>
@@ -80,14 +37,11 @@ import { ref } from 'vue'
 export default {
   props: ["para"],
   setup(props) {
-
   const heart = ref(false)
-    const getHeart = () => {
-      heart.value = !heart.value
-      console.log(heart.value)
-      }
-
-
+  const getHeart = () => {
+    heart.value = !heart.value
+    console.log(heart.value)
+    }
     return {
       expanded: ref(false),
       extended: ref(false),

@@ -8,6 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -40,5 +41,14 @@ public class Article extends BaseEntity {
 		this.updated_at = new Date();
 //		this.like = 0;
 	}
+	
+//	@Builder
+//	public Article(User user, String content, Date created_at, Date updated_at, String img) {
+//		this.user = user;
+//		this.content = content;
+//		this.created_at = created_at;
+//		this.updated_at = updated_at;
+//		this.img = img;
+//	}
 	
 }
