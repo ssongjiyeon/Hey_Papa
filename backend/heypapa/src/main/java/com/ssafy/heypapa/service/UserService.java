@@ -210,6 +210,7 @@ public class UserService implements IUserService {
 			mQuiz.setQuestion(mq.getQuiz().getQuestion());
 			mQuiz.setType(mq.getQuiz().getType());
 			mQuiz.setAnswer(mq.getQuiz().getAnswer());
+			mQuiz.setAnswer2(mq.getQuiz().getAnswer2());
 			mQuiz.setCandidate(mq.getQuiz().getCandidate());
 			mQuiz.setDescription(mq.getQuiz().getDescription());
 //			mQuiz.setImg(mq.getQuiz().getImg());
