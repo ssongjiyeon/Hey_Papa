@@ -43,7 +43,10 @@ export default defineComponent({
     }
     const GoHome = () => {
       store.commit('module/setPage', 3)
-      router.push('/home')
+      store.dispatch('module/allArticle',localStorage.getItem('userId')).then((res)=>{
+        store.commit('module/setAllarticle', res.data)
+        router.push('/home')
+      })
     }
     const GoInfo = () => {
       store.commit('module/setPage', 4)
