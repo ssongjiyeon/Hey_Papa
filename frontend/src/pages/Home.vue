@@ -1,24 +1,39 @@
 <template>
-  <div style="padding-bottom:100px;">
-  <head>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
-  </head>
-  <div style="display:flex; justify-content:space-between;">
-    <img src="../assets/horizon_logo.png" style="height:70px; margin:0 auto; padding-left:70px;">
-    <div style="display:flex; align-items:center; margin-right:15px;">
-      <q-icon name="search" size="sm" style="color:rgb(235,137,181);"/>
-      <q-icon @click="goWrite" name="add" size="sm" style="color:rgb(235,137,181);"/>
+  <div style="padding-bottom: 100px">
+    <head>
+      <link
+        rel="stylesheet"
+        href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+        integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
+        crossorigin="anonymous"
+      />
+    </head>
+    <div style="display: flex; justify-content: space-between">
+      <img
+        src="../assets/horizon_logo.png"
+        style="height: 70px; margin: 0 auto; padding-left: 70px"
+      />
+      <div style="display: flex; align-items: center; margin-right: 15px">
+        <q-icon name="search" size="sm" style="color: rgb(235, 137, 181)" />
+        <q-icon
+          @click="goWrite"
+          name="add"
+          size="sm"
+          style="color: rgb(235, 137, 181)"
+        />
+      </div>
     </div>
-  </div>
-  <div id="articles" class="q-pa-xs row items-start card-box">
-    <FeedCard v-for="para in paras" :key="para.id" :para="para"
-    @click="detail(para.id)&&backup(para.content, para.imgUrl)" />
-  </div>
+    <div id="articles" class="q-pa-xs row items-start card-box">
+      <FeedCard
+        v-for="para in paras"
+        :key="para.id"
+        :para="para"
 
-  <!-- <infinite-loading @infinite="infiniteHandler"></infinite-loading> -->
-    <div class="white-space">
-      끝
+      />
     </div>
+
+    <!-- <infinite-loading @infinite="infiniteHandler"></infinite-loading> -->
+    <div class="white-space">끝</div>
   </div>
 </template>
 
@@ -30,46 +45,20 @@ import { useRouter } from 'vue-router'
 import axios from 'axios'
 export default {
   components: { FeedCard },
-  setup(){
-    const store = useStore()
-    const page = ref(1)
-    // const paras = [
-    //   {
-    //     id:1,
-    //     nickname: "튼튼이 아빠",
-    //     user_img: "https://ifh.cc/g/0nA9O0.png",
-    //     img: "https://ifh.cc/g/sOxIcm.png",
-    //     content: "첫 게시글ffffffff fffffffffffffff fffffffff fffffffff ffffff fffff fffff ffffff ffff fsdfsfsd fsdfsdfsdf  sdfsdfsdfs dfsdfsdfsd asdfasdfasdfasdf asdfasdf  asdfsdfdf adsfs asdf;lkajs;dlfk s;djasdlkj;fl ;alksdj;flkas f;ldskajsl;dkfj f;lksdajf;lskdfja a;sldkfj;lk fjdakl;sdfdddd",
-    //     like: "5",
-    //     reply: ['안녕', '안녕1'],
+  setup() {
+    const store = useStore();
+    const page = ref(1);
 
-    //   },
-    //   {
-    //     id:2,
-    //     nickname: "씩씩이 아빠",
-    //     user_img: "https://ifh.cc/g/0nA9O0.png",
-    //     img: "https://ifh.cc/g/sOxIcm.png",
-    //     content: "우리부장님^^",
-    //     like: "5",
-    //     reply: ['안녕', '안녕1'],
-    //   },
-    // ]
-    const router = useRouter()
-    const articles = computed(()=> store.getters['module/getallArticle'])
-    console.log(articles.value,'앙잉')
-    const paras = articles.value
-    console.log(paras,'파라스')
-    function goWrite(){
-      router.push('create')
-    }
-    const detail = (para) => {
-      router.push({ name: 'feed', params: {article_id: para }})
-    }
-    const backup = (content, img) => {
-      store.commit('module/feedContent', content)
-      store.commit('module/feedImg', img)
 
+    const router = useRouter();
+    const articles = computed(() => store.getters["module/getallArticle"]);
+    console.log(articles.value, "앙잉");
+    const paras = articles.value;
+    console.log(paras, "파라스");
+    function goWrite() {
+      router.push("create");
     }
+
 
 
     // const api = 'https://k5b206.p.ssafy.io/heypapa/article/'
@@ -83,7 +72,6 @@ export default {
     //     console.log(data)
     //   })
     // }
-
 
     // let count = 0
     // const API_URL = 'https://k5b206.p.ssafy.io/heypapa/article'
@@ -114,67 +102,66 @@ export default {
       paras,
       goWrite,
       page,
-      detail,
-      backup
+
+
       // infiniteHandler
-    }
-  }
-}
+    };
+  },
+};
 </script>
 <style scoped>
-  .my-card {
-    width: 100%;
-  }
-  .card-box {
-    width: 100%;
-    min-width: 30px;
-    overflow: scroll;
-  }
-  .text-box {
-    display: -webkit-box;
-    min-width: 300px;
-    width: inherit;
-    white-space: normal;
-    -webkit-line-clamp: 5;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  .heart-button {
-    border: none;
-    background-color: white;
-    color: silver;
-    font-size: 1.4rem;
-  }
-  .reply-box{
-    display: flex;
-    justify-content: center;
-    margin-bottom: 0.8rem;
-    margin-top: 0.5rem;
-    width: 100%;
-  }
-  .reply-input{
-    margin-right: 0.8rem;
-    width: 15rem;
-    height: 2.5rem;
-  }
-  .profile-box{
-    display: flex;
-    align-items: center;
-  }
-  .more-box{
-    display: -webkit-box;
-    min-width: 300px;
-    width: inherit;
-    white-space: normal;
-    -webkit-box-orient: vertical;
-
-  }
-  .details-box{
-    display: flex;
-    justify-content: flex-end;
-    text-decoration: underline;
-  }
-  .white-space{
-    height: 50px !important;
-  }
+.my-card {
+  width: 100%;
+}
+.card-box {
+  width: 100%;
+  min-width: 30px;
+  /* overflow: scroll; */
+}
+.text-box {
+  display: -webkit-box;
+  min-width: 300px;
+  width: inherit;
+  white-space: normal;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.heart-button {
+  border: none;
+  background-color: white;
+  color: silver;
+  font-size: 1.4rem;
+}
+.reply-box {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.8rem;
+  margin-top: 0.5rem;
+  width: 100%;
+}
+.reply-input {
+  margin-right: 0.8rem;
+  width: 15rem;
+  height: 2.5rem;
+}
+.profile-box {
+  display: flex;
+  align-items: center;
+}
+.more-box {
+  display: -webkit-box;
+  min-width: 300px;
+  width: inherit;
+  white-space: normal;
+  -webkit-box-orient: vertical;
+}
+.details-box {
+  display: flex;
+  justify-content: flex-end;
+  text-decoration: underline;
+}
+.white-space {
+  height: 50px !important;
+}
 </style>

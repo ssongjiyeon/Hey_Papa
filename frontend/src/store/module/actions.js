@@ -1,4 +1,5 @@
 import $axios from "axios";
+import { component } from "vue-control";
 const baseUrl = "https://k5b206.p.ssafy.io/api";
 // 산후조리원 위치 받아오기
 export function getCarecenter({}) {
@@ -60,8 +61,14 @@ export function getReply({}, articleId) {
   const url = baseUrl + "/article/" + articleId;
   return $axios.get(url);
 }
-// 게시글 수정하기
+// 게시글 전체 불러오기
 export function allArticle({}) {
   const url = baseUrl + "/article";
+  console.log("불러오기");
   return $axios.get(url);
+}
+//댓글 달기
+export function writeReply({}, replyContent) {
+  const url = baseUrl + "/article/" + replyContent.articleNumber;
+  return $axios.post(url, replyContent.realContent);
 }

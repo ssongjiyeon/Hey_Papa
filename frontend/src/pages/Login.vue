@@ -22,7 +22,7 @@
             checkPassWord
           ]"/>
       </div>
-      <q-btn @click="goMain" unelevated rounded label="로그인 하기" style="margin-top:-20px;width:300px; color:white; background:rgb(235,137,181);"/>
+      <q-btn @click="goMain" @keyup.enter="goMain" unelevated rounded label="로그인 하기" style="margin-top:-20px;width:300px; color:white; background:rgb(235,137,181);"/>
       <div class="plus">
         <div>
           <span>이메일로 가입하시겠어요?</span>
@@ -61,7 +61,7 @@ import { useStore } from 'vuex'
 
 export default {
   setup(){
-    const router = useRouter()  
+    const router = useRouter()
     const store = useStore()
     const pwdMode = ref(false)
     const form = reactive({
@@ -72,7 +72,7 @@ export default {
         email: ''
     })
     localStorage.clear() // 로컬스토리지 초기화
-    // 아이디 유효성 검사 
+    // 아이디 유효성 검사
     function checkId (val) {
         const reg = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i
         return (reg.test(val) || '이메일 형식이 잘못되었습니다.')
@@ -120,11 +120,11 @@ export default {
               }
               // store에 저장
               store.commit('module/setUser', loginUser)
-              router.push('/home')
               store.commit('module/setPage', 3)
             })
           store.dispatch('module/allArticle').then((res)=>{
             store.commit('module/setAllarticle', res.data)
+            router.push('/home')
           })
         })
     }
@@ -138,7 +138,7 @@ export default {
       checkPassWord,
       downPwd,
       findPwd,
-    } 
+    }
   }
 }
 </script>

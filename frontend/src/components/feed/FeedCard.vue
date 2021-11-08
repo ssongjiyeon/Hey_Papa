@@ -9,15 +9,17 @@
           <div class="text-h6 q-mt-sm q-mb-sm q-ml-sm">{{para.nickname}}</div>
         </div>
         <div :class="extended ? 'more-box' : 'text-box'" transition: fade>
-          <div>
+          <div @click="Detail(para)">
             {{ para.content }}
           </div>
         </div>
       </q-card-section>
       <q-separator />
       <q-img
+        @click="Detail(para)"
         :src="para.img"
         v-if="para.img.length > 0"
+
       />
       <q-separator />
       <q-card-actions>
@@ -34,21 +36,29 @@
 
 <script>
 import { ref } from 'vue'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 export default {
   props: ["para"],
   setup(props) {
+  const store = useStore()
+  const router = useRouter()
   const heart = ref(false)
   const getHeart = () => {
     heart.value = !heart.value
     console.log(heart.value)
     }
+  const Detail = (para) => {
+      store.commit('module/selectArticle', para)
+      router.push({ name: "feed", params: { article_id: para.id } });
+    };
     return {
       expanded: ref(false),
       extended: ref(false),
       getHeart,
       heart,
-      lorem: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
-
+      lorem: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+      Detail
     }
 
 

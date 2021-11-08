@@ -23,7 +23,7 @@
       <div class="q-pa-md" style="width:100%;">
         <q-input
           v-model="text"
-          outlined 
+          outlined
           label = "내용을 입력해주세요."
           type="textarea"
           color = blue
@@ -35,7 +35,7 @@
       <q-input v-model="hashtag" label="ex)#육아#미역국"/>
     </div>
     <div style="display:flex; justify-content: center; margin-top:40px;">
-       <q-btn @click="goWrite" unelevated rounded label="게시글 작성" style="width:300px; color:white; background:rgb(235,137,181);"/>
+      <q-btn @click="goWrite" unelevated rounded label="게시글 작성" style="width:300px; color:white; background:rgb(235,137,181);"/>
     </div>
   </div>
 </template>
@@ -87,7 +87,7 @@ export default {
       this.$router.push('/detail')
     }
   },
-} 
+}
 </script>
 
 <style scoped>

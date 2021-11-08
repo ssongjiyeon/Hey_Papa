@@ -17,6 +17,10 @@ export function setMyQuiz(state, quiz) {
   state.myQuiz = quiz;
 }
 export function setAllarticle(state, articles) {
-  console.log(articles,'뮤테이션')
+  console.log(articles, "뮤테이션");
   state.allArticle = articles;
+}
+export function selectArticle(state, para) {
+  console.log(para, "뮤테이션파라");
+  state.selectArticle = para;
 }
