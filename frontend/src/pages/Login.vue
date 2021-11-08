@@ -122,7 +122,7 @@ export default {
               store.commit('module/setUser', loginUser)
               store.commit('module/setPage', 3)
             })
-          store.dispatch('module/allArticle').then((res)=>{
+          store.dispatch('module/allArticle', userId).then((res)=>{
             store.commit('module/setAllarticle', res.data)
             router.push('/home')
           })

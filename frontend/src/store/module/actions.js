@@ -62,8 +62,9 @@ export function getReply({}, articleId) {
   return $axios.get(url);
 }
 // 게시글 전체 불러오기
-export function allArticle({}) {
-  const url = baseUrl + "/article";
+export function allArticle({}, userId) {
+  console.log(userId, "ui");
+  const url = baseUrl + "/article/all/" + userId;
   console.log("불러오기");
   return $axios.get(url);
 }
