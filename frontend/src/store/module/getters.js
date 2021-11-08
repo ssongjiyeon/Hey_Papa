@@ -16,3 +16,10 @@ export function quizList(state) {
 export function getPage(state) {
   return state.current_page;
 }
+export function getSelectArticle(state) {
+  return state.selectArticle;
+}
+export function getallArticle(state) {
+  console.log(state.allArticle,'겟터')
+  return state.allArticle;
+}

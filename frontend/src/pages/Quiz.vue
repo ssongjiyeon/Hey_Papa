@@ -1,7 +1,8 @@
 <template>
 <div class="quiz-text">
   <!-- <h5 style="margin: 0.5rem">hey! papa</h5> -->
-  <h3 style="margin: 0.5rem">Quiz</h3>
+  <img src="../assets/horizon_logo.png" class="logo">
+  <h3 class="text-pink-3 text-weight-bold" style="margin: 0.5rem">Quiz!</h3>
 </div>
 
 
@@ -95,12 +96,17 @@ export default {
 </script>
 
 <style scoped>
+.logo{
+  margin-top:10px;
+  width:70%;
+}
 .quiz-text {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   margin: 1rem;
+  margin-bottom: none;
 }
 
 .card-box {
@@ -108,7 +114,7 @@ export default {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  margin-top: 4rem;
+  margin-top: 2rem;
 
 }
 
