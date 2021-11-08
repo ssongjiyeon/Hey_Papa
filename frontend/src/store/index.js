@@ -1,6 +1,7 @@
-import { store } from 'quasar/wrappers'
-import { createStore } from 'vuex'
-import module from './module'
+import { store } from "quasar/wrappers";
+import { createStore } from "vuex";
+import module from "./module";
+import createdPersistState from "vuex-persistedstate";
 // import example from './module-example'
 
 /*
@@ -16,13 +17,13 @@ export default store(function (/* { ssrContext } */) {
   const Store = createStore({
     modules: {
       // example
-      module
+      module,
     },
-
+    plugins: [createdPersistState()],
     // enable strict mode (adds overhead!)
     // for dev mode and --debug builds only
-    strict: process.env.DEBUGGING
-  })
+    strict: process.env.DEBUGGING,
+  });
 
-  return Store
-})
+  return Store;
+});

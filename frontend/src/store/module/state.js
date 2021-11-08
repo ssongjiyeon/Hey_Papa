@@ -49,6 +49,7 @@ export default function () {
   const feedContent = "";
   const feedImg = "";
   const current_page = 0;
+  // const eachArticle = [];
   return {
     allArticle,
     myArticle,
