@@ -11,8 +11,8 @@
     </div>
   </div>
   <div id="articles" class="q-pa-xs row items-start card-box">
-    <FeedCard v-for="para in paras" :key="para.id" :para="para"
-    @click="detail(para.id)&&backup(para.content, para.imgUrl)" />
+    <FeedCard v-for="para in articles" :key="para" :para="para"/>
+    <!-- @click="Detail(para.id)&&Backup(para.content, para.imgUrl)"  -->
   </div>
 
   <!-- <infinite-loading @infinite="infiniteHandler"></infinite-loading> -->
@@ -27,51 +27,24 @@ import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
 import FeedCard from '../components/feed/FeedCard.vue'
 import { useRouter } from 'vue-router'
-import axios from 'axios'
 export default {
   components: { FeedCard },
   setup(){
     const store = useStore()
-    const page = ref(1)
-    // const paras = [
-    //   {
-    //     id:1,
-    //     nickname: "튼튼이 아빠",
-    //     user_img: "https://ifh.cc/g/0nA9O0.png",
-    //     img: "https://ifh.cc/g/sOxIcm.png",
-    //     content: "첫 게시글ffffffff fffffffffffffff fffffffff fffffffff ffffff fffff fffff ffffff ffff fsdfsfsd fsdfsdfsdf  sdfsdfsdfs dfsdfsdfsd asdfasdfasdfasdf asdfasdf  asdfsdfdf adsfs asdf;lkajs;dlfk s;djasdlkj;fl ;alksdj;flkas f;ldskajsl;dkfj f;lksdajf;lskdfja a;sldkfj;lk fjdakl;sdfdddd",
-    //     like: "5",
-    //     reply: ['안녕', '안녕1'],
-
-    //   },
-    //   {
-    //     id:2,
-    //     nickname: "씩씩이 아빠",
-    //     user_img: "https://ifh.cc/g/0nA9O0.png",
-    //     img: "https://ifh.cc/g/sOxIcm.png",
-    //     content: "우리부장님^^",
-    //     like: "5",
-    //     reply: ['안녕', '안녕1'],
-    //   },
-    // ]
     const router = useRouter()
-    const articles = computed(()=> store.getters['module/getallArticle'])
-    console.log(articles.value,'앙잉')
-    const paras = articles.value
-    console.log(paras,'파라스')
+    const page = ref(1)
+    var articles = computed(()=> store.getters['module/getallArticle'])
     function goWrite(){
       router.push('create')
     }
-    const detail = (para) => {
+    const Detail = (para) => {
       router.push({ name: 'feed', params: {article_id: para }})
     }
-    const backup = (content, img) => {
+    const Backup = (content, img) => {
       store.commit('module/feedContent', content)
       store.commit('module/feedImg', img)
 
     }
-
-
     // const api = 'https://k5b206.p.ssafy.io/heypapa/article/'
 
     // const infiniteHandler = ($state) => {
@@ -83,7 +56,6 @@ export default {
     //     console.log(data)
     //   })
     // }
-
 
     // let count = 0
     // const API_URL = 'https://k5b206.p.ssafy.io/heypapa/article'
@@ -111,11 +83,12 @@ export default {
     //   }
     // }
     return {
-      paras,
+      // paras,
       goWrite,
       page,
-      detail,
-      backup
+      articles,
+      Detail,
+      Backup
       // infiniteHandler
     }
   }
@@ -128,7 +101,7 @@ export default {
   .card-box {
     width: 100%;
     min-width: 30px;
-    overflow: scroll;
+    /* overflow: scroll; */
   }
   .text-box {
     display: -webkit-box;

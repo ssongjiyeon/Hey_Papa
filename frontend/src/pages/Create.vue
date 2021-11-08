@@ -76,15 +76,17 @@ export default {
       const article = {
         content:this.text,
         hashtag:hashlist,
-        img:this.imageData,
+        img:'string',
+        // this.imageData
         user_id:localStorage.getItem('userId')
       }
       this.$store.dispatch('module/writeArticle',article)
-        .then((res)=>{
-          console.log(res)
+        .then(()=>{
+          this.$store.dispatch('module/allArticle',localStorage.getItem('userId')).then((res)=>{
+            this.$store.commit('module/setAllarticle', res.data)
+            this.$router.push('/home')
+          })
         })
-      console.log(article,'@@')
-      this.$router.push('/detail')
     }
   },
 } 

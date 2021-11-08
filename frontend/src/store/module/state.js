@@ -32,15 +32,18 @@ export default function () {
   ];
   const selectArticle = {
     comment_cnt: 0,
-    content: "string",
-    created_at: "2021-11-05T01:30:19.647Z",
-    hashtag: ["미역", "애기"],
-    id: "Long",
-    img: "string",
+    content: "하이루 방가방가",
+    created_at: "2021-11-08T05:08:41.000+00:00",
+    hashtag: ['선주', '하이'],
+    id: 18,
+    img: null,
+    like: false,
     like_cnt: 0,
-    nickname: "string",
-    user_img: "string",
+    nickname: "돼랑이",
+    user_id: 10,
+    user_img: "img",
   };
+  const likecnt=0;
   const allArticle = [];
   const myQuiz = [];
   const user = {};
@@ -50,6 +53,7 @@ export default function () {
   const feedImg = "";
   const current_page = 0;
   return {
+    likecnt,
     allArticle,
     myArticle,
     myLike,

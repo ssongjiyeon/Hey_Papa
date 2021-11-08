@@ -2,10 +2,13 @@
   <div style="width:100%; margin-bottom:20px;">
     <q-card class="my-card" flat bordered>
       <q-card-section>
-        <div class="text-overline text-orange-9">{{para.created_at.slice(0,10)}}</div>
+        <div style="display:flex; justify-content:space-between;">
+          <div class="text-overline text-orange-9">{{para.created_at.slice(0,10)}}</div>
+          <div v-if="flag"><q-icon name="more_horiz" size="sm" @click="Show"></q-icon></div>
+        </div>
         <!-- 프로필 박스 -->
         <div class="profile-box">
-            <img :src="para.user_img" alt="" class="profile-img" >
+          <img :src="para.user_img" alt="" class="profile-img" >
           <div class="text-h6 q-mt-sm q-mb-sm q-ml-sm">{{para.nickname}}</div>
         </div>
         <div :class="extended ? 'more-box' : 'text-box'" transition: fade>
@@ -17,7 +20,6 @@
       <q-separator />
       <q-img
         :src="para.img"
-        v-if="para.img.length > 0"
       />
       <q-separator />
       <q-card-actions>
@@ -33,23 +35,84 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { useQuasar } from 'quasar'
+import { ref,computed } from 'vue'
+import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
 export default {
   props: ["para"],
   setup(props) {
+  const $q = useQuasar()
+  const router = useRouter()
+  const store = useStore()
   const heart = ref(false)
-  const getHeart = () => {
+  var flag = ref(false)
+
+  if (localStorage.getItem('userId')==props.para.user_id){
+    flag = true
+  }
+  if(props.para.like == true){
+    heart.value = true
+  }
+  
+  let article = computed(()=>props.para.like_cnt)
+  function getHeart() {
     heart.value = !heart.value
-    console.log(heart.value)
-    }
-    return {
-      expanded: ref(false),
-      extended: ref(false),
-      getHeart,
-      heart,
-      lorem: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+    store.dispatch('module/likeArticle',{
+      id:props.para.id,check:heart.value,user_id:localStorage.getItem('userId')}).then(()=>{
+        store.dispatch('module/allArticle',localStorage.getItem('userId')).then((res)=>{
+          store.commit('module/setAllarticle', res.data)
+        })
+      })
 
     }
+    function Show () {
+      $q.bottomSheet({
+        message: '메뉴',
+        actions: [
+          // {},
+          {
+            label: '게시글 수정',
+            icon: 'edit',
+            id: 'edit'
+          },
+          {},
+          {
+            label: '게시글 삭제',
+            icon: 'delete',
+            id: 'delete'
+          },
+        ]
+      }).onOk(action => {
+        if (action.id == 'edit'){
+          store.commit('module/selectArticle', props.para)
+          router.push('modify')
+        }
+        else if (action.id == 'delete'){
+          store.dispatch('module/deleteArticle',props.para.id).then(()=>{
+            store.dispatch('module/allArticle',localStorage.getItem('userId')).then((res)=>{
+              store.commit('module/setAllarticle', res.data)
+              router.go()
+            })
+          })
+      }
+    }).onCancel(() => {
+      // console.log('바텀시트 빠져나올때')
+    }).onDismiss(() => {
+      // console.log('I am triggered on both OK and Cancel')
+    })
+  }
+  return {
+    expanded: ref(false),
+    extended: ref(false),
+    getHeart,
+    Show,
+    flag,
+    article,
+    heart,
+    lorem: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+
+  }
 
 
   }

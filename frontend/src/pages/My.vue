@@ -30,8 +30,8 @@
     </q-tab-panels>
     <q-tab-panels v-model="tab" animated style="width:100%;">
       <q-tab-panel name="zzim">
-        <div v-for="quiz in myQuiz" :key="quiz" class="my_quiz">
-          {{ quiz.Question }}
+        <div v-for="quiz in myQuiz" :key="quiz" class="my_quiz" @click="goQuiz(quiz)">
+          {{ quiz.question }}
         </div>
       </q-tab-panel>
     </q-tab-panels>
@@ -52,21 +52,22 @@ export default {
     const img_path = '../assets/default_user.png'
     const myQuiz= [
       {
-        Question:'Q. 아이가 변비일 때 먹이면 좋지 않은 과일은?'
+        question:'Q. 아이가 변비일 때 먹이면 좋지 않은 과일은?'
       },
       {
-        Question:'Q. 아이가 변비일 때 먹이면 좋지 않은 과일은?'
+        question:'Q. 아이가 변비일 때 먹이면 좋지 않은 과일은?'
       },
       {
-        Question:'Q. 아이가 변비일 때 먹이면 좋지 않은 과일은?'
+        question:'Q. 아이가 변비일 때 먹이면 좋지 않은 과일은?'
       },
       {
-        Question:'Q. 아이가 변비일 때 먹이면 좋지 않은 과일은?'
+        question:'Q. 아이가 변비일 때 먹이면 좋지 않은 과일은?'
       }
     ]
     const myArticles = computed(()=> store.getters['module/getMyarticle'])
     const myLikes = computed(()=> store.getters['module/getMylike'])
-  
+    const myZzim = computed(()=> store.getters['module/getMyzzim'])
+    console.log(myZzim.value,'@@!!!')
     function show () {
       $q.bottomSheet({
         message: '메뉴',
@@ -103,29 +104,41 @@ export default {
     onMounted(()=>{
       store.dispatch('module/myArticle').then((res)=>{
         console.log(res.data,'나의 게시글들')
-        // store.commit('module/setArticle', res.data)
+        store.commit('module/setArticle', res.data)
       })
       store.dispatch('module/myZzim').then((res)=>{
         console.log(res.data,'나의 찜한 문제들')
         // store.commit('module/setMyQuiz', res.data)
+      })
+      store.dispatch('module/myZzim').then((res)=>{
+        console.log(res.data,'나의 찜한 퀴즈들')
+        store.commit('module/setMyQuiz', res.data)
       })
     })
 
     function goArticle(){
       store.dispatch('module/myArticle').then((res)=>{
         console.log(res.data,'나의 게시글들')
-        // store.commit('module/setArticle', res.data)
+        store.commit('module/setArticle', res.data)
       })
     }
     function goLike(){
+      store.dispatch('module/mylikeArticle').then((res)=>{
+        console.log(res.data,'나의 좋아요 게시글들')
+        store.commit('module/setlikeArticle', res.data)
+      })
       console.log('좋아요')
     }
     function goZzim(){
       console.log('찜')
       store.dispatch('module/myZzim').then((res)=>{
-        console.log(res.data,'나의 찜한 문제들')
-        // store.commit('module/setArticle', res.data)
+        console.log(res.data,'나의 찜한 퀴즈들')
+        store.commit('module/setMyQuiz', res.data)
       })
+    }
+    function goQuiz(quiz){
+      // 퀴즈 디테일로 가는 부분
+      console.log(quiz,'퀴즈 정보들')
     }
     return {
       tab: ref('zzim'),
@@ -134,10 +147,12 @@ export default {
       myQuiz,
       img_path,
       user,
+      myZzim,
       goLike,
       goZzim,
       show,
-      goArticle
+      goArticle,
+      goQuiz,
     }
   }
 }

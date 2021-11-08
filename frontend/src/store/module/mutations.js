@@ -13,10 +13,19 @@ export function setPage(state, page) {
 export function setArticle(state, article) {
   state.myArticle = article;
 }
+export function setlikeArticle(state, article) {
+  state.myLike = article;
+}
 export function setMyQuiz(state, quiz) {
   state.myQuiz = quiz;
 }
 export function setAllarticle(state, articles) {
-  console.log(articles,'뮤테이션')
-  state.allArticle = articles;
+  const reverse = articles.reverse()
+  state.allArticle = reverse;
+}
+export function selectArticle(state, articles) {
+  state.selectArticle = articles;
+}
+export function likeCnt(state, like_cnt) {
+  state.likecnt = like_cnt;
 }
