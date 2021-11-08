@@ -59,15 +59,15 @@ public class ArticleController {
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 	
-	@GetMapping()
+	@GetMapping("/all/{user_id}")
 	@ApiOperation(value = "게시글 전체 목록", notes = "<strong>게시글 전체 리스트</strong>")
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "성공"),
         @ApiResponse(code = 401, message = "토큰 인증 실패"),
         @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<List<ArticleResponse>> getAllArticle(Pageable pageable) {
-		List<ArticleResponse> articleList = articleService.getAllArticle(pageable);
+	public ResponseEntity<List<ArticleResponse>> getAllArticle(Pageable pageable, @PathVariable("user_id") long userId) {
+		List<ArticleResponse> articleList = articleService.getAllArticle(pageable, userId);
 		return ResponseEntity.status(200).body(articleList);
 	}
 

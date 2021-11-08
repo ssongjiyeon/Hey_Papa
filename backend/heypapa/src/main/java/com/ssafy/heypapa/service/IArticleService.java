@@ -16,7 +16,7 @@ public interface IArticleService {
 	
 	Article createArticle(ArticleRequest articleRequest);
 	
-	List<ArticleResponse> getAllArticle(Pageable pageable);
+	List<ArticleResponse> getAllArticle(Pageable pageable, long userId);
 	
 	Article updateArticle(ArticleRequest articleRequest, Long id);
 	
