@@ -15,6 +15,8 @@ public class ArticleResponse {
 	private Long id;
 	@ApiModelProperty(name = "유저닉네임")
 	private String nickname;
+	@ApiModelProperty(name = "작성자 ID")
+	private Long user_id;
 	@ApiModelProperty(name = "유저프로필")
 	private String user_img;
 	@ApiModelProperty(name = "내용")
@@ -29,4 +31,6 @@ public class ArticleResponse {
 	private int like_cnt;
 	@ApiModelProperty(name = "댓글 수")
 	private int comment_cnt;
+	@ApiModelProperty(name = "댓글 수")
+	private boolean like;
 }

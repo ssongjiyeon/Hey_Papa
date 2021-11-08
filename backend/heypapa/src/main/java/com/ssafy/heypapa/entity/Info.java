@@ -21,7 +21,7 @@ public class Info extends BaseEntity {
 	private String baby; // 아기정보
 	@Column(columnDefinition = "LONGTEXT")
 	private String mom; // 엄마정보
-	private String baby_img; // 아기이미지
-	private String mom_img; // 엄마이미지
+//	private String baby_img; // 아기이미지
+//	private String mom_img; // 엄마이미지
 	
 }

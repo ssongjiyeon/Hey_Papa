@@ -95,7 +95,7 @@ public class ArticleService implements IArticleService {
 	}
 	
 	@Override
-	public List<ArticleResponse> getAllArticle(Pageable pageable) {
+	public List<ArticleResponse> getAllArticle(Pageable pageable, long userId) {
 		List<Article> list = articleRepository.findAll(pageable).getContent();
 		List<ArticleResponse> copy = new ArrayList<>();
 		ArticleResponse res;
@@ -117,10 +117,18 @@ public class ArticleService implements IArticleService {
 			// like_cnt 처리
 			List<ArticleLike> al = articleLikeRepository.findByArticleId(a.getId());
 			res.setLike_cnt(al.size());
+			// 좋아요 했는지 처리
+			ArticleLike isLike = articleLikeRepository.findByUserIdAndArticleId(userId, a.getId());
+			if(isLike == null) {
+				res.setLike(false);
+			} else {
+				res.setLike(true);
+			}
 			// comment_cnt 처리
 			List<Review> r = reviewRepository.findByArticleId(a.getId());
 			res.setComment_cnt(r.size());
 			//user 닉네임, 프로필이미지 처리
+			res.setUser_id(a.getUser().getId());
 			res.setNickname(a.getUser().getNickname());
 			res.setUser_img(a.getUser().getImg());
 			copy.add(res);
@@ -183,18 +191,21 @@ public class ArticleService implements IArticleService {
 	public void likeArticle(ArticleLikeRequest articleLikeRequest, Long id) {
 		// (좋아요) like가 안되어 있으면 해당 게시글 객체와 요청보낸 유저 객체를 articleLike에 담아서 repo에 저장 
 		if(articleLikeRequest.getCheck()==false) {
+			Long userId = articleLikeRequest.getUser_id();
+			Optional<ArticleLike> like = articleLikeRepository.findByArticleIdAndUserId(id, userId);
+			
+			if(like.isPresent()) {
+				articleLikeRepository.delete(like.get());
+			}
+		} 
+		// (좋아요 취소) like가 되어 있으면 게시글id와 유저id값으로 articlelike 객체를 찾고, repo에서 삭제 
+		else {
 			Article article = articleRepository.findById(id).get();
 			User user = userRepository.findById(articleLikeRequest.getUser_id()).get();
 			ArticleLike like = new ArticleLike();
 			like.setArticle(article);
 			like.setUser(user);
 			articleLikeRepository.save(like);
-		} 
-		// (좋아요 취소) like가 되어 있으면 게시글id와 유저id값으로 articlelike 객체를 찾고, repo에서 삭제 
-		else {
-			Long userId = articleLikeRequest.getUser_id();
-			ArticleLike like = articleLikeRepository.findByArticleIdAndUserId(id, userId).get();
-			articleLikeRepository.delete(like);
 		}
 	}
 	
