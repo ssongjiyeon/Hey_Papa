@@ -27,7 +27,6 @@ import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
 import FeedCard from '../components/feed/FeedCard.vue'
 import { useRouter } from 'vue-router'
-import { useStore } from 'vuex'
 import axios from 'axios'
 export default {
   components: { FeedCard },
