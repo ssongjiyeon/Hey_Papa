@@ -41,7 +41,7 @@ public class S3Service {
     @Value("${cloud.aws.region.static}")
     private String region;
     
-    public static final String CLOUD_FRONT_DOMAIN_NAME = "dq582wpwqowa9.cloudfront.net";
+    public static final String CLOUD_FRONT_DOMAIN_NAME = "d11bfjty6ba1yx.cloudfront.net";
     
     @PostConstruct
     public void setSC3Client() {

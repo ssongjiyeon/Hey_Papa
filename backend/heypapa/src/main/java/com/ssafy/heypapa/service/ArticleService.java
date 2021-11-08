@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.heypapa.entity.Article;
+import com.ssafy.heypapa.entity.ArticleDto;
 import com.ssafy.heypapa.entity.ArticleHashtag;
 import com.ssafy.heypapa.entity.ArticleLike;
 import com.ssafy.heypapa.entity.Hashtag;
@@ -30,6 +31,9 @@ import com.ssafy.heypapa.response.ReviewResponse;
 
 @Service("articleService")
 public class ArticleService implements IArticleService {
+	
+	private S3Service s3Service;
+	
 	@Autowired
 	ArticleRepository articleRepository;
 	
@@ -57,6 +61,7 @@ public class ArticleService implements IArticleService {
 		article.setImg(articleRequest.getImg());
 		article.setCreated_at(new Date());
 		article.setUpdated_at(new Date());
+		article.setImg(articleRequest.getImg());
 		articleRepository.save(article);
 		
 		// hashtag 처리
@@ -241,4 +246,38 @@ public class ArticleService implements IArticleService {
 		}
 		return copy;
 	}
+	
+//	public Article savePost(ArticleDto articleDto) {
+//		return articleRepository.save(articleDto.toEntity());
+//	}
+//	
+//	public List<ArticleDto> getList() {
+//		List<Article> articleEntityList = articleRepository.findAll();
+//		List<ArticleDto> articleDtoList = new ArrayList<>();
+//		
+//		for(Article articleEntity : articleEntityList) {
+//			articleDtoList.add(convertEntityToDto(articleEntity));
+//		}
+//		return articleDtoList;
+//	}
+//	
+//	public ArticleDto convertEntityToDto(Article article) {
+//		return ArticleDto.builder()
+//				.id(article.getId())
+//				.user(article.getUser())
+//				.content(article.getContent())
+//				.created_at(article.getCreated_at())
+//				.updated_at(article.getUpdated_at())
+//				.img(article.getImg())
+//				.imgFullPath("https://" + s3Service.CLOUD_FRONT_DOMAIN_NAME + "/" + article.getImg())
+//				.build();
+//	}
+//	
+//	public Optional<Article> getImg(Long article_id) {
+//		return articleRepository.findById(article_id);
+//	}
+// 
+//	public Optional<Article> getArticle(Long aId) {
+//		return articleRepository.findById(aId);
+//	}
 }

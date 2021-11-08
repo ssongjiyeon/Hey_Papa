@@ -68,7 +68,7 @@ export default {
         })
         return
       }
-      const user = { 
+      const user = {
           dday:form.birthday,
           email:getuser.value.id,
           nickname:form.babyname,
