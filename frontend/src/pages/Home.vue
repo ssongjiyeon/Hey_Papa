@@ -38,11 +38,11 @@
 </template>
 
 <script>
-import { ref, computed } from "vue";
-import { useStore } from "vuex";
-import FeedCard from "../components/feed/FeedCard.vue";
-import { useRouter } from "vue-router";
-import axios from "axios";
+import { ref, computed } from 'vue'
+import { useStore } from 'vuex'
+import FeedCard from '../components/feed/FeedCard.vue'
+import { useRouter } from 'vue-router'
+import axios from 'axios'
 export default {
   components: { FeedCard },
   setup() {

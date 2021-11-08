@@ -50,6 +50,7 @@ public class QuizService implements IQuizService {
 		q.setId(quiz.getId());
 		q.setQuestion(quiz.getQuestion());
 		q.setAnswer(quiz.getAnswer());
+		q.setAnswer2(quiz.getAnswer2());
 		q.setCandidate(quiz.getCandidate());
 		q.setDescription(quiz.getDescription());
 		q.setType(quiz.getType());
