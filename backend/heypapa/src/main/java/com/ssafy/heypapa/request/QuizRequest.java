@@ -14,8 +14,10 @@ public class QuizRequest {
 	private Long id;
 	@ApiModelProperty(name = "질문")
 	private String question;
-	@ApiModelProperty(name = "답")
+	@ApiModelProperty(name = "답번호")
 	private int answer;
+	@ApiModelProperty(name = "답")
+	private String answer2;
 	@ApiModelProperty(name = "퀴즈 종류")
 	private String type;
 	@ApiModelProperty(name = "보기")

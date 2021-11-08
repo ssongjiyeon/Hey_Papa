@@ -19,7 +19,10 @@ public class Quiz extends BaseEntity {
 	private String question; // 질문
 	
 	@Column(nullable = false)
-	private int answer; // 답
+	private int answer; // 답-int
+	
+	@Column(nullable = false)
+	private String answer2; // 답-string
 	
 	@Column(nullable = false)
 //	private Enum<QuizTypeEnum> type; 

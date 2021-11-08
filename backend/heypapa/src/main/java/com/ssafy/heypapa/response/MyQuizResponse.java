@@ -24,8 +24,10 @@ public class MyQuizResponse {
 	private String question;
 	@ApiModelProperty(name = "문제 타입")
 	private String type;
-	@ApiModelProperty(name = "문제 답")
+	@ApiModelProperty(name = "문제 답번호")
 	private int answer;
+	@ApiModelProperty(name = "문제 답")
+	private String answer2;
 	@ApiModelProperty(name = "보기")
 	private String candidate;
 	@ApiModelProperty(name = "설명")
