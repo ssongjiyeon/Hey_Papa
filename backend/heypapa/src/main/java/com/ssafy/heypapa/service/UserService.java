@@ -212,7 +212,7 @@ public class UserService implements IUserService {
 			mQuiz.setAnswer(mq.getQuiz().getAnswer());
 			mQuiz.setCandidate(mq.getQuiz().getCandidate());
 			mQuiz.setDescription(mq.getQuiz().getDescription());
-			mQuiz.setImg(mq.getQuiz().getImg());
+//			mQuiz.setImg(mq.getQuiz().getImg());
 			
 			List<MyQuiz> myquiz = myquizRepository.findByQuizId(mq.getId());
 			res.add(mQuiz);
