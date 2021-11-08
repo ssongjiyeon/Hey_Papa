@@ -23,17 +23,11 @@
         />
       </div>
     </div>
-    <div id="articles" class="q-pa-xs row items-start card-box">
-      <FeedCard
-        v-for="para in paras"
-        :key="para.id"
-        :para="para"
-
-      />
-    </div>
-
+  <div id="articles" class="q-pa-xs row items-start card-box">
+    <FeedCard v-for="para in articles" :key="para" :para="para"/>
+    <!-- @click="Detail(para.id)&&Backup(para.content, para.imgUrl)"  -->
+  </div>
     <!-- <infinite-loading @infinite="infiniteHandler"></infinite-loading> -->
-    <div class="white-space">끝</div>
   </div>
 </template>
 
@@ -42,25 +36,26 @@ import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
 import FeedCard from '../components/feed/FeedCard.vue'
 import { useRouter } from 'vue-router'
-import axios from 'axios'
 export default {
   components: { FeedCard },
-  setup() {
-    const store = useStore();
-    const page = ref(1);
-
-
-    const router = useRouter();
-    const articles = computed(() => store.getters["module/getallArticle"]);
-    console.log(articles.value, "앙잉");
-    const paras = articles.value;
-    console.log(paras, "파라스");
+  setup(){
+    const store = useStore()
+    const router = useRouter()
+    const page = ref(1)
+    var articles = computed(()=> store.getters['module/getallArticle'])
+    function goWrite(){
+      router.push('create')
+    }
+    const Detail = (para) => {
+      router.push({ name: 'feed', params: {article_id: para }})
+    }
+    const Backup = (content, img) => {
+      store.commit('module/feedContent', content)
+      store.commit('module/feedImg', img)
+    }
     function goWrite() {
       router.push("create");
     }
-
-
-
     // const api = 'https://k5b206.p.ssafy.io/heypapa/article/'
 
     // const infiniteHandler = ($state) => {
@@ -99,69 +94,70 @@ export default {
     //   }
     // }
     return {
-      paras,
       goWrite,
       page,
-
-
+      articles,
+      Detail,
+      Backup
       // infiniteHandler
-    };
-  },
-};
+    }
+  }
+}
 </script>
 <style scoped>
-.my-card {
-  width: 100%;
-}
-.card-box {
-  width: 100%;
-  min-width: 30px;
-  /* overflow: scroll; */
-}
-.text-box {
-  display: -webkit-box;
-  min-width: 300px;
-  width: inherit;
-  white-space: normal;
-  -webkit-line-clamp: 5;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-.heart-button {
-  border: none;
-  background-color: white;
-  color: silver;
-  font-size: 1.4rem;
-}
-.reply-box {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 0.8rem;
-  margin-top: 0.5rem;
-  width: 100%;
-}
-.reply-input {
-  margin-right: 0.8rem;
-  width: 15rem;
-  height: 2.5rem;
-}
-.profile-box {
-  display: flex;
-  align-items: center;
-}
-.more-box {
-  display: -webkit-box;
-  min-width: 300px;
-  width: inherit;
-  white-space: normal;
-  -webkit-box-orient: vertical;
-}
-.details-box {
-  display: flex;
-  justify-content: flex-end;
-  text-decoration: underline;
-}
-.white-space {
-  height: 50px !important;
-}
+  .my-card {
+    width: 100%;
+  }
+  .card-box {
+    width: 100%;
+    min-width: 30px;
+    /* overflow: scroll; */
+  }
+  .text-box {
+    display: -webkit-box;
+    min-width: 300px;
+    width: inherit;
+    white-space: normal;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .heart-button {
+    border: none;
+    background-color: white;
+    color: silver;
+    font-size: 1.4rem;
+  }
+  .reply-box{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0.8rem;
+    margin-top: 0.5rem;
+    width: 100%;
+  }
+  .reply-input{
+    margin-right: 0.8rem;
+    width: 15rem;
+    height: 2.5rem;
+  }
+  .profile-box{
+    display: flex;
+    align-items: center;
+  }
+  .more-box{
+    display: -webkit-box;
+    min-width: 300px;
+    width: inherit;
+    white-space: normal;
+    -webkit-box-orient: vertical;
+
+  }
+  .details-box{
+    display: flex;
+    justify-content: flex-end;
+    text-decoration: underline;
+  }
+  .white-space{
+    height: 50px !important;
+  }
 </style>
