@@ -69,73 +69,27 @@ export default {
       store.getters['module/quizList']
 
     )
-    const Description = ref("")
-    const isAnswered = ref(false)
+
     const BeforeTransition = () => {
       isAnswered.value = false
       current.value = slide.value
       console.log('transition')
     }
-    const isSaved = ref(false)
-    const SaveQuiz = (id) => {
-      console.log(isSaved.value)
-      isSaved.value = !isSaved.value
-      const url = "https://k5b206.p.ssafy.io/api/quiz/" + id + '/myquiz'
-      const params = {
-          quizcheck: isSaved.value,
-          quizlike : isSaved.value,
-          user_id : parseInt(localStorage.getItem('userId'))
-        }
-      axios.post(url, params)
-      // store.dispatch('module/saveQuiz', {
-      //   qc: isSaved.value,ql: isSaved.value,ui: parseInt(localStorage.getItem('userId')),qi:id
-      // })
-      .then((res) => {
-        console.log(res.data)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-    }
 
-    const ChooseAnswer = (name, answer) => {
-      console.log(name, 'name')
-      isAnswered.value = !isAnswered.value
-      if(name !== answer){
 
-        Description.value = "틀렸습니다"
-      // Description 내용 수정시, 위에 v-if 구문도 수정해야함
-        console.log(Description.value)
-        // 댓글 목록 api 호출 필요
-        //  axios
-      }
-      else{
 
-      Description.value = "정답입니다"
-      console.log(Description.value)
-      }
-    }
-    const Reply = ref('')
-    const EnrollReply = () => {
-      console.log(Reply.value)
-      // axios
 
-    }
+
+
     return {
       //default 화면? 단계를 설정하는 것(ref 안에 btn-toggle options 밸류 쓰면 됨 )
-      lorem: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Itaque voluptatem totam, architecto cupiditate officia rerum, error dignissimos praesentium libero ab nemo provident incidunt ducimus iusto perferendis porro earum. Totam, numquam?',
-      isAnswered,
-      ChooseAnswer,
-      Description,
       BeforeTransition,
-      Reply,
-      EnrollReply,
       quizList,
       page,
       current,
       slide,
-      SaveQuiz,
-      isSaved
+
+
 
 
     }

@@ -19,9 +19,13 @@
           {{quiz.img}}
           {{ quiz.description }}
           <input type="text" v-model="Reply">
-          <button @click="EnrollReply">댓글달기</button>
+          <button @click="EnrollReply(quiz.id)">댓글달기</button>
           <!-- 댓글목록 -->
-          <div></div>
+          <div v-for="comment in comments">
+            <li>
+              {{comment}}
+            </li>
+          </div>
         </div>
 
         <!-- 선지 -->
@@ -36,7 +40,7 @@
 </template>
 
 <script>
-import { computed, ref } from 'vue'
+import { onMounted, computed, ref } from 'vue'
 import { useStore } from 'vuex'
 import axios from 'axios'
 export default {
@@ -44,6 +48,10 @@ export default {
     "quiz"
   ],
   setup(props){
+    onMounted(() => {
+
+    })
+    const store = useStore()
     const quiz = props.quiz
     const SaveQuiz = (id) => {
       console.log(isSaved.value)
@@ -59,7 +67,7 @@ export default {
       //   qc: isSaved.value,ql: isSaved.value,ui: parseInt(localStorage.getItem('userId')),qi:id
       // })
       .then((res) => {
-        console.log(res.data)
+        console.log(res.data, '댓글작성완료')
       })
       .catch((err) => {
         console.log(err)
@@ -85,9 +93,17 @@ export default {
     const Description = ref("")
     const isAnswered = ref(false)
     const Reply = ref('')
-    const EnrollReply = () => {
-      console.log(Reply.value)
-      // axios
+    const EnrollReply = (id) => {
+    const userId = localStorage.getItem('userId')
+    console.log(userId, 'ui')
+      const url = "https://k5b206.p.ssafy.io/api/quiz/" + id
+      const params = {
+        content: Reply.value,
+        user_id: userId,
+
+      }
+      console.log(params, 'params')
+      axios.post(url, params)
 
     }
     return {
