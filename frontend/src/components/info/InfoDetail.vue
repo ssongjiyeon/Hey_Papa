@@ -15,22 +15,22 @@
 
               ]"
           /> -->
-    <div class="q-pa-lg flex flex-center">
-    <q-pagination
-      v-model="current"
-      color="purple"
-      :max="10"
-      :max-pages="6"
-      boundary-numbers
-      @click="page(current.value)"
-    />
+    <div class="">
+      <q-pagination
+        v-model="current"
+        color="purple"
+        :max="10"
+        :max-pages="6"
+        boundary-numbers
+        @click="page(current.value)"
+      />
     </div>
-  <div class="q-pa-md">
+  <div class="">
         <q-carousel
         v-model="current"
         transition-prev="slide-right && page2"
         transition-next="slide-left && page2"
-        swipeable
+
         animated
         arrows
         control-text-color="grey-8"
@@ -43,8 +43,11 @@
 
         <q-carousel-slide :name="info.id"  v-for="info in infoList">
           <q-scroll-area class="fit">
-            <div class="column no-wrap flex-center q-carousel--padding">
-              <i class="fas fa-baby"></i>
+            <div class="column no-wrap">
+              <p>{{info.id}}개월차</p>
+              <div>
+                <img style="width: 15rem; " :src="require(`../../assets/mom/${info.id}.png`)"/>
+              </div>
               <p>{{info.baby}}</p>
 
 
@@ -115,6 +118,11 @@ export default {
 
 i {
   font-size: 50px;
+}
+mom-img{
+  width: 100px !important;
+
+
 }
 
 </style>

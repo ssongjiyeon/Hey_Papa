@@ -2,7 +2,7 @@
   <div style="height:70px; display:flex; justify-content:center;">
     <img src="../assets/horizon_logo.png" class="logo">
   </div>
-  <InfoDetail :InfoList="InfoList" />
+  <InfoDetail />
 
 </template>
 
@@ -36,7 +36,8 @@ export default {
     })
 
     return {
-      getInfo
+      getInfo,
+      InfoList
     }
   }
 

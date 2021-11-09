@@ -93,6 +93,7 @@ export default {
     const isAnswered = ref(false)
     const BeforeTransition = () => {
       isAnswered.value = false
+      current.value = slide.value
       console.log('transition')
     }
     const ChooseAnswer = (name, answer) => {
