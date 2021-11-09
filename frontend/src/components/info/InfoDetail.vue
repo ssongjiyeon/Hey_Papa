@@ -15,10 +15,10 @@
 
               ]"
           /> -->
-    <div class="">
+    <div class="pagination">
       <q-pagination
         v-model="current"
-        color="purple"
+        color="pink-3"
         :max="10"
         :max-pages="6"
         boundary-numbers
@@ -43,12 +43,15 @@
 
         <q-carousel-slide :name="info.id"  v-for="info in infoList">
           <q-scroll-area class="fit">
-            <div class="column no-wrap">
-              <p>{{info.id}}개월차</p>
-              <div>
-                <img style="width: 15rem; " :src="require(`../../assets/mom/${info.id}.png`)"/>
+            <div class="column no-wrap ">
+              <div class="slided">
+                <p>{{info.id}}개월차</p>
               </div>
-              <p>{{info.baby}}</p>
+              <div class="slided">
+                <img style="width: 13rem; " :src="require(`../../assets/mom/${info.id}.png`)"/>
+                <span>{{info.baby}}</span>
+              </div>
+
 
 
 
@@ -116,13 +119,32 @@ export default {
 
 <style scoped>
 
-i {
-  font-size: 50px;
+.pagination{
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
 }
-mom-img{
-  width: 100px !important;
+.slided{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 
-
+}
+.slided p {
+  font-size: 1.5rem;
+  margin-top: 1rem;
+  font-weight: bold;
+  color: rgb(97, 86, 86);
+}
+.slided img {
+  margin-top: 0.5rem;
+  height: 10rem;
+}
+.slided span {
+  font-size: 1rem;
+  margin-top: 1rem;
+  font-weight: lighter;
+  width: 13rem;
 }
 
 </style>

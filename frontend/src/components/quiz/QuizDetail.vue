@@ -7,7 +7,7 @@
       <div class="pagnation-box">
         <q-pagination
         v-model="current"
-        color="purple"
+        color="pink-3"
         :max="quizList.length"
         :max-pages="6"
         boundary-numbers
