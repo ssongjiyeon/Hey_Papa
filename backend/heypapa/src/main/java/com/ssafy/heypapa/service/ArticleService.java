@@ -32,7 +32,7 @@ import com.ssafy.heypapa.response.ReviewResponse;
 @Service("articleService")
 public class ArticleService implements IArticleService {
 	
-	private S3Service s3Service;
+	private TimeService timeService;
 	
 	@Autowired
 	ArticleRepository articleRepository;
@@ -237,6 +237,7 @@ public class ArticleService implements IArticleService {
 		review.setArticle(article);
 		review.setContent(reviewRequest.getContent());
 		review.setCreated_at(new Date());
+//		System.out.println(timeService.calculateTime(new Date()));
 		return reviewRepository.save(review);
 	}
 	
@@ -253,42 +254,12 @@ public class ArticleService implements IArticleService {
 			review.setNickname(user.getNickname());
 			review.setContent(r.getContent());
 			review.setCreated_at(r.getCreated_at());
+			review.setCalculateTime(timeService.calculateTime(r.getCreated_at()));
+//			System.out.println(timeService.calculateTime(r.getCreated_at()));
 			copy.add(review);
 		}
 		return copy;
 	}
 	
-//	public Article savePost(ArticleDto articleDto) {
-//		return articleRepository.save(articleDto.toEntity());
-//	}
-//	
-//	public List<ArticleDto> getList() {
-//		List<Article> articleEntityList = articleRepository.findAll();
-//		List<ArticleDto> articleDtoList = new ArrayList<>();
-//		
-//		for(Article articleEntity : articleEntityList) {
-//			articleDtoList.add(convertEntityToDto(articleEntity));
-//		}
-//		return articleDtoList;
-//	}
-//	
-//	public ArticleDto convertEntityToDto(Article article) {
-//		return ArticleDto.builder()
-//				.id(article.getId())
-//				.user(article.getUser())
-//				.content(article.getContent())
-//				.created_at(article.getCreated_at())
-//				.updated_at(article.getUpdated_at())
-//				.img(article.getImg())
-//				.imgFullPath("https://" + s3Service.CLOUD_FRONT_DOMAIN_NAME + "/" + article.getImg())
-//				.build();
-//	}
-//	
-//	public Optional<Article> getImg(Long article_id) {
-//		return articleRepository.findById(article_id);
-//	}
-// 
-//	public Optional<Article> getArticle(Long aId) {
-//		return articleRepository.findById(aId);
-//	}
+
 }

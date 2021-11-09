@@ -23,4 +23,6 @@ public class ReviewResponse {
 	private String content;
 	@ApiModelProperty(name = "작성일자")
 	private Date created_at;	
+	@ApiModelProperty(name = "계산일자")
+	private String calculateTime;
 }

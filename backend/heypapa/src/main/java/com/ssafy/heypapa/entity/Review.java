@@ -34,6 +34,8 @@ public class Review extends BaseEntity {
 	
 	private Date created_at; // 작성날짜
 	
+	private String calculateTime; // 계산한 시간
+	
 	@PrePersist
 	public void createdAt() {
 		this.created_at = new Date();
