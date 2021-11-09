@@ -189,18 +189,35 @@ public class QuizService implements IQuizService {
 	}
 
 	@Override
+//	public void myQuiz(MyQuizRequest myquizRequest, Long id) {
+//		Quiz quiz = quizRepository.findById(id).get();
+//		User user = userRepository.findById(myquizRequest.getUser_id()).get();
+//		MyQuiz myquiz = new MyQuiz();
+//		if(myquizRequest.getQuizlike()==false) {
+//			myquiz.setQuizcheck(myquizRequest.getQuizcheck());
+//			myquiz.setQuizlike(myquizRequest.getQuizlike());
+//			myquiz.setQuiz(quiz);
+//			myquiz.setUser(user);
+//			myquizRepository.save(myquiz);
+//		} 		
+//	}
+
 	public void myQuiz(MyQuizRequest myquizRequest, Long id) {
-		Quiz quiz = quizRepository.findById(id).get();
-		User user = userRepository.findById(myquizRequest.getUser_id()).get();
-		MyQuiz myquiz = new MyQuiz();
-		myquiz.setQuizcheck(myquizRequest.getQuizcheck());
-		myquiz.setQuizlike(myquizRequest.getQuizlike());
-		myquiz.setQuiz(quiz);
-		myquiz.setUser(user);
-		myquizRepository.save(myquiz);
+		if(myquizRequest.getQuizlike()==true) {
+			Long userId = myquizRequest.getUser_id();
+			Optional<MyQuiz> like = myquizRepository.findByQuizAndUserId(id, userId);
+			
+			if(like.isPresent()) {
+				myquizRepository.delete(like.get());
+			}
+		} else {
+			Quiz quiz = quizRepository.findById(id).get();
+			User user = userRepository.findById(myquizRequest.getUser_id()).get();
+			MyQuiz myquiz = new MyQuiz();
+			myquiz.setQuiz(quiz);
+			myquiz.setUser(user);
+			myquizRepository.save(myquiz);
+		}
 	}
 
-//	public Optional<Quiz> getQuizImg(Long id) {
-//		return quizRepository.findByIdAndImg(id);
-//	}
 }
