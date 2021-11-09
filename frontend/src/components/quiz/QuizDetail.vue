@@ -1,4 +1,7 @@
 <template>
+<head>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+</head>
   <div class="q-pa-md">
     <div class="quiz-detail-page-box">
       <div class=" q-gutter-sm other-theme-btn">
@@ -38,36 +41,7 @@
         :key="quiz.id"
         :name="i+1"
         >
-
-
-        <!-- <q-icon name="quiz.id" color="primary" size="56px" /> -->
-        <!-- 문제 출제 시 -->
-        <div class="q-mt-md text-center column" v-show="!isAnswered">
-          <span>{{i+1}}번 문제</span>
-          {{ quiz.question }}
-        </div>
-
-        <!-- 문제 제출시  -->
-        <div class="q-mt-md text-center column" v-show="isAnswered">
-          <span>{{Description}}</span>
-          <span v-if="Description === '틀렸습니다'">정답은 {{ quiz.answer2 }}</span>
-          {{quiz.img}}
-          {{ quiz.description }}
-          <input type="text" v-model="Reply">
-          <button @click="EnrollReply">댓글달기</button>
-          <!-- 댓글목록 -->
-          <div></div>
-        </div>
-
-        <!-- 선지 -->
-        <div class="row wrap justify-center" v-show="!isAnswered">
-          <div class="answer-box row no-wrap justify-center"
-              v-for="(option, opt_idx) in quiz.candidate.split('#')"
-              :key="option"
-              @click="ChooseAnswer(opt_idx+1, quiz.answer)" >
-            <span>{{option}}</span>
-          </div>
-        </div>
+        <QuizSlide :quiz="quiz" />
       </q-carousel-slide>
     </q-carousel>
   </div>
@@ -76,7 +50,13 @@
 <script>
 import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
+import axios from 'axios'
+import QuizSlide from './QuizSlide.vue'
 export default {
+  components: { QuizSlide },
+  emit: [
+    'OtherTheme'
+  ],
   setup (){
 
     const store = useStore()
@@ -96,6 +76,28 @@ export default {
       current.value = slide.value
       console.log('transition')
     }
+    const isSaved = ref(false)
+    const SaveQuiz = (id) => {
+      console.log(isSaved.value)
+      isSaved.value = !isSaved.value
+      const url = "https://k5b206.p.ssafy.io/api/quiz/" + id + '/myquiz'
+      const params = {
+          quizcheck: isSaved.value,
+          quizlike : isSaved.value,
+          user_id : parseInt(localStorage.getItem('userId'))
+        }
+      axios.post(url, params)
+      // store.dispatch('module/saveQuiz', {
+      //   qc: isSaved.value,ql: isSaved.value,ui: parseInt(localStorage.getItem('userId')),qi:id
+      // })
+      .then((res) => {
+        console.log(res.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    }
+
     const ChooseAnswer = (name, answer) => {
       console.log(name, 'name')
       isAnswered.value = !isAnswered.value
@@ -131,7 +133,9 @@ export default {
       quizList,
       page,
       current,
-      slide
+      slide,
+      SaveQuiz,
+      isSaved
 
 
     }
@@ -173,5 +177,12 @@ export default {
   align-items: center;
   border-radius: 0.5rem;
 
+}
+
+.redheart {
+  color: red;
+}
+.greyheart {
+  color: silver;
 }
 </style>
