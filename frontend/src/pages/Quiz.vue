@@ -1,6 +1,5 @@
 <template>
 <div class="quiz-text">
-  <!-- <h5 style="margin: 0.5rem">hey! papa</h5> -->
   <img src="../assets/horizon_logo.png" class="logo">
   <h3 class="text-pink-3 text-weight-bold" style="margin: 0.5rem">Quiz!</h3>
 </div>
@@ -98,7 +97,7 @@ export default {
 <style scoped>
 .logo{
   margin-top:10px;
-  width:70%;
+  height: 70px;
 }
 .quiz-text {
   display: flex;

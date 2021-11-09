@@ -7,7 +7,7 @@
       <div class="pagnation-box">
         <q-pagination
         v-model="current"
-        color="purple"
+        color="pink-3"
         :max="quizList.length"
         :max-pages="6"
         boundary-numbers
@@ -50,7 +50,7 @@
         <!-- 문제 제출시  -->
         <div class="q-mt-md text-center column" v-show="isAnswered">
           <span>{{Description}}</span>
-          <span v-if="Description === '틀렸습니다'">정답은 {{quiz.answer}}</span>
+          <span v-if="Description === '틀렸습니다'">정답은 {{ quiz.answer2 }}</span>
           {{quiz.img}}
           {{ quiz.description }}
           <input type="text" v-model="Reply">
@@ -62,7 +62,7 @@
         <!-- 선지 -->
         <div class="row wrap justify-center" v-show="!isAnswered">
           <div class="answer-box row no-wrap justify-center"
-              v-for="(option, opt_idx) in quiz.candidate"
+              v-for="(option, opt_idx) in quiz.candidate.split('#')"
               :key="option"
               @click="ChooseAnswer(opt_idx+1, quiz.answer)" >
             <span>{{option}}</span>
@@ -70,22 +70,6 @@
         </div>
       </q-carousel-slide>
     </q-carousel>
-
-
-    <div class="row justify-center">
-      <!-- <q-btn-toggle
-        glossy
-        v-model="slide"
-        :options="[
-          { label: 1, value: 1 },
-          { label: 2, value: 2 },
-          { label: 3, value: 3 },
-          { label: 4, value: 4 },
-          { label: 5, value: 5 },
-          { label: 6, value: 6 },
-          ]"
-      /> -->
-    </div>
   </div>
 </template>
 
@@ -96,14 +80,20 @@ export default {
   setup (){
 
     const store = useStore()
+    const current = ref(1)
+    const slide = ref(1)
+    const page = () => {
+      slide.value = current.value
+    }
     let quizList = computed(()=>
       store.getters['module/quizList']
-    )
 
+    )
     const Description = ref("")
     const isAnswered = ref(false)
     const BeforeTransition = () => {
       isAnswered.value = false
+      current.value = slide.value
       console.log('transition')
     }
     const ChooseAnswer = (name, answer) => {
@@ -131,7 +121,6 @@ export default {
     }
     return {
       //default 화면? 단계를 설정하는 것(ref 안에 btn-toggle options 밸류 쓰면 됨 )
-      slide: ref(1),
       lorem: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Itaque voluptatem totam, architecto cupiditate officia rerum, error dignissimos praesentium libero ab nemo provident incidunt ducimus iusto perferendis porro earum. Totam, numquam?',
       isAnswered,
       ChooseAnswer,
@@ -140,7 +129,9 @@ export default {
       Reply,
       EnrollReply,
       quizList,
-
+      page,
+      current,
+      slide
 
 
     }

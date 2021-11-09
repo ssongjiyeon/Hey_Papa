@@ -76,7 +76,7 @@ export default {
       const article = {
         content:this.text,
         hashtag:hashlist,
-        img:'string',
+        img:'../assets/baby.png',
         // this.imageData
         user_id:localStorage.getItem('userId')
       }
