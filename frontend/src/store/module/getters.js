@@ -28,3 +28,6 @@ export function getLike(state) {
 export function getMyzzim(state) {
   return state.myQuiz;
 }
+export function infoList(state) {
+  return state.infoList;
+}

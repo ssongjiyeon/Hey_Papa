@@ -20,7 +20,7 @@ export function setMyQuiz(state, quiz) {
   state.myQuiz = quiz;
 }
 export function setAllarticle(state, articles) {
-  const reverse = articles.reverse()
+  const reverse = articles.reverse();
   state.allArticle = reverse;
 }
 export function selectArticle(state, articles) {
@@ -28,4 +28,7 @@ export function selectArticle(state, articles) {
 }
 export function likeCnt(state, like_cnt) {
   state.likecnt = like_cnt;
+}
+export function infoList(state, infoList) {
+  state.infoList = infoList;
 }

@@ -74,11 +74,11 @@ export function writeReply({}, replyContent) {
   const url = baseUrl + "/article/" + replyContent.articleNumber;
   return $axios.post(url, replyContent.realContent);
 }
-// 전체 게시글 불러오기
-export function allArticle({}, id) {
-  const url = baseUrl + "/article/all/" + id;
-  return $axios.get(url);
-}
+// // 전체 게시글 불러오기
+// export function allArticle({}, id) {
+//   const url = baseUrl + "/article/all/" + id;
+//   return $axios.get(url);
+// }
 // 게시글 삭제하기
 export function deleteArticle({}, id) {
   const url = baseUrl + "/article/" + id;

@@ -34,7 +34,7 @@ export default function () {
     comment_cnt: 0,
     content: "하이루 방가방가",
     created_at: "2021-11-08T05:08:41.000+00:00",
-    hashtag: ['선주', '하이'],
+    hashtag: ["선주", "하이"],
     id: 18,
     img: null,
     like: false,
@@ -43,12 +43,13 @@ export default function () {
     user_id: 10,
     user_img: "img",
   };
-  const likecnt=0;
+  const likecnt = 0;
   const allArticle = [];
   const myQuiz = [];
   const user = {};
   const loginPwd = "";
   const quizList = [];
+  const infoList = [];
   const feedContent = "";
   const feedImg = "";
   const current_page = 0;
@@ -66,5 +67,6 @@ export default function () {
     selectArticle,
     feedImg,
     feedContent,
+    infoList,
   };
 }

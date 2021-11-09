@@ -19,7 +19,7 @@
     <q-pagination
       v-model="current"
       color="purple"
-      :max="12"
+      :max="10"
       :max-pages="6"
       boundary-numbers
       @click="page(current.value)"
@@ -27,7 +27,9 @@
     </div>
   <div class="q-pa-md">
         <q-carousel
-        v-model="slide"
+        v-model="current"
+        transition-prev="slide-right && page2"
+        transition-next="slide-left && page2"
         swipeable
         animated
         arrows
@@ -35,29 +37,16 @@
         height="600px"
         max-width="420px"
         class="bg-white text-black rounded-borders"
+
         >
 
 
-        <q-carousel-slide :name="info.id"  v-for="info in InfoList">
+        <q-carousel-slide :name="info.id"  v-for="info in infoList">
           <q-scroll-area class="fit">
             <div class="column no-wrap flex-center q-carousel--padding">
               <i class="fas fa-baby"></i>
-              <p>{{info.id}}</p>
-              <p>{{info.id}}</p>
-              <p>{{info.id}}</p>
-              <p>{{info.id}}</p>
-              <p>{{info.id}}</p>
-              <p>{{info.id}}</p>
-              <p>{{info.id}}</p>
-              <p>{{info.id}}</p>
-              <p>{{info.id}}</p>
-              <p>{{info.id}}</p>
-              <p>{{info.id}}</p>
-              <p>{{info.id}}</p>
-              <p>{{info.id}}</p>
-              <p>{{info.id}}</p>
-              <p>{{info.id}}</p>
-              <p>{{info.id}}</p>
+              <p>{{info.baby}}</p>
+
 
 
             </div>
@@ -69,36 +58,31 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+import { ClosePopup } from 'quasar'
+import { useStore } from 'vuex'
 
 export default {
   setup () {
-
+    const store = useStore()
     const slide = ref(1)
     const current = ref(1)
     const page = () => {
       slide.value = current.value
     }
-    const InfoList = [
-      {
-        id: 1,
-        imgUrl: "https://blog.kakaocdn.net/dn/vcwsV/btqBaASZnrH/qlZ29dOuW6qkzh4Nftjz2K/img.jpg",
-      },
-      {
-        id: 2,
-        imgUrl: "https://imgnews.pstatic.net/image/421/2021/10/25/0005679808_001_20211025224001968.jpg?type=w647",
-      },
-      {
-        id: 3,
-        imgUrl: "https://ifh.cc/g/8gYLR9.jpg"
-      },
-    ]
+    let infoList = computed(()=>
+      store.getters['module/infoList']
+    )
+    const page2 = () => {
+      current.value = slide.value
+    }
+
+
 
 
     return {
       slide,
       fullscreen: ref(false),
-      InfoList,
       contentStyle: {
         backgroundColor: 'rgba(0,0,0,0.02)',
         color: '#555'
@@ -117,7 +101,9 @@ export default {
         opacity: 0.75
       },
       current,
-      page
+      page,
+      infoList,
+      page2
     }
   }
 }
