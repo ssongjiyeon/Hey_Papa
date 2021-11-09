@@ -1,6 +1,7 @@
 package com.ssafy.heypapa.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,11 +22,14 @@ import com.ssafy.heypapa.repository.UserRepository;
 import com.ssafy.heypapa.request.CommentRequest;
 import com.ssafy.heypapa.request.MyQuizRequest;
 import com.ssafy.heypapa.request.QuizRequest;
+import com.ssafy.heypapa.response.CommentResponse;
 import com.ssafy.heypapa.response.QuizResponse;
 
 @Service("QuizService")
 public class QuizService implements IQuizService {
 
+	private TimeService timeService;
+	
 	@Autowired
 	UserRepository userRepository;
 	
@@ -57,11 +61,16 @@ public class QuizService implements IQuizService {
 		
 		List<Comment> clist = commentRepository.findByQuiz_id(quiz.getId()).get();
 		if(clist != null) {
-			List<CommentRequest> comments = new ArrayList<>();
+			List<CommentResponse> comments = new ArrayList<>();
 			for(Comment c : clist) {
-				CommentRequest cr = new CommentRequest();
-				cr.setNickname(c.getUser().getNickname());
+				User user = c.getUser();
+				CommentResponse cr = new CommentResponse();
+				cr.setUser_id(user.getId());
+				cr.setNickname(user.getNickname());
+				cr.setUser_img(user.getImg());
 				cr.setContent(c.getContent());
+				cr.setCreated_at(c.getCreated_at());
+				cr.setCalculateTime(timeService.calculateTime(c.getCreated_at()));
 				comments.add(cr);
 			}
 			q.setComments(comments);
@@ -69,54 +78,17 @@ public class QuizService implements IQuizService {
 		return q;
 	}
 
-//	@Override
-//	public List<QuizRequest> getAllQuiz(Pageable pageable) {
-//		List<Quiz> qlist = quizRepository.findAll(pageable).getContent();
-//		List<QuizRequest> copy = new ArrayList<>();
-//		QuizRequest qreq;
-////		String quiztype = quizRepository.findByType(type);
-//		for(Quiz q : qlist) {
-//			qreq = new QuizRequest();
-//			if(q.getType().name().equals("아내")) {
-//				qreq.setId(q.getId());
-//				qreq.setQuestion(q.getQuestion());
-//				qreq.setCandidate(q.getCandidate());
-//				copy.add(qreq);
-//			}
-//		}
-//		for(Quiz q : qlist) {
-//			qreq = new QuizRequest();
-//			qreq.setType(quiztype);
-//			qreq.setId(q.getId());
-//			qreq.setQuestion(q.getQuestion());
-//			qreq.setCandidate(q.getCandidate());
-//			copy.add(qreq);
-//		}
-//		for(Quiz q : qlist) {
-//			qreq = new QuizRequest();
-//			qreq.setType(quiztype);
-//			qreq.setId(q.getId());
-//			qreq.setQuestion(q.getQuestion());
-//			qreq.setCandidate(q.getCandidate());
-//			copy.add(qreq);
-//		}
-//		for(Quiz q : qlist) {
-//			qreq = new QuizRequest();
-//			qreq.setType(quiztype);
-//			qreq.setId(q.getId());
-//			qreq.setQuestion(q.getQuestion());
-//			qreq.setCandidate(q.getCandidate());
-//			copy.add(qreq);
-//		}
-//		return copy;
-//	}
-
 	@Override
 	public Comment createComment(Long id, CommentRequest comment) {
 		Comment com = new Comment();
-		com.setUser(userRepository.findByNickname(comment.getNickname()).get());
-		Quiz quiz = quizRepository.getOne(id);
+		Quiz quiz = quizRepository.findById(id).get();
+		Long userId = comment.getUser_id();
+		User user = userRepository.findById(userId).get();
+//		com.setUser(userRepository.findByNickname(comment.getNickname()).get());
+		com.setUser(user);
 		com.setQuiz(quiz);
+		com.setContent(comment.getContent());
+		com.setCreated_at(new Date());
 		return commentRepository.save(com);
 	}
 

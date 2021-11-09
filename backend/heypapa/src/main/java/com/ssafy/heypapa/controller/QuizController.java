@@ -77,7 +77,7 @@ public class QuizController {
 	
 	// 퀴즈 댓글
 	@PostMapping("/{quizId}")
-	@ApiOperation(value = "퀴즈 댓글 작성", notes = "<strong>퀴즈 하나당 댓글 보기</strong>")
+	@ApiOperation(value = "퀴즈 댓글 작성", notes = "<strong>퀴즈 하나당 댓글 달기</strong>")
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "성공"),
         @ApiResponse(code = 401, message = "토큰 인증 실패"),
