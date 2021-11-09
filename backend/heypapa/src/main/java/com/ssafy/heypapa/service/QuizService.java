@@ -143,7 +143,10 @@ public class QuizService implements IQuizService {
 				qres.setType(q.getType());
 				qres.setId(q.getId());
 				qres.setQuestion(q.getQuestion());
+				qres.setAnswer(q.getAnswer());
+				qres.setAnswer2(q.getAnswer2());
 				qres.setCandidate(q.getCandidate());
+				qres.setDescription(q.getDescription());
 				copy.add(qres);
 			}
 		}
@@ -161,7 +164,10 @@ public class QuizService implements IQuizService {
 				qres.setType(q.getType());
 				qres.setId(q.getId());
 				qres.setQuestion(q.getQuestion());
+				qres.setAnswer(q.getAnswer());
+				qres.setAnswer2(q.getAnswer2());
 				qres.setCandidate(q.getCandidate());
+				qres.setDescription(q.getDescription());
 				copy.add(qres);
 			} 
 		}
@@ -179,7 +185,10 @@ public class QuizService implements IQuizService {
 				qres.setType(q.getType());
 				qres.setId(q.getId());
 				qres.setQuestion(q.getQuestion());
+				qres.setAnswer(q.getAnswer());
+				qres.setAnswer2(q.getAnswer2());
 				qres.setCandidate(q.getCandidate());
+				qres.setDescription(q.getDescription());
 				copy.add(qres);
 			} 
 		}
@@ -197,7 +206,10 @@ public class QuizService implements IQuizService {
 				qres.setType(q.getType());
 				qres.setId(q.getId());
 				qres.setQuestion(q.getQuestion());
+				qres.setAnswer(q.getAnswer());
+				qres.setAnswer2(q.getAnswer2());
 				qres.setCandidate(q.getCandidate());
+				qres.setDescription(q.getDescription());
 				copy.add(qres);
 			} 
 		}

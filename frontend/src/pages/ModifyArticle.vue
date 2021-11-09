@@ -54,6 +54,7 @@ export default {
   created(){
     const article = computed(()=> this.$store.getters['module/getSelectArticle'])
     // this.imageData = article.value.img 이미지 불러오는 부분 잘될지..
+    console.log(article,'넘어오니?')
     this.text = article.value.content
     article.value.hashtag.forEach(e => {
       this.hashtag = this.hashtag + '#' + e  
@@ -79,7 +80,10 @@ export default {
       this.$refs.fileInput.click();
     },
     goHome(){
-      this.$router.push('/home')
+      this.$store.dispatch('module/allArticle',localStorage.getItem('userId')).then((res)=>{
+        this.$store.commit('module/setAllarticle', res.data)
+        this.$router.push('/home')
+      })
     },
     goWrite(){
       const selectarticle = computed(()=> this.$store.getters['module/getSelectArticle'])
@@ -91,8 +95,11 @@ export default {
         user_id:localStorage.getItem('userId')
       }
       this.$store.dispatch('module/modifyArticle',{article:article,id:selectarticle.value.id})
-        .then((res)=>{
-          console.log(res)
+        .then(()=>{
+          this.$store.dispatch('module/allArticle',localStorage.getItem('userId')).then((res)=>{
+            this.$store.commit('module/setAllarticle', res.data)
+            this.$router.push('/home')
+          })
         })
       // this.$router.push('/detail')
     }

@@ -63,6 +63,7 @@ export default {
   setup(){
     const router = useRouter()
     const store = useStore()
+    const Swal = require('sweetalert2')
     const pwdMode = ref(false)
     const form = reactive({
       email: '',
@@ -111,6 +112,7 @@ export default {
           // 회원정보 가져오기
           store.dispatch('module/requestInfo', userId)
             .then((res) => {
+              console.log(res.data,'@@@')
               const loginUser = {
                   nickname: res.data.nickname,
                   img: res.data.img,
@@ -122,9 +124,17 @@ export default {
               store.commit('module/setUser', loginUser)
               store.commit('module/setPage', 3)
             })
-          store.dispatch('module/allArticle', userId).then((res)=>{
+          store.dispatch('module/allArticle',userId).then((res)=>{
             store.commit('module/setAllarticle', res.data)
             router.push('/home')
+          })
+        })
+        .catch(()=>{
+          Swal.fire({
+              icon: 'error',
+              title: '<span style="font-size:25px;">비밀번호가 틀렸습니다.</span>',
+              confirmButtonColor: '#primary',
+              confirmButtonText: '<span style="font-size:18px;">확인</span>'
           })
         })
     }
