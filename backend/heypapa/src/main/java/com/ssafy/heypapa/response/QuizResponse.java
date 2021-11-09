@@ -32,6 +32,6 @@ public class QuizResponse {
 	private String img;
 	
 	@ApiModelProperty(name = "퀴즈 댓글 목록들")
-	private List<CommentRequest> comments;
+	private List<CommentResponse> comments;
 	
 }
