@@ -1,20 +1,22 @@
 <template>
   <div>
-    <div style="height:70px; display:flex; justify-content:center;">
+    <div style="display:flex; justify-content:center;">
       <img src="../assets/horizon_logo.png" class="logo">
     </div>
     <div style="display:flex; flex-direction:column; align-items:center; height:80px;">
-      <div style="font-size:18px; font-weight:bold; margin-bottom:5px;">어느 동네가 궁금하신가요?</div>
+      <div style="font-size:18px; font-weight:bold; margin-bottom:5px; margin-top:10px;">어느 동네가 궁금하신가요?</div>
       <div>
         <q-input @keyup.enter="searchSubmit" v-model="keyword" id="keyword" outlined dense label="ex)유성구" style="height:30px; width:200px;" />
         <span class="main_search_btn_span"><q-btn @click="searchSubmit" round
           style="background:rgb(235,137,181); color:white; float:right; left:50px; bottom:30px;" icon="search" /></span>
       </div>
     </div>
-    <div id="map" style="height:600px;"></div>
-    <div class="custom_zoomcontrol radius_border" style="margin-top:100px;"> 
-      <span @click="zoomIn"><span style="font-size:25px;">+</span></span>  
-      <span @click="zoomOut"><span style="font-size:25px; font-weight:bold;">-</span></span>
+    <div>
+      <div id="map" style="height:600px;"></div>
+      <div class="custom_zoomcontrol radius_border" style="margin-top:130px;"> 
+        <span @click="zoomIn"><span style="font-size:25px;">+</span></span>  
+        <span @click="zoomOut"><span style="font-size:25px; font-weight:bold;">-</span></span>
+      </div>
     </div>
   </div>
 </template>
@@ -143,6 +145,7 @@ export default {
 <style>
 #map{
   border:1px solid black;
+  margin-top:20px;
 }
 .custom_zoomcontrol {position:absolute;top:50px;right:10px;width:36px;height:80px;overflow:hidden;z-index:1;background-color:#f5f5f5;} 
 .custom_zoomcontrol span {display:block;width:36px;height:40px;text-align:center;cursor:pointer;}     
@@ -150,7 +153,8 @@ export default {
 .custom_zoomcontrol span:first-child{border-bottom:1px solid #bfbfbf;}
 .radius_border{border:1px solid #919191;border-radius:5px;}  
 .logo{
-  width:180px;
+  /* width:180px; */
+  height:70px;
 }
 /* 커스텀오버레이 */
 .wrap {font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
