@@ -15,49 +15,44 @@
 
               ]"
           /> -->
-    <div class="q-pa-lg flex flex-center">
-    <q-pagination
-      v-model="current"
-      color="purple"
-      :max="12"
-      :max-pages="6"
-      boundary-numbers
-      @click="page(current.value)"
-    />
+    <div class="pagination">
+      <q-pagination
+        v-model="current"
+        color="pink-3"
+        :max="10"
+        :max-pages="6"
+        boundary-numbers
+        @click="page(current.value)"
+      />
     </div>
-  <div class="q-pa-md">
+  <div class="">
         <q-carousel
-        v-model="slide"
-        swipeable
+        v-model="current"
+        transition-prev="slide-right && page2"
+        transition-next="slide-left && page2"
+
         animated
         arrows
         control-text-color="grey-8"
         height="600px"
         max-width="420px"
         class="bg-white text-black rounded-borders"
+
         >
 
 
-        <q-carousel-slide :name="info.id"  v-for="info in InfoList">
+        <q-carousel-slide :name="info.id"  v-for="info in infoList">
           <q-scroll-area class="fit">
-            <div class="column no-wrap flex-center q-carousel--padding">
-              <i class="fas fa-baby"></i>
-              <p>{{info.id}}</p>
-              <p>{{info.id}}</p>
-              <p>{{info.id}}</p>
-              <p>{{info.id}}</p>
-              <p>{{info.id}}</p>
-              <p>{{info.id}}</p>
-              <p>{{info.id}}</p>
-              <p>{{info.id}}</p>
-              <p>{{info.id}}</p>
-              <p>{{info.id}}</p>
-              <p>{{info.id}}</p>
-              <p>{{info.id}}</p>
-              <p>{{info.id}}</p>
-              <p>{{info.id}}</p>
-              <p>{{info.id}}</p>
-              <p>{{info.id}}</p>
+            <div class="column no-wrap ">
+              <div class="slided">
+                <p>{{info.id}}개월차</p>
+              </div>
+              <div class="slided">
+                <img style="width: 13rem; " :src="require(`../../assets/mom/${info.id}.png`)"/>
+                <span>{{info.baby}}</span>
+              </div>
+
+
 
 
             </div>
@@ -69,36 +64,31 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+import { ClosePopup } from 'quasar'
+import { useStore } from 'vuex'
 
 export default {
   setup () {
-
+    const store = useStore()
     const slide = ref(1)
     const current = ref(1)
     const page = () => {
       slide.value = current.value
     }
-    const InfoList = [
-      {
-        id: 1,
-        imgUrl: "https://blog.kakaocdn.net/dn/vcwsV/btqBaASZnrH/qlZ29dOuW6qkzh4Nftjz2K/img.jpg",
-      },
-      {
-        id: 2,
-        imgUrl: "https://imgnews.pstatic.net/image/421/2021/10/25/0005679808_001_20211025224001968.jpg?type=w647",
-      },
-      {
-        id: 3,
-        imgUrl: "https://ifh.cc/g/8gYLR9.jpg"
-      },
-    ]
+    let infoList = computed(()=>
+      store.getters['module/infoList']
+    )
+    const page2 = () => {
+      current.value = slide.value
+    }
+
+
 
 
     return {
       slide,
       fullscreen: ref(false),
-      InfoList,
       contentStyle: {
         backgroundColor: 'rgba(0,0,0,0.02)',
         color: '#555'
@@ -117,7 +107,9 @@ export default {
         opacity: 0.75
       },
       current,
-      page
+      page,
+      infoList,
+      page2
     }
   }
 }
@@ -127,8 +119,32 @@ export default {
 
 <style scoped>
 
-i {
-  font-size: 50px;
+.pagination{
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+.slided{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+}
+.slided p {
+  font-size: 1.5rem;
+  margin-top: 1rem;
+  font-weight: bold;
+  color: rgb(97, 86, 86);
+}
+.slided img {
+  margin-top: 0.5rem;
+  height: 10rem;
+}
+.slided span {
+  font-size: 1rem;
+  margin-top: 1rem;
+  font-weight: lighter;
+  width: 13rem;
 }
 
 </style>

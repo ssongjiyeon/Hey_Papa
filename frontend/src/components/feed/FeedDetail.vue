@@ -80,6 +80,7 @@ export default {
       store.dispatch('module/writeReply', replyContent)
       .then((res) => {
         console.log('댓글작성 완료')
+        TempReply.value = ""
       })
     }
 

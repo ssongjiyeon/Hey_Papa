@@ -1,7 +1,7 @@
 import $axios from "axios";
 import { component } from "vue-control";
 const baseUrl = "https://k5b206.p.ssafy.io/api";
-const user_id = localStorage.getItem("userId")
+const user_id = localStorage.getItem("userId");
 // 산후조리원 위치 받아오기
 export function getCarecenter({}) {
   const url = baseUrl + "/carecenter";
@@ -62,18 +62,25 @@ export function getReply({}, articleId) {
   const url = baseUrl + "/article/" + articleId;
   return $axios.get(url);
 }
+// 게시글 전체 불러오기
+export function allArticle({}, userId) {
+  console.log(userId, "ui");
+  const url = baseUrl + "/article/all/" + userId;
+  console.log("불러오기");
+  return $axios.get(url);
+}
 //댓글 달기
 export function writeReply({}, replyContent) {
   const url = baseUrl + "/article/" + replyContent.articleNumber;
   return $axios.post(url, replyContent.realContent);
 }
-// 전체 게시글 불러오기
-export function allArticle({},id) {
-  const url = baseUrl + "/article/all/" + id;
-  return $axios.get(url);
-}
+// // 전체 게시글 불러오기
+// export function allArticle({}, id) {
+//   const url = baseUrl + "/article/all/" + id;
+//   return $axios.get(url);
+// }
 // 게시글 삭제하기
-export function deleteArticle({},id) {
+export function deleteArticle({}, id) {
   const url = baseUrl + "/article/" + id;
   return $axios.delete(url);
 }
@@ -83,11 +90,11 @@ export function writeArticle({}, article) {
   return $axios.post(url, article);
 }
 // 게시글 좋아요
-export function likeArticle({},object) {
+export function likeArticle({}, object) {
   const send = {
-    check:object.check,
-    user_id:object.user_id
-  }
+    check: object.check,
+    user_id: object.user_id,
+  };
   const url = baseUrl + "/article/" + object.id + "/like";
-  return $axios.post(url,send);
+  return $axios.post(url, send);
 }
