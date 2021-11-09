@@ -1,6 +1,6 @@
 <template>
-  <div style="height:70px; display:flex; justify-content:center;">
-    <img src="../assets/horizon_logo.png" class="logo">
+  <div style="display:flex; justify-content:center;">
+    <img src="../assets/horizon_logo.png" style="height:70px;">
   </div>
   <InfoDetail />
 
@@ -44,6 +44,5 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
 </style>

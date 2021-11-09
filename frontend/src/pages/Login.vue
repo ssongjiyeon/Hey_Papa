@@ -27,11 +27,11 @@
       <div class="plus">
         <div>
           <span>이메일로 가입하시겠어요?</span>
-          <span @click="goSignup" style="font-weight:bold; margin-left:10px;" class="text-primary">회원가입</span>
+          <span @click="goSignup" style="font-weight:bold; margin-left:10px; cursor:pointer;" class="text-primary">회원가입</span>
         </div>
         <div style="margin-top:20px;">
           <span>비밀번호를 잊으셨나요?</span>
-          <span @click="pwdMode = true" style="font-weight:bold; margin-left:10px;" class="text-primary">PW찾기</span>
+          <span @click="pwdMode = true" style="font-weight:bold; margin-left:10px; cursor:pointer;" class="text-primary">PW찾기</span>
         </div>
       </div>
       <q-dialog v-model="pwdMode">

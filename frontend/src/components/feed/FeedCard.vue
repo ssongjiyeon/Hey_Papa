@@ -23,13 +23,15 @@
         :src="para.img"
       />
       <q-separator />
-      <q-card-actions>
-        <button
-        class="fas fa-heart heart-button"
-        @click="getHeart"
-        :style="heart ? 'color: red': 'color: silver'"/>{{para.like_cnt}}명이 좋아요를 눌렀습니다.
-        <q-space />
-        댓글 개수 {{para.comment_cnt}}개
+      <q-card-actions style="display:flex; justify-content:space-between;">
+        <div style="display:flex; align-items:center;">
+          <button
+          class="fas fa-heart heart-button"
+          @click="getHeart"
+          :style="heart ? 'color: red': 'color: silver'"/>
+          <span>{{para.like_cnt}}명이 좋아요를 눌렀습니다.</span>
+        </div>
+        <div>댓글 개수 {{para.comment_cnt}}개</div>
       </q-card-actions>
     </q-card>
   </div>
@@ -48,7 +50,6 @@ export default {
     const store = useStore()
     const heart = ref(false)
     var flag = ref(false)
-
     if (localStorage.getItem('userId')==props.para.user_id){
       flag = true
     }

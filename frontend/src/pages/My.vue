@@ -2,7 +2,7 @@
   <div class="my_container">
     <div class="my_top">
       <img src="../assets/horizon_logo.png" class="logo">
-      <q-btn flat style="color:rgb(235,137,181); margin-right:70px;" icon="menu" @click="show()" />
+      <q-btn flat style="color:rgb(235,137,181);margin-left:65px; margin-right:10px;" icon="menu" @click="show()" />
     </div>
     <div class="user_info">
       <img class="profile_img" style="margin-right:20px;" src="https://isobarscience.com/wp-content/uploads/2020/09/default-profile-picture1.jpg">
@@ -159,22 +159,21 @@ export default {
 <style scoped>
 .my_top{
   display:flex;
-  /* align-items: center; */
   justify-content: center;
-  height:70px;
+  margin-left:120px;
 }
 .logo{
-  margin: 0px 50px 0px 175px;
-  width: 180px;
-  /* padding-left:40px; */
+  height:70px;
+  /* margin-left:128px; */
+  width:153px;
 }
-.my_container{
+/* .my_container{
   display: flex;
   flex-direction: column;
-  align-items: center;
-}
+} */
 .user_info{
   display: flex;
+  justify-content: center;
 }
 .profile_img{
   width:100px;
