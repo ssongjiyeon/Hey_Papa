@@ -1,5 +1,8 @@
 package com.ssafy.heypapa.service;
 
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -9,6 +12,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.heypapa.entity.Article;
 import com.ssafy.heypapa.entity.ArticleDto;
@@ -52,16 +56,49 @@ public class ArticleService implements IArticleService {
 	@Autowired
 	ReviewRepository reviewRepository;
 	
+	final String BASE_PATH = "/home/ubuntu/img/";
+	
+	private boolean isSave(User user, MultipartFile articleThumbnail, String path) {
+		
+        try {
+        	// 이미지 저장
+            File dest = new File(BASE_PATH + path);
+            
+			articleThumbnail.transferTo(dest);
+
+	        if(!dest.exists()) {
+	            return false;
+	        }
+	        
+	        return true;
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        return false;
+	}
+	
 	@Override
-	public Article createArticle(ArticleRequest articleRequest) {		
+	public Article createArticle(ArticleRequest articleRequest, MultipartFile articleThumbnail) {		
 		Article article = new Article();
 		User user = userRepository.findById(articleRequest.getUser_id()).get();
 		article.setUser(user);
 		article.setContent(articleRequest.getContent());
-		article.setImg(articleRequest.getImg());
 		article.setCreated_at(new Date());
 		article.setUpdated_at(new Date());
-		article.setImg(articleRequest.getImg());
+		
+		// 이미지 저장
+		LocalDateTime now = LocalDateTime.now();
+		String newPath = "article/" + user.getId() + "-" + articleThumbnail.getOriginalFilename();
+		if(articleThumbnail != null && isSave(user, articleThumbnail, newPath)) {
+			article.setImg(newPath);
+		} else {
+			article.setImg("NULL");
+		}
+		
 		articleRepository.save(article);
 		
 		// hashtag 처리
@@ -91,6 +128,7 @@ public class ArticleService implements IArticleService {
 				articleHashtagRepository.save(articleHashtag);	
 			}	
 		}
+		
 		return article;
 	}
 	
@@ -140,7 +178,7 @@ public class ArticleService implements IArticleService {
 	public Article updateArticle(ArticleRequest articleRequest, Long id) {		
 		Article article = articleRepository.findById(id).get();
 		article.setContent(articleRequest.getContent());
-		article.setImg(articleRequest.getImg());
+//		article.setImg(articleRequest.getImg());
 		article.setUpdated_at(new Date());
 		// 수정 요청받은 해시태그 스트링 배열을 List로 변환
 		// 이유는 아래에서 하나씩 삭제할건데 스트링 배열은 그게 안된데... List로 바꾸래..
