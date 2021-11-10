@@ -162,7 +162,8 @@ export default {
 }
 .logo{
   margin-top:60px;
-  width:70%;
+  height:100%;
+  width:80%;
 }
 .id_wrap{
   width:300px;

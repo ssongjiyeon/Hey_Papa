@@ -18,9 +18,10 @@
         </div>
       </q-card-section>
       <q-separator />
-      <q-img
+      <img
+        style="width:100%; height:350px;"
         @click="Detail(para)"
-        :src="para.img"
+        src="https://k5b206.p.ssafy.io:8080/api/static/img/article/10-2021-11-10-05-52-52-red.png"
       />
       <q-separator />
       <q-card-actions style="display:flex; justify-content:space-between;">
@@ -45,11 +46,14 @@ import { useStore } from 'vuex'
 export default {
   props: ["para"],
   setup(props) {
+    var imgUrl = 'https://k5b206.p.ssafy.io:8080/api/static/img/'
     const $q = useQuasar()
     const router = useRouter()
     const store = useStore()
     const heart = ref(false)
     var flag = ref(false)
+    imgUrl = imgUrl + props.para.img
+    console.log(imgUrl)
     if (localStorage.getItem('userId')==props.para.user_id){
       flag = true
     }
@@ -113,6 +117,7 @@ export default {
         Detail,
         expanded: ref(false),
         extended: ref(false),
+        imgUrl,
         getHeart,
         Show,
         flag,

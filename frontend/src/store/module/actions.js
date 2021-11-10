@@ -38,18 +38,18 @@ export function logout({}) {
   return $axios.get(url);
 }
 // 나의 게시글 가져오기
-export function myArticle({}) {
-  const url = baseUrl + "/user/article/" + user_id;
+export function myArticle({},id) {
+  const url = baseUrl + "/user/article/" + id;
   return $axios.get(url);
 }
 // 나의 좋아요 게시글 가져오기
-export function mylikeArticle({}) {
-  const url = baseUrl + "/user/like/" + user_id;
+export function mylikeArticle({},id) {
+  const url = baseUrl + "/user/like/" + id;
   return $axios.get(url);
 }
 // 찜한 문제 가져오기
-export function myZzim({}) {
-  const url = baseUrl + "/user/quiz/" + user_id;
+export function myZzim({},id) {
+  const url = baseUrl + "/user/quiz/" + id;
   return $axios.get(url);
 }
 // 게시글 수정하기
@@ -64,9 +64,7 @@ export function getReply({}, articleId) {
 }
 // 게시글 전체 불러오기
 export function allArticle({}, userId) {
-  console.log(userId, "ui");
   const url = baseUrl + "/article/all/" + userId;
-  console.log("불러오기");
   return $axios.get(url);
 }
 //댓글 달기
@@ -74,11 +72,6 @@ export function writeReply({}, replyContent) {
   const url = baseUrl + "/article/" + replyContent.articleNumber;
   return $axios.post(url, replyContent.realContent);
 }
-// // 전체 게시글 불러오기
-// export function allArticle({}, id) {
-//   const url = baseUrl + "/article/all/" + id;
-//   return $axios.get(url);
-// }
 // 게시글 삭제하기
 export function deleteArticle({}, id) {
   const url = baseUrl + "/article/" + id;
@@ -86,8 +79,20 @@ export function deleteArticle({}, id) {
 }
 // 게시글 쓰기
 export function writeArticle({}, article) {
+  const formdata = new FormData()
+  formdata.append('article_thumbnail',article.img)
+  formdata.append('content',article.content)
+  formdata.append('hashtag',article.hashtag)
+  formdata.append('user_id',article.user_id)
   const url = baseUrl + "/article";
-  return $axios.post(url, article);
+  return $axios({
+    method:'post',
+    url:url,
+    headers:{
+      'Content-Type':'multipart/form-data',
+    },
+    data: formdata
+  })
 }
 // 게시글 좋아요
 export function likeArticle({}, object) {

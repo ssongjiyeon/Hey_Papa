@@ -74,7 +74,7 @@ export default {
           nickname:form.babyname,
           password:getuser.value.password,
           region:getuser.value.region,
-          week:form.week
+          week:form.week,
         }
       store.dispatch('module/signUp',user)
         .then(function (res){
