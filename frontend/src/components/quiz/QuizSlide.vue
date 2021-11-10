@@ -18,11 +18,12 @@
           <span v-if="Description === '틀렸습니다'">정답은 {{ quiz.answer2 }}</span>
           {{quiz.img}}
           {{ quiz.description }}
+          <!-- {{quiz.comments}} -->
           <input type="text" v-model="Reply">
           <button @click="EnrollReply(quiz.id)">댓글달기</button>
           <!-- 댓글목록 -->
-          <div v-for="comment in comments">
-            <li>
+          <div>
+            <li v-for="comment in quiz.comments">
               {{comment}}
             </li>
           </div>
@@ -45,14 +46,14 @@ import { useStore } from 'vuex'
 import axios from 'axios'
 export default {
   props: [
-    "quiz"
+    "quiz",
+    "i",
+    "isAnswered"
   ],
   setup(props){
-    onMounted(() => {
-
-    })
     const store = useStore()
     const quiz = props.quiz
+    let isAnswered = props.isAnswered
     const SaveQuiz = (id) => {
       console.log(isSaved.value)
       isSaved.value = !isSaved.value
@@ -76,7 +77,7 @@ export default {
     const isSaved = ref(false)
     const ChooseAnswer = (name, answer) => {
       console.log(name, 'name')
-      isAnswered.value = !isAnswered.value
+      isAnswered = !isAnswered
       if(name !== answer){
 
         Description.value = "틀렸습니다"
@@ -91,7 +92,7 @@ export default {
       }
     }
     const Description = ref("")
-    const isAnswered = ref(false)
+
     const Reply = ref('')
     const EnrollReply = (id) => {
     const userId = localStorage.getItem('userId')
@@ -113,7 +114,7 @@ export default {
       ChooseAnswer,
       isAnswered,
       Description,
-      isAnswered,
+
       Reply,
       EnrollReply,
     }

@@ -41,7 +41,7 @@
         :key="quiz.id"
         :name="i+1"
         >
-        <QuizSlide :quiz="quiz" />
+        <QuizSlide :quiz="quiz" :i="i" :isAnswered="isAnswered" />
       </q-carousel-slide>
     </q-carousel>
   </div>
@@ -69,7 +69,7 @@ export default {
       store.getters['module/quizList']
 
     )
-
+    const isAnswered = ref(false)
     const BeforeTransition = () => {
       isAnswered.value = false
       current.value = slide.value
@@ -88,6 +88,7 @@ export default {
       page,
       current,
       slide,
+      isAnswered,
 
 
 
