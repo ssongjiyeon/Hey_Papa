@@ -16,7 +16,7 @@ public interface IUserService {
 
 	User getUserByNickname(String username);
 	User getUserByEmail(String email);
-	User createUser(RegistRequest req, MultipartFile userThumbnail);
+	User createUser(RegistRequest req);
 	boolean putUser(long userId, UserModifyRequest req);
 	ProfileResponse getProfile(long userId);
 	List<MyArticleResponse> getArticle(long userId);

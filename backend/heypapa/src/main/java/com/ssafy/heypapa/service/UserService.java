@@ -77,8 +77,31 @@ public class UserService implements IUserService {
 		return user.orElse(null);
 	}
 
+	private boolean isSave(String email, MultipartFile userThumbnail, String path) {
+		
+        try {
+        	// 이미지 저장
+            File dest = new File(BASE_PATH + path);
+            
+            userThumbnail.transferTo(dest);
+
+	        if(!dest.exists()) {
+	            return false;
+	        }
+	        
+	        return true;
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        return false;
+	}
+
 	@Override
-	public User createUser(RegistRequest req, MultipartFile userThumbnail) {
+	public User createUser(RegistRequest req) {
 		User user = new User();
 		
 		try {
@@ -90,20 +113,20 @@ public class UserService implements IUserService {
 			user.setNickname(makeNickname(req.getNickname()));
 
 			user.setWeek(req.getWeek());
-			
-			// 이미지 저장
-			String newPath = "user/" + req.getEmail() + "-" + userThumbnail.getOriginalFilename();
-            File dest = new File(BASE_PATH + newPath);
-            userThumbnail.transferTo(dest);
-
-            if(!dest.exists()) {
-                System.out.println("파일 업로드 실패");
-            }else {
-            	user.setImg(newPath);
-            }
+			user.setImg("NULL");
+//			// 이미지 저장
+//			String newPath = "user/" + req.getEmail() + "-" + userThumbnail.getOriginalFilename();
+//            File dest = new File(BASE_PATH + newPath);
+//            userThumbnail.transferTo(dest);
+//
+//            if(!dest.exists()) {
+//                System.out.println("파일 업로드 실패");
+//            }else {
+//            	user.setImg(newPath);
+//            }
 
 			userRepository.save(user);
-		} catch (ParseException | IllegalStateException | IOException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

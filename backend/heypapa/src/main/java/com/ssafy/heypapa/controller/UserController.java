@@ -102,10 +102,9 @@ public class UserController {
 	
 	@PostMapping("/regist")
 	@ApiOperation(value = "회원가입", notes = "회원가입을 한다.")
-	public ResponseEntity<BaseResponseBody> regist(@ApiParam(value = "방정보", required = true) RegistRequest req,
-			@RequestPart(value = "user_thumbnail", required = true) MultipartFile userThumbnail) {
+	public ResponseEntity<BaseResponseBody> regist(@RequestBody RegistRequest req) {
 		
-		User user = userService.createUser(req, userThumbnail);
+		User user = userService.createUser(req);
 		
 		if(user == null) {
 			return new ResponseEntity<BaseResponseBody>(HttpStatus.BAD_REQUEST);
@@ -194,4 +193,6 @@ public class UserController {
 		List<MyArticleResponse> res = userService.getLikeArticle(userId);
 		return ResponseEntity.status(200).body(res);
 	}
+	
+//	@PutMapping()
 }
