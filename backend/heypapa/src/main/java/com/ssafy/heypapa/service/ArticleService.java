@@ -3,6 +3,7 @@ package com.ssafy.heypapa.service;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -58,19 +59,28 @@ public class ArticleService implements IArticleService {
 	
 	final String BASE_PATH = "/home/ubuntu/img/";
 	
-	private boolean isSave(User user, MultipartFile articleThumbnail, String path) {
+	private String isSave(User user, MultipartFile articleThumbnail) {
+		
+		if(articleThumbnail == null) {
+			return null;
+		}
 		
         try {
         	// 이미지 저장
-            File dest = new File(BASE_PATH + path);
+        	LocalDateTime now = LocalDateTime.now();
+        	String formatedNow = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss"));
+
+			String newPath = "article/" + user.getId() + "-" + formatedNow + "-" + articleThumbnail.getOriginalFilename();
+			
+            File dest = new File(BASE_PATH + newPath);
             
 			articleThumbnail.transferTo(dest);
 
 	        if(!dest.exists()) {
-	            return false;
+	            return null;
 	        }
 	        
-	        return true;
+	        return newPath;
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -78,23 +88,26 @@ public class ArticleService implements IArticleService {
 			e.printStackTrace();
 		}
         
-        return false;
+        return null;
 	}
 	
 	@Override
 	public Article createArticle(ArticleRequest articleRequest, MultipartFile articleThumbnail) {		
 		Article article = new Article();
-		User user = userRepository.findById(articleRequest.getUser_id()).get();
+
+		User user = userRepository.findById(articleRequest.getUser_id()).orElse(null);
+		if(user == null) {
+			return null;
+		}
 		article.setUser(user);
 		article.setContent(articleRequest.getContent());
 		article.setCreated_at(new Date());
 		article.setUpdated_at(new Date());
 		
 		// 이미지 저장
-		LocalDateTime now = LocalDateTime.now();
-		String newPath = "article/" + user.getId() + "-" + articleThumbnail.getOriginalFilename();
-		if(articleThumbnail != null && isSave(user, articleThumbnail, newPath)) {
-			article.setImg(newPath);
+		String path = isSave(user, articleThumbnail);
+		if(path != null) {
+			article.setImg(path);
 		} else {
 			article.setImg("NULL");
 		}
