@@ -2,8 +2,13 @@ package com.ssafy.heypapa.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -77,19 +82,20 @@ public class UserService implements IUserService {
 		return user.orElse(null);
 	}
 
-	private boolean isSave(String email, MultipartFile userThumbnail, String path) {
+	private String isSave(long userId, MultipartFile userThumbnail) {
 		
         try {
         	// 이미지 저장
-            File dest = new File(BASE_PATH + path);
-            
+			String newPath = "user/" + userId + "-" + userThumbnail.getOriginalFilename();
+			
+            File dest = new File(BASE_PATH + newPath);
             userThumbnail.transferTo(dest);
 
 	        if(!dest.exists()) {
-	            return false;
+	            return null;
 	        }
 	        
-	        return true;
+	        return newPath;
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -97,7 +103,33 @@ public class UserService implements IUserService {
 			e.printStackTrace();
 		}
         
-        return false;
+        return null;
+	}
+
+
+	@Override
+	public boolean putUserImg(long userId, MultipartFile userThumbnail) {
+		
+		try {
+			User user = userRepository.findById(userId).orElse(null);
+			
+			if(!"NULL".equals(user.getImg())) {
+				Path deleteFilePath = Paths.get(BASE_PATH + user.getImg());
+				Files.deleteIfExists(deleteFilePath);
+			}
+
+			String path = isSave(userId, userThumbnail);
+			
+			
+			if(path != null && user != null) {
+				user.setImg(path);
+				userRepository.save(user);
+			}
+			
+			return true;
+		} catch(Exception e) {
+			return false;
+		}
 	}
 
 	@Override
@@ -114,16 +146,6 @@ public class UserService implements IUserService {
 
 			user.setWeek(req.getWeek());
 			user.setImg("NULL");
-//			// 이미지 저장
-//			String newPath = "user/" + req.getEmail() + "-" + userThumbnail.getOriginalFilename();
-//            File dest = new File(BASE_PATH + newPath);
-//            userThumbnail.transferTo(dest);
-//
-//            if(!dest.exists()) {
-//                System.out.println("파일 업로드 실패");
-//            }else {
-//            	user.setImg(newPath);
-//            }
 
 			userRepository.save(user);
 		} catch (Exception e) {
