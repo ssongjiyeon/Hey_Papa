@@ -1,5 +1,6 @@
 package com.ssafy.heypapa.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,13 +11,25 @@ import org.springframework.web.filter.CommonsRequestLoggingFilter;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.resource.PathResourceResolver;
 
 import com.ssafy.heypapa.util.JwtTokenUtil;
+
+import java.util.Arrays;
+import java.util.List;
 
 import javax.servlet.Filter;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
+	
+	private final String heyPapaImagesPath;
+	
+	public WebMvcConfig(@Value("${custom.path.heypapa-images}") String heyPapaImagesPath) {
+		this.heyPapaImagesPath = heyPapaImagesPath;
+	}
+	
+	
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
@@ -58,6 +71,17 @@ public class WebMvcConfig implements WebMvcConfigurer {
 			.addResourceLocations("classpath:/dist/img/");
         registry.addResourceHandler("/js/**")
 				.addResourceLocations("classpath:/dist/js/");
+        
+        // 이미지 저장 경로 설정
+        List<String> imageFolders = Arrays.asList("user", "article");
+        for(String imageFolder : imageFolders) {
+        	registry.addResourceHandler("/static/img/" + imageFolder + "/**")
+        		.addResourceLocations("file:///" + heyPapaImagesPath + imageFolder + "/")
+        		.setCachePeriod(3600)
+        		.resourceChain(true)
+        		.addResolver(new PathResourceResolver());
+        	
+        }
     }
 
     public Filter requestLoggingFilter() {

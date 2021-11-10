@@ -98,3 +98,10 @@ export function likeArticle({}, object) {
   const url = baseUrl + "/article/" + object.id + "/like";
   return $axios.post(url, send);
 }
+//퀴즈 찜하기
+export function saveQuiz({}, id, object) {
+  const url = baseUrl + "/quiz/" + id + "/myquiz";
+  console.log(object);
+  console.log(info, "info");
+  return $axios.post(url, info);
+}
