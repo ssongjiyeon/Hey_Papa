@@ -155,7 +155,6 @@ public class UserController {
 	public ResponseEntity<BaseResponseBody> modify(@RequestBody UserModifyRequest req, 
 			@PathVariable("user_id") long userId) {
 		
-
 		if(userService.putUser(userId, req)) {
 			return ResponseEntity.status(200).body(new BaseResponseBody(200, SUCCESS_MESSAGE));
 		}
@@ -194,5 +193,14 @@ public class UserController {
 		return ResponseEntity.status(200).body(res);
 	}
 	
-//	@PutMapping("/profile/{user_id}")
+	@PutMapping("/profile/{user_id}")
+	@ApiOperation(value = "회원 프로필 사진 수정")
+	public ResponseEntity<BaseResponseBody> modifyImg(@PathVariable("user_id") long userId,
+			@RequestPart(value = "user_thumbnail", required = true) MultipartFile userThumbnail) {
+		if(userService.putUserImg(userId, userThumbnail)) {
+			return ResponseEntity.status(200).body(new BaseResponseBody(200, SUCCESS_MESSAGE));
+		}
+		
+		return new ResponseEntity<BaseResponseBody>(HttpStatus.BAD_REQUEST);
+	}
 }

@@ -22,4 +22,5 @@ public interface IUserService {
 	List<MyArticleResponse> getArticle(long userId);
 	List<MyQuizResponse> getQuiz(long userId);
 	List<MyArticleResponse> getLikeArticle(long userId);
+	boolean putUserImg(long userId, MultipartFile userThumbnail);
 }
