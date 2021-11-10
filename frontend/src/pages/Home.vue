@@ -14,7 +14,7 @@
         style="height: 70px; margin: 0 auto; padding-left: 70px"
       />
       <div style="display: flex; align-items: center; margin-right: 15px">
-        <q-icon name="search" size="sm" style="color: rgb(235, 137, 181)" />
+        <q-icon name="search" size="sm" style="color: rgb(235, 137, 181)" @click="goSearch"/>
         <q-icon
           @click="goWrite"
           name="add"
@@ -56,6 +56,9 @@ export default {
     function goWrite() {
       router.push("create");
     }
+    function goSearch() {
+      router.push('search')
+    }
     // const api = 'https://k5b206.p.ssafy.io/heypapa/article/'
 
     // const infiniteHandler = ($state) => {
@@ -95,6 +98,7 @@ export default {
     // }
     return {
       goWrite,
+      goSearch,
       page,
       articles,
       Detail,
