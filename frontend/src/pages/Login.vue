@@ -110,6 +110,7 @@ export default {
         .then((result) => {
           const userId = result.data.id
           localStorage.setItem('userId',userId)
+
           // 회원정보 가져오기
           store.dispatch('module/requestInfo', userId)
             .then((res) => {
