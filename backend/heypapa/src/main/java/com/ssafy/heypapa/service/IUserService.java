@@ -2,6 +2,8 @@ package com.ssafy.heypapa.service;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.ssafy.heypapa.entity.User;
 import com.ssafy.heypapa.request.RegistRequest;
 import com.ssafy.heypapa.request.UserModifyRequest;
@@ -14,7 +16,7 @@ public interface IUserService {
 
 	User getUserByNickname(String username);
 	User getUserByEmail(String email);
-	User createUser(RegistRequest req);
+	User createUser(RegistRequest req, MultipartFile userThumbnail);
 	boolean putUser(long userId, UserModifyRequest req);
 	ProfileResponse getProfile(long userId);
 	List<MyArticleResponse> getArticle(long userId);

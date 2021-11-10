@@ -20,8 +20,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.heypapa.auth.PapaUserDetails;
 import com.ssafy.heypapa.entity.User;
@@ -41,6 +43,7 @@ import com.ssafy.heypapa.util.RedisUtil;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import springfox.documentation.annotations.ApiIgnore;
 
 @Api(value = "유저 api", tags = { "User" })
@@ -99,9 +102,10 @@ public class UserController {
 	
 	@PostMapping("/regist")
 	@ApiOperation(value = "회원가입", notes = "회원가입을 한다.")
-	public ResponseEntity<BaseResponseBody> regist(@RequestBody RegistRequest req) {
+	public ResponseEntity<BaseResponseBody> regist(@ApiParam(value = "방정보", required = true) RegistRequest req,
+			@RequestPart(value = "user_thumbnail", required = true) MultipartFile userThumbnail) {
 		
-		User user = userService.createUser(req);
+		User user = userService.createUser(req, userThumbnail);
 		
 		if(user == null) {
 			return new ResponseEntity<BaseResponseBody>(HttpStatus.BAD_REQUEST);
