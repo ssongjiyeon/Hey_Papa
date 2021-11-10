@@ -194,5 +194,5 @@ public class UserController {
 		return ResponseEntity.status(200).body(res);
 	}
 	
-//	@PutMapping()
+//	@PutMapping("/profile/{user_id}")
 }
