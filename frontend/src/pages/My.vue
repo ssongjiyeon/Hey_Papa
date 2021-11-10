@@ -5,7 +5,7 @@
       <q-btn flat style="color:rgb(235,137,181);margin-left:65px; margin-right:10px;" icon="menu" @click="show()" />
     </div>
     <div class="user_info">
-      <img class="profile_img" style="margin-right:20px;" src="https://isobarscience.com/wp-content/uploads/2020/09/default-profile-picture1.jpg">
+      <img class="profile_img" style="margin-right:20px;" src="../assets/default_user.png">
       <div class="nick_name">{{user.week}}주차 {{user.nickname}} 아빠</div>
     </div>
     <q-tabs
@@ -100,28 +100,30 @@ export default {
       })
     }
     onMounted(()=>{
-      store.dispatch('module/myArticle').then((res)=>{
+      const userId = localStorage.getItem('userId')
+      console.log(userId,'!@!@!')
+      store.dispatch('module/myArticle',userId).then((res)=>{
         console.log(res.data,'나의 게시글들')
         store.commit('module/setArticle', res.data)
       })
-      store.dispatch('module/myZzim').then((res)=>{
+      store.dispatch('module/mylikeArticle',userId).then((res)=>{
         console.log(res.data,'나의 찜한 문제들')
         // store.commit('module/setMyQuiz', res.data)
       })
-      store.dispatch('module/myZzim').then((res)=>{
+      store.dispatch('module/myZzim',userId).then((res)=>{
         console.log(res.data,'나의 찜한 퀴즈들')
         store.commit('module/setMyQuiz', res.data)
       })
     })
-
+    const userId = localStorage.getItem('userId')
     function goArticle(){
-      store.dispatch('module/myArticle').then((res)=>{
+      store.dispatch('module/myArticle',userId).then((res)=>{
         console.log(res.data,'나의 게시글들')
         store.commit('module/setArticle', res.data)
       })
     }
     function goLike(){
-      store.dispatch('module/mylikeArticle').then((res)=>{
+      store.dispatch('module/mylikeArticle',userId).then((res)=>{
         console.log(res.data,'나의 좋아요 게시글들')
         store.commit('module/setlikeArticle', res.data)
       })
@@ -129,7 +131,7 @@ export default {
     }
     function goZzim(){
       console.log('찜')
-      store.dispatch('module/myZzim').then((res)=>{
+      store.dispatch('module/myZzim',userId).then((res)=>{
         console.log(res.data,'나의 찜한 퀴즈들')
         store.commit('module/setMyQuiz', res.data)
       })
@@ -174,6 +176,7 @@ export default {
 .user_info{
   display: flex;
   justify-content: center;
+  margin-top:10px;
 }
 .profile_img{
   width:100px;
