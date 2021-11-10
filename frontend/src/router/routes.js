@@ -40,6 +40,7 @@ const routes = [
       { path: "quiz", component: () => import("pages/Quiz.vue") },
       { path: "create", component: () => import("pages/Create.vue") },
       { path: "modify", component: () => import("pages/ModifyArticle.vue") },
+      { path: "search", component: () => import("pages/Search.vue") },
     ],
   },
 
