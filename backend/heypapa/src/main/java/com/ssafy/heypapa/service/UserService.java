@@ -1,5 +1,7 @@
 package com.ssafy.heypapa.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,8 +11,10 @@ import java.util.Optional;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.heypapa.entity.Article;
 import com.ssafy.heypapa.entity.ArticleLike;
@@ -58,12 +62,11 @@ public class UserService implements IUserService {
 	final String[] preNickname = new String[] 
 			{"예쁜 ", "멋진 ", "우아한 ", "활발한 ", "고상한 ", "귀여운 ", "다정한 ", "대담한 ", "잘생긴 ", "따뜻한 ", "매력적인 ",
 			  "명량한 ", "성실한 ", "신중한 ", "용감한 ", "수줍은 " };
+	
+	final String BASE_PATH = "/home/ubuntu/img/";
 
 	public User getUserByNickname(String username) {
 		Optional<User> user = userRepository.findByNickname(username);
-		if(user.isPresent()) {
-			System.out.println("service " + user.get().getEmail());
-		}
 		return user.orElse(null);
 	}
 
@@ -75,7 +78,7 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public User createUser(RegistRequest req) {
+	public User createUser(RegistRequest req, MultipartFile userThumbnail) {
 		User user = new User();
 		
 		try {
@@ -89,9 +92,18 @@ public class UserService implements IUserService {
 			user.setWeek(req.getWeek());
 			
 			// 이미지 저장
-			user.setImg("img");
+			String newPath = "user/" + req.getEmail() + "-" + userThumbnail.getOriginalFilename();
+            File dest = new File(BASE_PATH + newPath);
+            userThumbnail.transferTo(dest);
+
+            if(!dest.exists()) {
+                System.out.println("파일 업로드 실패");
+            }else {
+            	user.setImg(newPath);
+            }
+
 			userRepository.save(user);
-		} catch (ParseException e) {
+		} catch (ParseException | IllegalStateException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
