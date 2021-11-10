@@ -13,8 +13,6 @@ public class ArticleRequest {
 	private Long user_id;
 	@ApiModelProperty(name = "게시글 내용")
 	private String content;
-	@ApiModelProperty(name = "게시글 사진")
-	private String img;
 	@ApiModelProperty(name = "해시 태그")
 	private String[] hashtag;
 }
