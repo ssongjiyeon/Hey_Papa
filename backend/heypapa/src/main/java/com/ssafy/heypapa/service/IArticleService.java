@@ -19,7 +19,7 @@ public interface IArticleService {
 	
 	List<ArticleResponse> getAllArticle(Pageable pageable, long userId);
 	
-//	List<ArticleResponse> hashtagSearch(String hashtag, long userId);
+	List<ArticleResponse> hashtagSearch(String hashtag, long userId);
 	
 	Article updateArticle(ArticleRequest articleRequest, Long id);
 	
