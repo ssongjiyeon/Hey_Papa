@@ -31,12 +31,13 @@
       control-color="primary"
       class="rounded-borders"
       @before-transition = "BeforeTransition"
-
+      style="margin-top:2rem; height:30rem;"
 
     >
 
       <q-carousel-slide
         class="column no-wrap flex-center carousel-slide"
+        style=""
         v-for="(quiz, i) in quizList"
         :key="quiz.id"
         :name="i+1"
@@ -120,6 +121,8 @@ export default {
   justify-content: start;
   overflow: scroll;
   border: 3px solid pink;
+
+
 }
 .answer-box {
   /* float: left; */

@@ -53,6 +53,7 @@ export default function () {
   const feedContent = "";
   const feedImg = "";
   const current_page = 0;
+  const commentList = [];
   // const eachArticle = [];
   return {
     likecnt,
@@ -68,5 +69,6 @@ export default function () {
     feedImg,
     feedContent,
     infoList,
+    commentList,
   };
 }

@@ -48,14 +48,15 @@ export default {
       imageData: null,
       text: '',
       hashtag: '',
+      img: '',
     }
   },
   methods: {
     onSelectFile() {
       const input = this.$refs.fileInput;
       const files = input.files;
-      this.FileImage = files[0];
-      console.log(this.FileImage,'@@@@')
+      const FileImage = files[0];
+      this.img = FileImage
       if (files && files[0]) {
         const reader = new FileReader();
         reader.onload = e => {
@@ -72,16 +73,27 @@ export default {
       this.$router.push('/home')
     },
     goWrite(){
+      if (this.text == '' || this.hashtag==''){
+          const Swal = require('sweetalert2')
+          Swal.fire({
+                  icon: 'error',
+                  title: '<span style="font-size:25px;">내용을 전부 작성해주세요.</span>',
+                  confirmButtonColor: '#primary',
+                  confirmButtonText: '<span style="font-size:18px;">확인</span>'
+              })
+              pwdMode.value = false
+        return
+      }
       const hashlist = this.hashtag.split('#').slice(1,)
       const article = {
         content:this.text,
         hashtag:hashlist,
-        img:'../assets/baby.png',
-        // this.imageData
+        img:this.img,
         user_id:localStorage.getItem('userId')
       }
       this.$store.dispatch('module/writeArticle',article)
-        .then(()=>{
+        .then((res)=>{
+          console.log(res,'과연??')
           this.$store.dispatch('module/allArticle',localStorage.getItem('userId')).then((res)=>{
             this.$store.commit('module/setAllarticle', res.data)
             this.$router.push('/home')

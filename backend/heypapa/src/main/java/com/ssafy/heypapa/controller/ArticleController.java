@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,6 +35,7 @@ import com.ssafy.heypapa.util.BaseResponseBody;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
@@ -54,8 +56,9 @@ public class ArticleController {
         @ApiResponse(code = 401, message = "토큰 인증 실패"),
         @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<BaseResponseBody> createArticle(@RequestBody ArticleRequest articleRequest) {
-		Article article = articleService.createArticle(articleRequest);
+	public ResponseEntity<BaseResponseBody> createArticle(@ApiParam(value = "게시글정보", required = true) ArticleRequest articleRequest,
+			@RequestPart(value = "article_thumbnail", required = false) MultipartFile articleThumbnail) {
+		Article article = articleService.createArticle(articleRequest, articleThumbnail);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 	

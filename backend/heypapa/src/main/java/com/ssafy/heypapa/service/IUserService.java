@@ -2,6 +2,8 @@ package com.ssafy.heypapa.service;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.ssafy.heypapa.entity.User;
 import com.ssafy.heypapa.request.RegistRequest;
 import com.ssafy.heypapa.request.UserModifyRequest;
@@ -20,4 +22,5 @@ public interface IUserService {
 	List<MyArticleResponse> getArticle(long userId);
 	List<MyQuizResponse> getQuiz(long userId);
 	List<MyArticleResponse> getLikeArticle(long userId);
+	boolean putUserImg(long userId, MultipartFile userThumbnail);
 }

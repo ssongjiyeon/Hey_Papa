@@ -1,9 +1,10 @@
 <template>
-  <div style="display:flex; justify-content:center;">
-    <img src="../assets/horizon_logo.png" style="height:70px;">
+  <div>
+    <div style="display:flex; justify-content:center;">
+      <img src="../assets/horizon_logo.png" style="height:70px;">
+    </div>
+    <InfoDetail />
   </div>
-  <InfoDetail />
-
 </template>
 
 <script>

@@ -114,7 +114,6 @@ export default {
           // 회원정보 가져오기
           store.dispatch('module/requestInfo', userId)
             .then((res) => {
-              console.log(res.data,'@@@')
               const loginUser = {
                   nickname: res.data.nickname,
                   img: res.data.img,
@@ -163,7 +162,8 @@ export default {
 }
 .logo{
   margin-top:60px;
-  width:70%;
+  height:100%;
+  width:80%;
 }
 .id_wrap{
   width:300px;
