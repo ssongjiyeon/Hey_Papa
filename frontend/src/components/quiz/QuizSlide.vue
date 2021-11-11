@@ -73,7 +73,6 @@ export default {
   setup(props){
     const store = useStore()
     const quiz = props.quiz
-
     const user = computed(()=> store.getters['module/getUser'])
     var user_img = computed(()=>user.value.img)
 
@@ -96,7 +95,7 @@ export default {
       //   qc: isSaved.value,ql: isSaved.value,ui: parseInt(localStorage.getItem('userId')),qi:id
       // })
       .then((res) => {
-        console.log(res.data, '댓글작성완료')
+        // console.log(res.data, '댓글작성완료')
       })
       .catch((err) => {
         console.log(err)
@@ -104,20 +103,24 @@ export default {
     }
     const isSaved = ref(false)
     const ChooseAnswer = (name, answer, id) => {
-      console.log(name, 'name')
-      isAnswered.value = !isAnswered.value
+
       // 댓글 목록 api 호출 필요
       const url = "https://k5b206.p.ssafy.io/api/quiz/" + id
       axios.get(url)
       .then((res) => {
         store.commit('module/commentList', res.data.comments )
       })
-      if(name !== answer){
+      if(name == null) {
+        Description.value = ""
+      }
+      else if(name !== answer){
         Description.value = "틀렸습니다"
+        isAnswered.value = !isAnswered.value
       // Description 내용 수정시, 위에 v-if 구문도 수정해야함
       }
       else{
       Description.value = "정답입니다"
+      isAnswered.value = !isAnswered.value
       }
     }
     const commentList = computed(()=>
@@ -127,16 +130,14 @@ export default {
     const Reply = ref('')
     const EnrollReply = (id) => {
       const userId = localStorage.getItem('userId')
-      console.log(userId, 'ui')
       const url = "https://k5b206.p.ssafy.io/api/quiz/" + id
       const params = {
         content: Reply.value,
         user_id: userId,
       }
-      console.log(params, 'params')
       axios.post(url, params)
       .then((res) => {
-        commentList()
+        ChooseAnswer(null, null, quiz.id)
       })
       Reply.value = ''
     }
