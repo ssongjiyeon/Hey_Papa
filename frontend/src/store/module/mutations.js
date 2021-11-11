@@ -33,6 +33,5 @@ export function infoList(state, infoList) {
   state.infoList = infoList;
 }
 export function commentList(state, commentList) {
-  console.log(commentList, "mcl");
   state.commentList = commentList;
 }
