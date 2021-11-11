@@ -15,8 +15,12 @@ public interface MyQuizRepository extends JpaRepository<MyQuiz, Long> {
 
 	List<MyQuiz> findByQuizId(Long id);
 	
-	Optional<MyQuiz> findByQuizAndUserId(Long quizId, Long userId);
+	Optional<MyQuiz> findByQuizIdAndUserId(Long quizId, Long userId);
+	
+	MyQuiz findByUserIdAndQuizId(long userId, Long id);
 	
 	List<MyQuiz> findByUser(User user);
 
+	List<MyQuiz> findByUserId(Long userId);
+	
 }

@@ -26,10 +26,10 @@ public class MyQuiz extends BaseEntity {
 	@JoinColumn(name = "user_id")
 	private User user; // 유저 id
 	
-	@ColumnDefault("0")
-	private boolean quizcheck; // 퀴즈 확인용
-	
-	@ColumnDefault("0")
-	private boolean quizlike; // 퀴즈 좋아요
+//	@ColumnDefault("0")
+//	private boolean quizcheck; // 퀴즈 확인용
+//	
+//	@ColumnDefault("0")
+//	private boolean quizlike; // 퀴즈 좋아요
 	
 }
