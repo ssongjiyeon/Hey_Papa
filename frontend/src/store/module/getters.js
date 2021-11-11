@@ -31,3 +31,6 @@ export function getMyzzim(state) {
 export function infoList(state) {
   return state.infoList;
 }
+export function commentList(state) {
+  return state.commentList;
+}

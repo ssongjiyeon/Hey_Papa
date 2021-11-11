@@ -23,12 +23,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.heypapa.entity.Article;
 import com.ssafy.heypapa.entity.ArticleLike;
+import com.ssafy.heypapa.entity.Comment;
 import com.ssafy.heypapa.entity.MyQuiz;
 import com.ssafy.heypapa.entity.Quiz;
 import com.ssafy.heypapa.entity.Review;
 import com.ssafy.heypapa.entity.User;
 import com.ssafy.heypapa.repository.ArticleLikeRepository;
 import com.ssafy.heypapa.repository.ArticleRepository;
+import com.ssafy.heypapa.repository.CommentRepository;
 import com.ssafy.heypapa.repository.MyQuizRepository;
 import com.ssafy.heypapa.repository.QuizRepository;
 import com.ssafy.heypapa.repository.ReviewRepository;
@@ -63,6 +65,9 @@ public class UserService implements IUserService {
 	
 	@Autowired
 	ReviewRepository reviewRepository;
+	
+	@Autowired
+	CommentRepository commentRepository;
 	
 	final String[] preNickname = new String[] 
 			{"예쁜 ", "멋진 ", "우아한 ", "활발한 ", "고상한 ", "귀여운 ", "다정한 ", "대담한 ", "잘생긴 ", "따뜻한 ", "매력적인 ",
@@ -252,30 +257,49 @@ public class UserService implements IUserService {
 
 	@Override
 	public List<MyQuizResponse> getQuiz(long userId) {
+//		List<MyQuizResponse> res = new ArrayList<>();
+//		Optional<User> user = userRepository.findById(userId);
+//		
+//		if(user == null) return null;
+//		
+//		List<MyQuiz> myquizs = myquizRepository.findByUser(user.get());
+//		for(MyQuiz mq : myquizs) {
+//			MyQuizResponse mQuiz = new MyQuizResponse();
+////			mQuiz.setId(mq.getId());
+////			mQuiz.setQuizcheck(mq.isQuizcheck());
+////			mQuiz.setQuizlike(mq.isQuizlike());
+//			mQuiz.setQuiz_id(mq.getQuiz().getId());
+//			mQuiz.setQuestion(mq.getQuiz().getQuestion());
+//			mQuiz.setType(mq.getQuiz().getType());
+//			mQuiz.setAnswer(mq.getQuiz().getAnswer());
+//			mQuiz.setAnswer2(mq.getQuiz().getAnswer2());
+//			mQuiz.setCandidate(mq.getQuiz().getCandidate());
+//			mQuiz.setDescription(mq.getQuiz().getDescription());
+////			mQuiz.setImg(mq.getQuiz().getImg());
+//			
+//			List<MyQuiz> myquiz = myquizRepository.findByQuizId(mq.getId());
+//			res.add(mQuiz);
+//		}
+//		
+//		return res;
+		List<MyQuiz> likes = myquizRepository.findByUserId(userId);
 		List<MyQuizResponse> res = new ArrayList<>();
-		Optional<User> user = userRepository.findById(userId);
 		
-		if(user == null) return null;
-		
-		List<MyQuiz> myquizs = myquizRepository.findByUser(user.get());
-		for(MyQuiz mq : myquizs) {
-			MyQuizResponse mQuiz = new MyQuizResponse();
-//			mQuiz.setId(mq.getId());
-			mQuiz.setQuizcheck(mq.isQuizcheck());
-			mQuiz.setQuizlike(mq.isQuizlike());
-			mQuiz.setQuiz_id(mq.getQuiz().getId());
-			mQuiz.setQuestion(mq.getQuiz().getQuestion());
-			mQuiz.setType(mq.getQuiz().getType());
-			mQuiz.setAnswer(mq.getQuiz().getAnswer());
-			mQuiz.setAnswer2(mq.getQuiz().getAnswer2());
-			mQuiz.setCandidate(mq.getQuiz().getCandidate());
-			mQuiz.setDescription(mq.getQuiz().getDescription());
-//			mQuiz.setImg(mq.getQuiz().getImg());
+		for(MyQuiz like : likes) {
 			
-			List<MyQuiz> myquiz = myquizRepository.findByQuizId(mq.getId());
-			res.add(mQuiz);
+			MyQuizResponse lQuiz = new MyQuizResponse();
+			lQuiz.setId(like.getId());
+			lQuiz.setQuiz_id(like.getQuiz().getId());
+			lQuiz.setType(like.getQuiz().getType());
+			lQuiz.setQuestion(like.getQuiz().getQuestion());
+			lQuiz.setCandidate(like.getQuiz().getCandidate());
+			lQuiz.setAnswer(like.getQuiz().getAnswer());
+			lQuiz.setAnswer2(like.getQuiz().getAnswer2());
+			lQuiz.setDescription(like.getQuiz().getDescription());
+			
+//			List<Comment> comment = commentRepository.findByQuizId(like.getQuiz().getId());
+			res.add(lQuiz);
 		}
-		
 		return res;
 	}
 

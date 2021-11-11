@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.heypapa.entity.Article;
-import com.ssafy.heypapa.entity.ArticleDto;
 import com.ssafy.heypapa.entity.ArticleHashtag;
 import com.ssafy.heypapa.entity.ArticleLike;
 import com.ssafy.heypapa.entity.Hashtag;
@@ -188,6 +187,51 @@ public class ArticleService implements IArticleService {
 	}
 	
 	@Override
+	public List<ArticleResponse> hashtagSearch(String hashtag, long userId) {
+		List<Article> list = articleRepository.findAll();
+		List<ArticleResponse> copy = new ArrayList<>();
+		ArticleResponse res;
+		for(Article a : list) {
+			res = new ArticleResponse();
+			List<String> hash = new ArrayList<>();
+			List<ArticleHashtag> hastag = articleHashtagRepository.findByArticleId(a.getId());
+			for(ArticleHashtag ah : hastag) {
+//				hash.add(ah.getHashtag().getName());
+				if(ah.getHashtag().getName().equals(hashtag)) {
+					hash.add(ah.getHashtag().getName());
+					String[] str = new String[hash.size()];
+					str = (String[]) hash.toArray(str);
+					res.setHashtag(str);
+				}
+			}
+			res.setId(a.getId());
+			res.setContent(a.getContent());
+			res.setImg(a.getImg());
+			res.setCreated_at(a.getCreated_at());
+			// like_cnt 처리
+			List<ArticleLike> al = articleLikeRepository.findByArticleId(a.getId());
+			res.setLike_cnt(al.size());
+			// 좋아요 했는지 처리
+			ArticleLike isLike = articleLikeRepository.findByUserIdAndArticleId(userId, a.getId());
+			if(isLike == null) {
+				res.setLike(false);
+			} else {
+				res.setLike(true);
+			}
+			// comment_cnt 처리
+			List<Review> r = reviewRepository.findByArticleId(a.getId());
+			res.setComment_cnt(r.size());
+			//user 닉네임, 프로필이미지 처리
+			res.setUser_id(a.getUser().getId());
+			res.setNickname(a.getUser().getNickname());
+			res.setUser_img(a.getUser().getImg());
+			copy.add(res);
+		}
+		return copy;
+	}
+	
+	
+	@Override
 	public Article updateArticle(ArticleRequest articleRequest, Long id) {		
 		Article article = articleRepository.findById(id).get();
 		article.setContent(articleRequest.getContent());
@@ -311,6 +355,5 @@ public class ArticleService implements IArticleService {
 		}
 		return copy;
 	}
-	
 
 }

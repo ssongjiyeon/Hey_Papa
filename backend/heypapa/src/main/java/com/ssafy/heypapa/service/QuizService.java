@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.ssafy.heypapa.entity.ArticleLike;
 import com.ssafy.heypapa.entity.Comment;
 import com.ssafy.heypapa.entity.MyQuiz;
 import com.ssafy.heypapa.entity.Quiz;
@@ -48,7 +49,7 @@ public class QuizService implements IQuizService {
 	private S3Service s3Service;
 	
 	@Override
-	public QuizResponse getoneQuiz(Long id) {
+	public QuizResponse getoneQuiz(Long id, long userId) {
 		Quiz quiz = quizRepository.findById(id).get();
 		QuizResponse q = new QuizResponse();
 		q.setId(quiz.getId());
@@ -58,7 +59,13 @@ public class QuizService implements IQuizService {
 		q.setCandidate(quiz.getCandidate());
 		q.setDescription(quiz.getDescription());
 		q.setType(quiz.getType());
-		
+		// 퀴즈 찜 했는지 처리
+		MyQuiz isLike = myquizRepository.findByUserIdAndQuizId(userId, q.getId());
+		if(isLike == null) {
+			q.setLike(false);
+		} else {
+			q.setLike(true);
+		}
 		List<Comment> clist = commentRepository.findByQuiz_id(quiz.getId()).get();
 		if(clist != null) {
 			List<CommentResponse> comments = new ArrayList<>();
@@ -203,9 +210,9 @@ public class QuizService implements IQuizService {
 //	}
 
 	public void myQuiz(MyQuizRequest myquizRequest, Long id) {
-		if(myquizRequest.getQuizlike()==true) {
+		if(myquizRequest.getQuizlike()==false) {
 			Long userId = myquizRequest.getUser_id();
-			Optional<MyQuiz> like = myquizRepository.findByQuizAndUserId(id, userId);
+			Optional<MyQuiz> like = myquizRepository.findByQuizIdAndUserId(id, userId);
 			
 			if(like.isPresent()) {
 				myquizRepository.delete(like.get());
