@@ -21,7 +21,7 @@
       <img
         style="width:100%; height:350px;"
         @click="Detail(para)"
-        src="https://k5b206.p.ssafy.io:8080/api/static/img/article/10-2021-11-10-05-52-52-red.png"
+        src="/home/ubuntu/img/article/10-2021-11-10-05-52-52-red.png"
       />
       <q-separator />
       <q-card-actions style="display:flex; justify-content:space-between;">
