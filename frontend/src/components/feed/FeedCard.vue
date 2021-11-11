@@ -23,6 +23,21 @@
         @click="Detail(para)"
         src="/home/ubuntu/img/article/10-2021-11-10-05-52-52-red.png"
       />
+      <img
+        style="width:100%; height:350px;"
+        @click="Detail(para)"
+        src="home/ubuntu/img/article/10-2021-11-10-05-52-52-red.png"
+      />
+      <img
+        style="width:100%; height:350px;"
+        @click="Detail(para)"
+        src="file:////home/ubuntu/img/article/10-2021-11-10-05-52-52-red.png"
+      />
+      <img
+        style="width:100%; height:350px;"
+        @click="Detail(para)"
+        :src="imgUrl"
+      />     
       <q-separator />
       <q-card-actions style="display:flex; justify-content:space-between;">
         <div style="display:flex; align-items:center;">
@@ -46,7 +61,7 @@ import { useStore } from 'vuex'
 export default {
   props: ["para"],
   setup(props) {
-    var imgUrl = 'https://k5b206.p.ssafy.io:8080/api/static/img/'
+    var imgUrl = '/home/ubuntu/img/'
     const $q = useQuasar()
     const router = useRouter()
     const store = useStore()
