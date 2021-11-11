@@ -32,7 +32,8 @@
       <div class="reply" clickable v-ripple v-if="commentList" v-for="(comment, idx) in commentList" :key="idx">
         <div class="avatar">
           <q-avatar style="height:2.5rem; width:2.5rem; margin-right:1rem">
-            <img :src="comment.user_img">
+            <img v-if="comment=='NULL'" src="../../assets/default_user.png" >
+            <img v-else :src="`https://k5b206.p.ssafy.io/api/static/img/${comment.user_img}`">
           </q-avatar>
         </div>
         <div class="content">
@@ -72,6 +73,13 @@ export default {
   setup(props){
     const store = useStore()
     const quiz = props.quiz
+
+    const user = computed(()=> store.getters['module/getUser'])
+    var user_img = computed(()=>user.value.img)
+
+
+
+
     let comments = []
     let isAnswered = ref(false)
     const SaveQuiz = (id) => {
@@ -144,7 +152,8 @@ export default {
       Reply,
       EnrollReply,
       commentList,
-      dense: ref(false)
+      dense: ref(false),
+      user_img
     }
   }
 }
