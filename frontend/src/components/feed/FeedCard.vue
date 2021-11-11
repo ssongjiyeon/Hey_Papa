@@ -8,8 +8,9 @@
         </div>
         <!-- 프로필 박스 -->
         <div class="profile-box">
-          <img :src="para.user_img" alt="" class="profile-img" >
-          <div class="text-h6 q-mt-sm q-mb-sm q-ml-sm">{{para.nickname}}</div>
+          <img v-if="para.user_img=='NULL'" src="../../assets/default_user.png" class="profile-img">
+          <img v-else :src="'https://k5b206.p.ssafy.io/api/static/img/'+para.user_img" class="profile-img">
+          <div class="text-h6 q-mt-sm q-mb-sm q-ml-sm">{{para.nickname}} 파파</div>
         </div>
         <div :class="extended ? 'more-box' : 'text-box'" transition: fade>
           <div @click="Detail(para)">
@@ -18,10 +19,11 @@
         </div>
       </q-card-section>
       <q-separator />
-      <q-img
+      <img
+        style="width:100%; height:350px;"
         @click="Detail(para)"
-        :src="para.img"
-      />
+        :src="imgUrl"
+      />     
       <q-separator />
       <q-card-actions style="display:flex; justify-content:space-between;">
         <div style="display:flex; align-items:center;">
@@ -45,11 +47,14 @@ import { useStore } from 'vuex'
 export default {
   props: ["para"],
   setup(props) {
+    var imgUrl = 'https://k5b206.p.ssafy.io/api/static/img/'
     const $q = useQuasar()
     const router = useRouter()
     const store = useStore()
     const heart = ref(false)
     var flag = ref(false)
+    imgUrl = imgUrl + props.para.img
+    console.log(imgUrl)
     if (localStorage.getItem('userId')==props.para.user_id){
       flag = true
     }
@@ -113,6 +118,7 @@ export default {
         Detail,
         expanded: ref(false),
         extended: ref(false),
+        imgUrl,
         getHeart,
         Show,
         flag,
@@ -163,6 +169,7 @@ export default {
 .profile-box{
   display: flex;
   align-items: center;
+  border-radius: 50%;
 }
 .more-box{
   display: -webkit-box;
@@ -183,7 +190,6 @@ export default {
 .profile-img{
   height:2rem;
   width:2rem;
-  box-shadow: 1px 2px 3px grey;
   border-radius: 1rem;
 }
 </style>

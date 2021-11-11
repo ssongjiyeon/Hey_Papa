@@ -9,12 +9,10 @@ import lombok.Setter;
 @Setter
 @ApiModel("ArticleRequest")
 public class ArticleRequest {
-	@ApiModelProperty(name = "유저id")
+	@ApiModelProperty(name = "user_id")
 	private Long user_id;
-	@ApiModelProperty(name = "게시글 내용")
+	@ApiModelProperty(name = "content")
 	private String content;
-	@ApiModelProperty(name = "게시글 사진")
-	private String img;
-	@ApiModelProperty(name = "해시 태그")
+	@ApiModelProperty(name = "hashtag")
 	private String[] hashtag;
 }

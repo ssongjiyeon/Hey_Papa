@@ -20,8 +20,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.heypapa.auth.PapaUserDetails;
 import com.ssafy.heypapa.entity.User;
@@ -41,6 +43,7 @@ import com.ssafy.heypapa.util.RedisUtil;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import springfox.documentation.annotations.ApiIgnore;
 
 @Api(value = "유저 api", tags = { "User" })
@@ -152,7 +155,6 @@ public class UserController {
 	public ResponseEntity<BaseResponseBody> modify(@RequestBody UserModifyRequest req, 
 			@PathVariable("user_id") long userId) {
 		
-
 		if(userService.putUser(userId, req)) {
 			return ResponseEntity.status(200).body(new BaseResponseBody(200, SUCCESS_MESSAGE));
 		}
@@ -189,5 +191,16 @@ public class UserController {
 	public ResponseEntity<List<MyArticleResponse>> getLikeArticle(@PathVariable("user_id") long userId) {
 		List<MyArticleResponse> res = userService.getLikeArticle(userId);
 		return ResponseEntity.status(200).body(res);
+	}
+	
+	@PutMapping("/profile/{user_id}")
+	@ApiOperation(value = "회원 프로필 사진 수정")
+	public ResponseEntity<BaseResponseBody> modifyImg(@PathVariable("user_id") long userId,
+			@RequestPart(value = "user_thumbnail", required = true) MultipartFile userThumbnail) {
+		if(userService.putUserImg(userId, userThumbnail)) {
+			return ResponseEntity.status(200).body(new BaseResponseBody(200, SUCCESS_MESSAGE));
+		}
+		
+		return new ResponseEntity<BaseResponseBody>(HttpStatus.BAD_REQUEST);
 	}
 }

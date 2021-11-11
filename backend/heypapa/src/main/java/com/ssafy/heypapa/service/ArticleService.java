@@ -1,5 +1,9 @@
 package com.ssafy.heypapa.service;
 
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -9,6 +13,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.heypapa.entity.Article;
 import com.ssafy.heypapa.entity.ArticleDto;
@@ -52,16 +57,61 @@ public class ArticleService implements IArticleService {
 	@Autowired
 	ReviewRepository reviewRepository;
 	
+	final String BASE_PATH = "/home/ubuntu/img/";
+	
+	private String isSave(User user, MultipartFile articleThumbnail) {
+		
+		if(articleThumbnail == null) {
+			return null;
+		}
+		
+        try {
+        	// 이미지 저장
+        	LocalDateTime now = LocalDateTime.now();
+        	String formatedNow = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss"));
+
+			String newPath = "article/" + user.getId() + "-" + formatedNow + "-" + articleThumbnail.getOriginalFilename();
+			
+            File dest = new File(BASE_PATH + newPath);
+            
+			articleThumbnail.transferTo(dest);
+
+	        if(!dest.exists()) {
+	            return null;
+	        }
+	        
+	        return newPath;
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        return null;
+	}
+	
 	@Override
-	public Article createArticle(ArticleRequest articleRequest) {		
+	public Article createArticle(ArticleRequest articleRequest, MultipartFile articleThumbnail) {		
 		Article article = new Article();
-		User user = userRepository.findById(articleRequest.getUser_id()).get();
+
+		User user = userRepository.findById(articleRequest.getUser_id()).orElse(null);
+		if(user == null) {
+			return null;
+		}
 		article.setUser(user);
 		article.setContent(articleRequest.getContent());
-		article.setImg(articleRequest.getImg());
 		article.setCreated_at(new Date());
 		article.setUpdated_at(new Date());
-		article.setImg(articleRequest.getImg());
+		
+		// 이미지 저장
+		String path = isSave(user, articleThumbnail);
+		if(path != null) {
+			article.setImg(path);
+		} else {
+			article.setImg("NULL");
+		}
+		
 		articleRepository.save(article);
 		
 		// hashtag 처리
@@ -91,6 +141,7 @@ public class ArticleService implements IArticleService {
 				articleHashtagRepository.save(articleHashtag);	
 			}	
 		}
+		
 		return article;
 	}
 	
@@ -140,7 +191,7 @@ public class ArticleService implements IArticleService {
 	public Article updateArticle(ArticleRequest articleRequest, Long id) {		
 		Article article = articleRepository.findById(id).get();
 		article.setContent(articleRequest.getContent());
-		article.setImg(articleRequest.getImg());
+//		article.setImg(articleRequest.getImg());
 		article.setUpdated_at(new Date());
 		// 수정 요청받은 해시태그 스트링 배열을 List로 변환
 		// 이유는 아래에서 하나씩 삭제할건데 스트링 배열은 그게 안된데... List로 바꾸래..

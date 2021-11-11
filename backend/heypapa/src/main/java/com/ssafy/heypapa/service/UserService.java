@@ -1,7 +1,14 @@
 package com.ssafy.heypapa.service;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -9,8 +16,10 @@ import java.util.Optional;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.heypapa.entity.Article;
 import com.ssafy.heypapa.entity.ArticleLike;
@@ -58,12 +67,11 @@ public class UserService implements IUserService {
 	final String[] preNickname = new String[] 
 			{"예쁜 ", "멋진 ", "우아한 ", "활발한 ", "고상한 ", "귀여운 ", "다정한 ", "대담한 ", "잘생긴 ", "따뜻한 ", "매력적인 ",
 			  "명량한 ", "성실한 ", "신중한 ", "용감한 ", "수줍은 " };
+	
+	final String BASE_PATH = "/home/ubuntu/img/";
 
 	public User getUserByNickname(String username) {
 		Optional<User> user = userRepository.findByNickname(username);
-		if(user.isPresent()) {
-			System.out.println("service " + user.get().getEmail());
-		}
 		return user.orElse(null);
 	}
 
@@ -72,6 +80,56 @@ public class UserService implements IUserService {
 		Optional<User> user = userRepository.findByEmail(email);
 	
 		return user.orElse(null);
+	}
+
+	private String isSave(long userId, MultipartFile userThumbnail) {
+		
+        try {
+        	// 이미지 저장
+			String newPath = "user/" + userId + "-" + userThumbnail.getOriginalFilename();
+			
+            File dest = new File(BASE_PATH + newPath);
+            userThumbnail.transferTo(dest);
+
+	        if(!dest.exists()) {
+	            return null;
+	        }
+	        
+	        return newPath;
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        return null;
+	}
+
+
+	@Override
+	public boolean putUserImg(long userId, MultipartFile userThumbnail) {
+		
+		try {
+			User user = userRepository.findById(userId).orElse(null);
+			
+			if(!"NULL".equals(user.getImg())) {
+				Path deleteFilePath = Paths.get(BASE_PATH + user.getImg());
+				Files.deleteIfExists(deleteFilePath);
+			}
+
+			String path = isSave(userId, userThumbnail);
+			
+			
+			if(path != null && user != null) {
+				user.setImg(path);
+				userRepository.save(user);
+			}
+			
+			return true;
+		} catch(Exception e) {
+			return false;
+		}
 	}
 
 	@Override
@@ -87,11 +145,10 @@ public class UserService implements IUserService {
 			user.setNickname(makeNickname(req.getNickname()));
 
 			user.setWeek(req.getWeek());
-			
-			// 이미지 저장
-			user.setImg("img");
+			user.setImg("NULL");
+
 			userRepository.save(user);
-		} catch (ParseException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
