@@ -73,17 +73,17 @@ public class ArticleController {
 		return ResponseEntity.status(200).body(articleList);
 	}
 	
-//	@GetMapping("/search")
-//	@ApiOperation(value = "게시글 해시태그 검색", notes = "<strong>게시글 해시태그 검색 리스트</strong>")
-//	@ApiResponses({
-//		@ApiResponse(code = 200, message = "성공"),
-//        @ApiResponse(code = 401, message = "토큰 인증 실패"),
-//        @ApiResponse(code = 500, message = "서버 오류")
-//	})
-//	public ResponseEntity<List<ArticleResponse>> hashtagSearch(@PathVariable("hashtag") String hashtag, @PathVariable("user_id") long userId) {
-//		List<ArticleResponse> articleList = articleService.hashtagSearch(hashtag, userId);
-//		return ResponseEntity.status(200).body(articleList);
-//	}
+	@GetMapping("/search/{hashtag}")
+	@ApiOperation(value = "게시글 해시태그 검색", notes = "<strong>게시글 해시태그 검색 리스트</strong>")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "성공"),
+        @ApiResponse(code = 401, message = "토큰 인증 실패"),
+        @ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<List<ArticleResponse>> hashtagSearch(@PathVariable("hashtag") String hashtag, @PathVariable("user_id") long userId) {
+		List<ArticleResponse> articleList = articleService.hashtagSearch(hashtag, userId);
+		return ResponseEntity.status(200).body(articleList);
+	}
 	
 	@PostMapping("/{article_id}")
 	@ApiOperation(value = "댓글 작성", notes = "<strong>댓글 작성하기</strong>")
