@@ -31,6 +31,6 @@ public class ArticleResponse {
 	private int like_cnt;
 	@ApiModelProperty(name = "댓글 수")
 	private int comment_cnt;
-	@ApiModelProperty(name = "댓글 수")
+	@ApiModelProperty(name = "좋아요")
 	private boolean like;
 }

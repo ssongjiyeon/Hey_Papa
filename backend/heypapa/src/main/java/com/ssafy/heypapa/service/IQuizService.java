@@ -14,7 +14,7 @@ import com.ssafy.heypapa.response.QuizResponse;
 
 public interface IQuizService {
 
-	QuizResponse getoneQuiz(Long id); // 하나의 퀴즈 보기
+	QuizResponse getoneQuiz(Long id, long userId); // 하나의 퀴즈 보기
 	
 //	List<QuizRequest> getAllQuiz(Pageable pageable); // 퀴즈 전체 리스트
 	

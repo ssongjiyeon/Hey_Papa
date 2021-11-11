@@ -32,3 +32,6 @@ export function likeCnt(state, like_cnt) {
 export function infoList(state, infoList) {
   state.infoList = infoList;
 }
+export function commentList(state, commentList) {
+  state.commentList = commentList;
+}

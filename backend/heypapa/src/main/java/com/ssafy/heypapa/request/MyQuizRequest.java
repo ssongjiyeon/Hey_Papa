@@ -11,7 +11,7 @@ public class MyQuizRequest {
 
 	private Long user_id;
 //	private Long quiz_id;
-	private Boolean quizcheck;
+//	private Boolean quizcheck;
 	private Boolean quizlike;
 	
 }

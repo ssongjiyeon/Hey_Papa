@@ -30,6 +30,8 @@ public class QuizResponse {
 	private String description;
 	@ApiModelProperty(name = "이미지")
 	private String img;
+	@ApiModelProperty(name = "찜")
+	private boolean like;
 	
 	@ApiModelProperty(name = "퀴즈 댓글 목록들")
 	private List<CommentResponse> comments;

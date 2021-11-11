@@ -16,24 +16,25 @@
 </div>
 <div>
   <div class="profile-box">
-    <img :src="para.user_img" alt="유저이미지">
+    <img v-if="article_user_img=='NULL'" src="../../assets/default_user.png"  class="profile-img">
+    <img v-else :src="'https://k5b206.p.ssafy.io/api/static/img/'+article_user_img" class="profile-img">
     <p>{{para.nickname}}</p>
   </div>
   <div class="content-box">
     <p>{{para.content}}</p>
-    <img :src="para.img" alt="x">
+    <img :src="imgUrl" alt="x">
   </div>
-  <div v-for="(reply,i) in replylist" key="i">
+  <div v-for="(reply,i) in replylist" :key="i">
     <p>{{reply}}</p>
   </div>
   <div class="input-box">
     <q-input bottom-slots v-model="TempReply" label="댓글쓰기" counter maxlength="120" :dense="dense">
         <template v-slot:before>
           <q-avatar>
-            <img src="https://cdn.quasar.dev/img/avatar5.jpg">
+            <img v-if="user_img=='NULL'" src="../../assets/default_user.png" >
+            <img v-else :src="'https://k5b206.p.ssafy.io/api/static/img/'+user_img" alt="유저이미지">
           </q-avatar>
         </template>
-
         <template v-slot:append>
           <q-btn round dense flat icon="send" @click="WriteReply(para)" @keyup.enter="WriteReply" />
         </template>
@@ -49,19 +50,20 @@ import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 export default {
   setup(){
+    var imgUrl = 'https://k5b206.p.ssafy.io/api/static/img/'
     const store = useStore()
     const route = useRoute()
     const dense = ref(true)
     let replylist = []
-
     const para = computed(() => store.getters["module/getSelectArticle"])
-    console.log(para.value, '파라밸류')
+    const user = computed(()=> store.getters['module/getUser'])
+    var user_img = computed(()=>user.value.img)
+    var article_user_img = computed(()=>para.value.user_img)
     const articleId = route.params.article_id
-    console.log('params again', articleId)
+    imgUrl = imgUrl + para.value.img
     store.dispatch('module/getReply', articleId)
     .then((res) => {
       replylist = res.data
-      console.log(replylist, 'fl')
     })
     .catch((err) => {
       console.log(err, 'err')
@@ -86,6 +88,9 @@ export default {
 
   return {
     para,
+    imgUrl,
+    article_user_img,
+    user_img,
     replylist,
     WriteReply,
     TempReply,
@@ -104,7 +109,11 @@ export default {
   justify-content: flex-start;
 
 }
-
+.profile-img{
+  height:2rem;
+  width:2rem;
+  border-radius: 1rem;
+}
 .input-box{
   width: 85%;
   margin-left: 5%;
