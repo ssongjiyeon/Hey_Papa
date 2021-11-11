@@ -104,7 +104,7 @@ export default {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin: 1rem;
+  margin: none;
   margin-bottom: none;
 }
 
@@ -113,7 +113,7 @@ export default {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  margin-top: 2rem;
+  margin-top: 5rem;
 
 }
 

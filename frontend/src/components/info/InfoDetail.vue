@@ -42,7 +42,7 @@
 
 
         <q-carousel-slide :name="info.id"  v-for="info in infoList">
-          <q-scroll-area class="fit">
+
             <div class="column no-wrap ">
               <div class="slided">
                 <p>{{info.id}}개월차</p>
@@ -50,13 +50,15 @@
               <div class="slided">
                 <img style="width: 13rem; " :src="require(`../../assets/mom/${info.id}.png`)"/>
                 <span>{{info.baby}}</span>
+                <p>지금 엄마는</p>
+                <span>{{info.mom}}</span>
               </div>
 
 
 
 
             </div>
-          </q-scroll-area>
+
         </q-carousel-slide>
       </q-carousel>
   </div>
