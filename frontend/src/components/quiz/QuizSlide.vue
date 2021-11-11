@@ -15,10 +15,14 @@
 
   <!-- 문제 제출시  -->
   <div class="q-mt-md text-center column" v-show="isAnswered">
-    <span>{{Description}}</span>
-    <span v-if="Description === '틀렸습니다'">정답은 {{ quiz.answer2 }}</span>
-    {{quiz.img}}
-    {{ quiz.description }}
+    <span style="font: 1.2rem black bold; margin: 0 auto 1rem auto">{{Description}}</span>
+    <span style="margin: 0 auto 0.5rem auto; border-bottom: 5px solid pink;" v-if="Description === '틀렸습니다'">정답은 "{{ quiz.answer2 }}"</span>
+    <div class="description-box">
+      {{quiz.img}}
+      <p>
+        {{ quiz.description }}
+      </p>
+    </div>
     <div class="reply-input-box">
       <input v-model="Reply" placeholder="댓글" :dense="dense" />
       <button @click="EnrollReply(quiz.id)">등록</button>
@@ -35,7 +39,7 @@
           <span style="text-align: left;"><span style="font-weight: bold; margin-right:0.3rem;">{{comment.nickname}}</span>
           {{comment.content}} </span>
           <div class="reply-right">
-            <span style="">
+            <span >
               {{comment.calculateTime}}
             </span>
           </div>
@@ -101,23 +105,17 @@ export default {
         store.commit('module/commentList', res.data.comments )
       })
       if(name !== answer){
-
         Description.value = "틀렸습니다"
       // Description 내용 수정시, 위에 v-if 구문도 수정해야함
-        console.log(Description.value)
-
       }
       else{
       Description.value = "정답입니다"
-      console.log(Description.value)
       }
     }
     const commentList = computed(()=>
       store.getters['module/commentList']
     )
-    console.log(commentList)
     const Description = ref("")
-    console.log(quiz.description)
     const Reply = ref('')
     const EnrollReply = (id) => {
       const userId = localStorage.getItem('userId')
@@ -133,7 +131,6 @@ export default {
         commentList()
       })
       Reply.value = ''
-
     }
 
     return {
@@ -196,8 +193,8 @@ export default {
   display: flex;
   height: 2rem;
   align-items: center;
-  margin: 1rem;
-
+  margin: 0.5rem;
+  margin-top: 1rem;
 }
 .reply-input-box input {
   margin: 0.8rem;
@@ -212,7 +209,8 @@ export default {
   height: 2.5rem;
   width: 4rem;
   border-radius: 0.5rem;
-  border: 1px solid silver;
+  border: none;
+  background-color: pink;
 
 }
 
@@ -220,7 +218,7 @@ export default {
   display: flex;
   justify-content:flex-start;
   align-items: center;
-  margin-top: 0.5rem;
+  margin: 0.5rem 1rem 0 1.2rem;
 
 }
 
@@ -253,10 +251,24 @@ export default {
   margin-top: 0.2rem;
 
 }
+.description-box{
+  width: 15.5rem;
+  margin: 0 auto 0 auto;
+
+}
+
+.description-box p {
+  padding: 0.3rem;
+  text-align: left;
+
+}
+
+
 .heart-position{
   display: block;
 
   font-size: 1.5rem;
+
 }
 
 .question{
