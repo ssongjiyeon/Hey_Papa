@@ -65,7 +65,6 @@ export default {
         reader.readAsDataURL(files[0]);
         this.$emit("input", files[0]);
       }
-      console.log(this.imageData,'!!')
     },
     choosepicture() {
       this.$refs.fileInput.click();

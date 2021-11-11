@@ -112,6 +112,8 @@ export default {
   margin:10px 0px 10px 0px;
   /* font-weight:bold; */
 }
+.q-panel{ -ms-overflow-style: none; } .q-panel::-webkit-scrollbar{ display:none; }
+
 .content{
   /* font-family: 'Jua', sans-serif; */
   font-family: 'Gamja Flower';

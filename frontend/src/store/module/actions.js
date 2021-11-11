@@ -94,6 +94,22 @@ export function writeArticle({}, article) {
     data: formdata
   })
 }
+// 프로필 수정
+export function putProfile({}, user) {
+  console.log(user,'액션')
+  const formdata = new FormData()
+  formdata.append('user_id',user.user_id)
+  formdata.append('user_thumbnail',user.user_thumbnail)
+  const url = baseUrl + "/user/profile/" + user.user_id;
+  return $axios({
+    method:'put',
+    url:url,
+    headers:{
+      'Content-Type':'multipart/form-data',
+    },
+    data: formdata
+  })
+}
 // 게시글 좋아요
 export function likeArticle({}, object) {
   const send = {

@@ -5,7 +5,9 @@
       <q-btn flat style="color:rgb(235,137,181);margin-left:65px; margin-right:10px;" icon="menu" @click="show()" />
     </div>
     <div class="user_info">
-      <img class="profile_img" style="margin-right:20px;" src="../assets/default_user.png">
+      <img v-if="nope || user_img=='NULL'" @click="choosepicture()" class="profile_img" style="margin-right:20px; cursor: pointer;" src="../assets/default_user.png">
+      <img v-else @click="choosepicture()" class="profile_img" style="margin-right:20px; cursor: pointer;" :src="'https://k5b206.p.ssafy.io/api/static/img/'+user_img">
+      <input hidden ref="fileInput" type="file" @input="changeProfile"/>
       <div class="nick_name">{{user.week}}주차 {{user.nickname}} 아빠</div>
     </div>
     <q-tabs
@@ -20,12 +22,12 @@
     <q-tab-panels v-model="tab" animated
       style="width:100%;">
       <span name="article" style="display:flex; flex-wrap:wrap;">
-        <img v-for="myArticle in myArticles" :key="myArticle" :src="myArticle.img" style="width:33.3%">
+        <img v-for="myArticle in myArticles" :key="myArticle" :src="'https://k5b206.p.ssafy.io/api/static/img/'+myArticle.img" style="width:33.3%">
       </span>
     </q-tab-panels>
     <q-tab-panels v-model="tab" animated style="width:100%;">
       <span name="like" style="display:flex; flex-wrap:wrap;">
-        <img v-for="mylike in myLikes" :key="mylike" :src="mylike.img" style="width:33.3%">
+        <img v-for="mylike in myLikes" :key="mylike" :src="'https://k5b206.p.ssafy.io/api/static/img/'+mylike.img" style="width:33.3%">
       </span>
     </q-tab-panels>
     <q-tab-panels v-model="tab" animated style="width:100%;">
@@ -45,11 +47,12 @@ import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 export default {
   setup () {
-    const user = computed(()=> store.getters['module/getUser'])
+    var fileInput = ref(null)
+    var FileImage = ref(null);
+    var nope = ref(true)
     const $q = useQuasar()
     const store = useStore()
     const router = useRouter()
-    const img_path = '../assets/default_user.png'
     const myQuiz= [
       {
         question:'Q. 아이가 변비일 때 먹이면 좋지 않은 과일은?'
@@ -64,9 +67,43 @@ export default {
         question:'Q. 아이가 변비일 때 먹이면 좋지 않은 과일은?'
       }
     ]
+    const user = computed(()=> store.getters['module/getUser'])
+    var user_img = computed(()=>user.value.img)
+    if (user.value.img !='NULL') nope=false
     const myArticles = computed(()=> store.getters['module/getMyarticle'])
     const myLikes = computed(()=> store.getters['module/getMylike'])
     const myZzim = computed(()=> store.getters['module/getMyzzim'])
+    function changeProfile(){
+      var input = fileInput.value;
+      var files = input.files;
+      FileImage = files[0];
+      if (files && FileImage) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          this.imageData = e.target.result;
+        };
+        reader.readAsDataURL(files[0]);
+      }
+      
+      store.dispatch('module/putProfile',{user_id:localStorage.getItem('userId'),user_thumbnail:FileImage})
+        .then(()=>{
+          store.dispatch('module/requestInfo',localStorage.getItem('userId'))
+          .then((res)=>{
+            const loginUser = {
+              nickname: res.data.nickname,
+              img: res.data.img,
+              week: res.data.week,
+              dday: res.data.dday,
+              region: res.data.region,
+            }
+            store.commit('module/setUser', loginUser)
+            if (nope.value==true) nope.value=false
+          })
+        })
+    }
+    function choosepicture() {
+      fileInput.value.click();
+    }
     function show () {
       $q.bottomSheet({
         message: '메뉴',
@@ -101,7 +138,6 @@ export default {
     }
     onMounted(()=>{
       const userId = localStorage.getItem('userId')
-      console.log(userId,'!@!@!')
       store.dispatch('module/myArticle',userId).then((res)=>{
         console.log(res.data,'나의 게시글들')
         store.commit('module/setArticle', res.data)
@@ -127,7 +163,6 @@ export default {
         console.log(res.data,'나의 좋아요 게시글들')
         store.commit('module/setlikeArticle', res.data)
       })
-      console.log('좋아요')
     }
     function goZzim(){
       console.log('찜')
@@ -142,12 +177,16 @@ export default {
     }
     return {
       tab: ref('zzim'),
+      nope,
+      user_img,
       myArticles,
       myLikes,
       myQuiz,
-      img_path,
       user,
       myZzim,
+      fileInput,
+      choosepicture,
+      changeProfile,
       goLike,
       goZzim,
       show,

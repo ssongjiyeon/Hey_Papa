@@ -24,6 +24,8 @@
       </div>
       <div style="width:290px;">
         <q-input label="몇 주차 인지 숫자만 입력해주세요." type="number"
+          min="0"
+          max="42"
           v-model="form.week"
           lazy-rules
           :rules="[
