@@ -1,5 +1,5 @@
 <template>
-<div style="padding:1rem;">
+<div >
 <head>
   <link
     rel="stylesheet"
@@ -18,11 +18,12 @@
   <div class="profile-box">
     <img v-if="article_user_img=='NULL'" src="../../assets/default_user.png"  class="profile-img">
     <img v-else :src="'https://k5b206.p.ssafy.io/api/static/img/'+article_user_img" class="profile-img">
-    <p>{{para.nickname}}</p>
+    {{para.nickname}}
   </div>
+  <div class="profile-underline"></div>
   <div class="content-box">
     <p>{{para.content}}</p>
-    <img :src="imgUrl" alt="x">
+    <img :src="imgUrl" alt="x" style="width:100%; height:350px;">
   </div>
   <div class="input-box">
     <q-input bottom-slots v-model="TempReply" label="댓글쓰기" counter maxlength="120" :dense="dense">
@@ -144,25 +145,50 @@ export default {
 <style scoped>
 .profile-box {
   display: flex;
-  flex-direction: row;
   justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 0.3rem;
+  padding: 0.7rem;
+  padding-left: 0.5rem;
+  border-top: 1px solid silver;
+  border-bottom: 1px solid silver;
+  font-size: 1.1rem;
 
+}
+.profile-underline{
+  /* height: 5px;
+  background-color: silver;
+  ; */
 }
 .profile-img{
   height:2rem;
   width:2rem;
   border-radius: 1rem;
+  margin-right: 0.5rem;
+
 }
 .input-box{
+  padding: 0.5rem;
   width: 94%;
   margin-left: 3%;
   margin-top: 3%;
+}
+.content-box{
+  font-weight: lighter;
+
+}
+.content-box p {
+  font-size: 1rem;
+  margin: 0.5rem;
+}
+.content-box img {
+
 }
 .reply{
   display: flex;
   justify-content:flex-start;
   align-items: flex-start;
-  margin: 0.8rem 1rem 0 0rem;
+  margin: 0.8rem 0 0 1rem;
 
 }
 

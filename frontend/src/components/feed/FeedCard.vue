@@ -1,5 +1,8 @@
 <template>
-  <div style="width:100%; margin-bottom:20px;">
+<head>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+</head>
+  <div style="width:100%; margin:0.5rem;">
     <q-card class="my-card" flat bordered>
       <q-card-section>
         <div style="display:flex; justify-content:space-between;">
@@ -16,6 +19,10 @@
           <div @click="Detail(para)">
             {{ para.content }}
           </div>
+          <!-- 해쉬태그 -->
+          <div style="padding-top:0.5rem;">
+            <p>태그{{ tags }}</p>
+          </div>
         </div>
       </q-card-section>
       <q-separator />
@@ -23,7 +30,7 @@
         style="width:100%; height:350px;"
         @click="Detail(para)"
         :src="imgUrl"
-      />     
+      />
       <q-separator />
       <q-card-actions style="display:flex; justify-content:space-between;">
         <div style="display:flex; align-items:center;">
@@ -33,7 +40,10 @@
           :style="heart ? 'color: red': 'color: silver'"/>
           <span>{{para.like_cnt}}명이 좋아요를 눌렀습니다.</span>
         </div>
-        <div>댓글 개수 {{para.comment_cnt}}개</div>
+        <div class="speech-bubble" @click="Detail(para)">
+          <i class="far fa-comment"></i>
+          {{para.comment_cnt}}
+        </div>
       </q-card-actions>
     </q-card>
   </div>
@@ -41,7 +51,7 @@
 
 <script>
 import { useQuasar } from 'quasar'
-import { ref,computed } from 'vue'
+import { onMounted, ref,computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 export default {
@@ -54,14 +64,14 @@ export default {
     const heart = ref(false)
     var flag = ref(false)
     imgUrl = imgUrl + props.para.img
-    console.log(imgUrl)
+    // console.log(imgUrl)
     if (localStorage.getItem('userId')==props.para.user_id){
       flag = true
     }
     if(props.para.like == true){
       heart.value = true
     }
-    
+
     let article = computed(()=>props.para.like_cnt)
     function getHeart() {
       heart.value = !heart.value
@@ -77,6 +87,24 @@ export default {
         store.commit('module/selectArticle', para)
         router.push({ name: "feed", params: { article_id: para.id } });
       };
+    let tags = ""
+    const hashtagList = props.para.hashtag
+    const SplitHashtag = () => {
+      if(hashtagList) {
+        for (let i=0; hashtagList.length > i ; i++) {
+          let hashtag = ""
+          hashtag = hashtagList[i]
+          tags += ("#" + hashtag + " ")
+        }
+      }
+    }
+    onMounted(() => {
+      SplitHashtag()
+      console.log(tags)
+    })
+
+
+
     function Show () {
         $q.bottomSheet({
           message: '메뉴',
@@ -123,7 +151,8 @@ export default {
         Show,
         flag,
         article,
-        heart
+        heart,
+        tags
       }
     }
 }
@@ -148,11 +177,20 @@ export default {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+.hash-tag{
+  font-size: 0.7rem;
+  display: flex;
+
+}
 .heart-button {
   border: none;
   background-color: white;
   color: silver;
   font-size: 1.4rem;
+}
+.speech-bubble{
+  font-weight:normal;
+  font-size: 1.2rem;
 }
 .reply-box{
   display: flex;
