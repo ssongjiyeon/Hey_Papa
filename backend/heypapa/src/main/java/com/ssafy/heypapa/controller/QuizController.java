@@ -150,7 +150,7 @@ public class QuizController {
 		return ResponseEntity.status(200).body(quizList);
 	}
 	
-	@PostMapping("{quizId}/myquiz")
+	@PostMapping("/{quizId}/myquiz")
 	@ApiOperation(value = "나의 퀴즈", notes = "<strong>나의 퀴즈로 찜하기</strong>")
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "성공"),
