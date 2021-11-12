@@ -29,4 +29,16 @@ public class MyArticleResponse {
 	
 	@ApiModelProperty(name = "img", example = "이미지")
 	private String img;
+	
+	@ApiModelProperty(name = "user_img", example = "유저이미지")
+	private String user_img;
+	
+	@ApiModelProperty(name = "nickname", example = "닉네임")
+	private String nickname;
+	
+	@ApiModelProperty(name = "like", example = "좋아요 여부")
+	private boolean like;
+	
+	@ApiModelProperty(name = "해시태그")
+	private String[] hashtag;
 }
