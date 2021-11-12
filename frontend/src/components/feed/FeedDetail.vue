@@ -1,5 +1,5 @@
 <template>
-<div style="padding-bottom: 100px">
+<div style="padding:1rem;">
 <head>
   <link
     rel="stylesheet"
@@ -24,15 +24,12 @@
     <p>{{para.content}}</p>
     <img :src="imgUrl" alt="x">
   </div>
-  <div v-for="(reply,i) in replylist" :key="i">
-    <p>{{reply}}</p>
-  </div>
   <div class="input-box">
     <q-input bottom-slots v-model="TempReply" label="댓글쓰기" counter maxlength="120" :dense="dense">
         <template v-slot:before>
           <q-avatar>
             <img v-if="user_img=='NULL'" src="../../assets/default_user.png" >
-            <img v-else :src="'https://k5b206.p.ssafy.io/api/static/img/'+user_img" alt="유저이미지">
+            <img style="width:100%" v-else :src="'https://k5b206.p.ssafy.io/api/static/img/'+user_img" alt="유저이미지">
           </q-avatar>
         </template>
         <template v-slot:append>
@@ -40,7 +37,29 @@
         </template>
       </q-input>
   </div>
+
+
+
 </div>
+<!-- 댓글단 -->
+<div class="reply" clickable v-ripple v-if="articleCommentList" v-for="(reply,i) in articleCommentList" :key="i">
+        <div class="avatar">
+          <q-avatar style="height:2rem; width:2rem; margin: 0.2rem 1rem 0 0">
+            <img v-if="reply=='NULL'" src="../../assets/default_user.png" >
+            <img v-else :src="`https://k5b206.p.ssafy.io/api/static/img/${reply.user_img}`">
+          </q-avatar>
+        </div>
+        <div class="content">
+          <span style="text-align: left;"><span style="font-weight: bold; margin-right:0.3rem;">{{reply.nickname}}</span>
+          {{reply.content}} </span>
+          <div class="reply-right">
+            <span >
+              {{reply.calculateTime}}
+            </span>
+          </div>
+        </div>
+      </div>
+<!--  -->
 </div>
 </template>
 
@@ -54,20 +73,34 @@ export default {
     const store = useStore()
     const route = useRoute()
     const dense = ref(true)
-    let replylist = []
+    let replylist = ref([])
     const para = computed(() => store.getters["module/getSelectArticle"])
     const user = computed(()=> store.getters['module/getUser'])
     var user_img = computed(()=>user.value.img)
     var article_user_img = computed(()=>para.value.user_img)
     const articleId = route.params.article_id
+    console.log(articleId, 'ai')
     imgUrl = imgUrl + para.value.img
-    store.dispatch('module/getReply', articleId)
+    onMounted(() => {
+      getReply()
+    })
+
+
+    const getReply= () => {
+      store.dispatch('module/getReply', articleId)
     .then((res) => {
-      replylist = res.data
+      console.log(res.data, 'rd')
+
+      store.commit('module/articleCommentList', res.data)
+
     })
     .catch((err) => {
       console.log(err, 'err')
     })
+    }
+    const articleCommentList = computed(()=>
+      store.getters['module/articleCommentList']
+    )
     const TempReply = ref('')
     const WriteReply = (para) => {
       const replyContent = {
@@ -84,6 +117,8 @@ export default {
         console.log('댓글작성 완료')
         TempReply.value = ""
       })
+      getReply()
+      console.log(articleCommentList, 'acl')
     }
 
   return {
@@ -94,7 +129,11 @@ export default {
     replylist,
     WriteReply,
     TempReply,
-    dense
+    dense,
+    getReply,
+    articleCommentList,
+
+
   }
 
 
@@ -115,8 +154,45 @@ export default {
   border-radius: 1rem;
 }
 .input-box{
-  width: 85%;
-  margin-left: 5%;
+  width: 94%;
+  margin-left: 3%;
+  margin-top: 3%;
+}
+.reply{
+  display: flex;
+  justify-content:flex-start;
+  align-items: flex-start;
+  margin: 0.8rem 1rem 0 0rem;
+
 }
 
+.avatar {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  /* width: 16rem; */
+}
+.content{
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  font-size:0.8rem;
+  flex-direction: column;
+
+
+}
+.reply-right{
+  display: flex;
+  align-items: flex-end;
+  width: inherit;
+  margin-left: none;
+  margin-right: auto;
+  /* flex-direction: column; */
+}
+.reply-right span {
+  font-size:0.6rem;
+  text-align: left;
+  margin-top: 0.2rem;
+
+}
 </style>

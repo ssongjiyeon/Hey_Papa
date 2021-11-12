@@ -38,17 +38,17 @@ export function logout({}) {
   return $axios.get(url);
 }
 // 나의 게시글 가져오기
-export function myArticle({},id) {
+export function myArticle({}, id) {
   const url = baseUrl + "/user/article/" + id;
   return $axios.get(url);
 }
 // 나의 좋아요 게시글 가져오기
-export function mylikeArticle({},id) {
+export function mylikeArticle({}, id) {
   const url = baseUrl + "/user/like/" + id;
   return $axios.get(url);
 }
 // 찜한 문제 가져오기
-export function myZzim({},id) {
+export function myZzim({}, id) {
   const url = baseUrl + "/user/quiz/" + id;
   return $axios.get(url);
 }
@@ -79,36 +79,36 @@ export function deleteArticle({}, id) {
 }
 // 게시글 쓰기
 export function writeArticle({}, article) {
-  const formdata = new FormData()
-  formdata.append('article_thumbnail',article.img)
-  formdata.append('content',article.content)
-  formdata.append('hashtag',article.hashtag)
-  formdata.append('user_id',article.user_id)
+  const formdata = new FormData();
+  formdata.append("article_thumbnail", article.img);
+  formdata.append("content", article.content);
+  formdata.append("hashtag", article.hashtag);
+  formdata.append("user_id", article.user_id);
   const url = baseUrl + "/article";
   return $axios({
-    method:'post',
-    url:url,
-    headers:{
-      'Content-Type':'multipart/form-data',
+    method: "post",
+    url: url,
+    headers: {
+      "Content-Type": "multipart/form-data",
     },
-    data: formdata
-  })
+    data: formdata,
+  });
 }
 // 프로필 수정
 export function putProfile({}, user) {
-  console.log(user,'액션')
-  const formdata = new FormData()
-  formdata.append('user_id',user.user_id)
-  formdata.append('user_thumbnail',user.user_thumbnail)
+  console.log(user, "액션");
+  const formdata = new FormData();
+  formdata.append("user_id", user.user_id);
+  formdata.append("user_thumbnail", user.user_thumbnail);
   const url = baseUrl + "/user/profile/" + user.user_id;
   return $axios({
-    method:'put',
-    url:url,
-    headers:{
-      'Content-Type':'multipart/form-data',
+    method: "put",
+    url: url,
+    headers: {
+      "Content-Type": "multipart/form-data",
     },
-    data: formdata
-  })
+    data: formdata,
+  });
 }
 // 게시글 좋아요
 export function likeArticle({}, object) {

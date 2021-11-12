@@ -35,3 +35,6 @@ export function infoList(state, infoList) {
 export function commentList(state, commentList) {
   state.commentList = commentList;
 }
+export function articleCommentList(state, articleCommentList) {
+  state.articleCommentList = articleCommentList;
+}
