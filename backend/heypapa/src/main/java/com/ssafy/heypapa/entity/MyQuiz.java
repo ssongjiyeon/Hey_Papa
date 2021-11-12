@@ -1,6 +1,7 @@
 package com.ssafy.heypapa.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
@@ -18,11 +19,11 @@ import lombok.Setter;
 @Setter
 public class MyQuiz extends BaseEntity {
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "quiz_id")
 	private Quiz quiz; // 퀴즈 id
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private User user; // 유저 id
 	
