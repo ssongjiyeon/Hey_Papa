@@ -22,12 +22,12 @@
     <q-tab-panels v-model="tab" animated
       style="width:100%;">
       <span name="article" style="display:flex; flex-wrap:wrap;">
-        <img v-for="myArticle in myArticles" :key="myArticle" :src="'https://k5b206.p.ssafy.io/api/static/img/'+myArticle.img" style="width:33.3%">
+        <img v-for="myArticle in myArticles" :key="myArticle" :src="'https://k5b206.p.ssafy.io/api/static/img/'+myArticle.img" style="width:33.3%; height:33.3%;">
       </span>
     </q-tab-panels>
     <q-tab-panels v-model="tab" animated style="width:100%;">
       <span name="like" style="display:flex; flex-wrap:wrap;">
-        <img v-for="mylike in myLikes" :key="mylike" :src="'https://k5b206.p.ssafy.io/api/static/img/'+mylike.img" style="width:33.3%">
+        <img v-for="mylike in myLikes" :key="mylike" :src="'https://k5b206.p.ssafy.io/api/static/img/'+mylike.img" style="width:33.3%; height:33.3%;">
       </span>
     </q-tab-panels>
     <q-tab-panels v-model="tab" animated style="width:100%;">
@@ -84,7 +84,7 @@ export default {
         };
         reader.readAsDataURL(files[0]);
       }
-      
+
       store.dispatch('module/putProfile',{user_id:localStorage.getItem('userId'),user_thumbnail:FileImage})
         .then(()=>{
           store.dispatch('module/requestInfo',localStorage.getItem('userId'))

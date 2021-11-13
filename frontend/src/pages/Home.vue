@@ -32,13 +32,20 @@
 </template>
 
 <script>
-import { ref, computed } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import { useStore } from 'vuex'
 import FeedCard from '../components/feed/FeedCard.vue'
 import { useRouter } from 'vue-router'
 export default {
   components: { FeedCard },
   setup(){
+    const userId = localStorage.getItem('userId')
+    onMounted(() => {
+      store.dispatch('module/allArticle', userId)
+      .then((res)=> {
+        store.commit('module/setAllarticle', res.data)
+      })
+    })
     const store = useStore()
     const router = useRouter()
     const page = ref(1)

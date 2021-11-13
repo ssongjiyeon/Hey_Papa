@@ -58,7 +58,6 @@ export default {
 
     // quiz detail로 가는 함수
     const QuizDetail = (theme) => {
-      console.log(theme)
       // api 마련되면 진행
 
       axios({
@@ -67,18 +66,14 @@ export default {
         // params : theme
       })
       .then((res) => {
-        console.log('res', res.data)
         store.commit('module/quizList', res.data)
       })
       isClicked.value = !isClicked.value
-      console.log(isClicked.value)
 
       return {}
     }
     const OtherTheme = () => {
-      console.log('emit')
       isClicked.value = !isClicked.value
-      console.log(isClicked.value)
       return {}
     }
 

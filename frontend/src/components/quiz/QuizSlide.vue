@@ -24,15 +24,16 @@
       </p>
     </div>
     <div class="reply-input-box">
-      <input v-model="Reply" placeholder="댓글" :dense="dense" />
-      <button @click="EnrollReply(quiz.id)">등록</button>
+      <input v-model="Reply" placeholder="    댓글" :dense="dense" @keyup.enter="EnrollReply(quiz.id)"/>
+      <button  @click="EnrollReply(quiz.id)">등록</button>
     </div>
     <!-- 댓글목록 -->
     <div>
       <div class="reply" clickable v-ripple v-if="commentList" v-for="(comment, idx) in commentList" :key="idx">
         <div class="avatar">
-          <q-avatar style="height:2.5rem; width:2.5rem; margin-right:1rem">
-            <img :src="comment.user_img">
+          <q-avatar style="height:2rem; width:2rem; margin: 0.2rem 1rem 0 0">
+            <img v-if="comment=='NULL'" src="../../assets/default_user.png" >
+            <img v-else :src="`https://k5b206.p.ssafy.io/api/static/img/${comment.user_img}`">
           </q-avatar>
         </div>
         <div class="content">
@@ -72,6 +73,12 @@ export default {
   setup(props){
     const store = useStore()
     const quiz = props.quiz
+    const user = computed(()=> store.getters['module/getUser'])
+    var user_img = computed(()=>user.value.img)
+
+
+
+
     let comments = []
     let isAnswered = ref(false)
     const SaveQuiz = (id) => {
@@ -88,7 +95,7 @@ export default {
       //   qc: isSaved.value,ql: isSaved.value,ui: parseInt(localStorage.getItem('userId')),qi:id
       // })
       .then((res) => {
-        console.log(res.data, '댓글작성완료')
+        // console.log(res.data, '댓글작성완료')
       })
       .catch((err) => {
         console.log(err)
@@ -96,20 +103,24 @@ export default {
     }
     const isSaved = ref(false)
     const ChooseAnswer = (name, answer, id) => {
-      console.log(name, 'name')
-      isAnswered.value = !isAnswered.value
+
       // 댓글 목록 api 호출 필요
       const url = "https://k5b206.p.ssafy.io/api/quiz/" + id
       axios.get(url)
       .then((res) => {
         store.commit('module/commentList', res.data.comments )
       })
-      if(name !== answer){
+      if(name == null) {
+        Description.value = ""
+      }
+      else if(name !== answer){
         Description.value = "틀렸습니다"
+        isAnswered.value = !isAnswered.value
       // Description 내용 수정시, 위에 v-if 구문도 수정해야함
       }
       else{
       Description.value = "정답입니다"
+      isAnswered.value = !isAnswered.value
       }
     }
     const commentList = computed(()=>
@@ -119,16 +130,14 @@ export default {
     const Reply = ref('')
     const EnrollReply = (id) => {
       const userId = localStorage.getItem('userId')
-      console.log(userId, 'ui')
       const url = "https://k5b206.p.ssafy.io/api/quiz/" + id
       const params = {
         content: Reply.value,
         user_id: userId,
       }
-      console.log(params, 'params')
       axios.post(url, params)
       .then((res) => {
-        commentList()
+        ChooseAnswer(null, null, quiz.id)
       })
       Reply.value = ''
     }
@@ -144,7 +153,8 @@ export default {
       Reply,
       EnrollReply,
       commentList,
-      dense: ref(false)
+      dense: ref(false),
+      user_img
     }
   }
 }
@@ -193,13 +203,14 @@ export default {
   display: flex;
   height: 2rem;
   align-items: center;
-  margin: 0.5rem;
+  margin-right: 0.5rem;
   margin-top: 1rem;
+  justify-content: space-between;
 }
 .reply-input-box input {
-  margin: 0.8rem;
+  margin-right: 0.5rem;
   height: 2.5rem;
-  width: 12rem;
+  width: 14.5rem;
   border-radius: 0.5rem;
   border: 1px solid silver;
 
@@ -217,8 +228,8 @@ export default {
 .reply{
   display: flex;
   justify-content:flex-start;
-  align-items: center;
-  margin: 0.5rem 1rem 0 1.2rem;
+  align-items: flex-start;
+  margin: 0.8rem 1rem 0 0rem;
 
 }
 
