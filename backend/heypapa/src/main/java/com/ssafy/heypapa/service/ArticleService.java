@@ -155,6 +155,7 @@ public class ArticleService implements IArticleService {
 			res.setContent(a.getContent());
 			res.setImg(a.getImg());
 			res.setCreated_at(a.getCreated_at());
+			res.setCalculateTime(timeService.calculateTime(a.getCreated_at()));
 			// 해시태그 처리
 			List<String> hash = new ArrayList<>();
 			List<ArticleHashtag> hastag = articleHashtagRepository.findByArticleId(a.getId());

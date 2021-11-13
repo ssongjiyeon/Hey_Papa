@@ -30,6 +30,7 @@ public class Article extends BaseEntity {
 	
 	private Date created_at; // 작성날짜
 	private Date updated_at; // 수정날짜
+	private String calculateTime; // 계산한 시간
 	private String img; // 사진
 	
 //	@Column(name = "like_count")
