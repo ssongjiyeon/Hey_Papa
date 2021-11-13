@@ -1,5 +1,5 @@
 import $axios from "axios";
-import { component } from "vue-control";
+
 const baseUrl = "https://k5b206.p.ssafy.io/api";
 const user_id = localStorage.getItem("userId");
 // 산후조리원 위치 받아오기
@@ -125,4 +125,10 @@ export function saveQuiz({}, id, object) {
   console.log(object);
   console.log(info, "info");
   return $axios.post(url, info);
+}
+//해시태그 검색
+export function search({}, object) {
+  console.log(object.hashtag,'!')
+  const url = baseUrl + "/article/search/" + object.hashtag ;
+  return $axios.post(url, object);
 }

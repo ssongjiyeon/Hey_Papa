@@ -64,7 +64,6 @@ export default {
     const heart = ref(false)
     var flag = ref(false)
     imgUrl = imgUrl + props.para.img
-    // console.log(imgUrl)
     if (localStorage.getItem('userId')==props.para.user_id){
       flag = true
     }
@@ -75,7 +74,6 @@ export default {
     let article = computed(()=>props.para.like_cnt)
     function getHeart() {
       heart.value = !heart.value
-      console.log(heart.value)
       store.dispatch('module/likeArticle',{
         id:props.para.id,check:heart.value,user_id:localStorage.getItem('userId')}).then(()=>{
           store.dispatch('module/allArticle',localStorage.getItem('userId')).then((res)=>{
@@ -84,7 +82,6 @@ export default {
         })
       }
     const Detail = (para) => {
-        console.log(para,'야야!')
         store.commit('module/selectArticle', para)
         router.push({ name: "feed", params: { article_id: para.id } });
       };
@@ -98,10 +95,10 @@ export default {
           tags += ("#" + hashtag + " ")
         }
       }
+      console.log(tags,"@@")
     }
     onMounted(() => {
       SplitHashtag()
-      console.log(tags)
     })
 
 

@@ -37,3 +37,6 @@ export function commentList(state) {
 export function articleCommentList(state) {
   return state.articleCommentList;
 }
+export function searchArticle(state) {
+  return state.searchArticle;
+}

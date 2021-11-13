@@ -12,41 +12,10 @@
           style="background:rgb(235,137,181); color:white; float:right; left:50px; bottom:30px;" icon="search" /></span>
       </div>
     </div>
-    <q-card class="my-card" flat bordered v-if="false">
-      <q-card-section>
-        <div style="display:flex;">
-          <div class="text-overline text-orange-9">날짜</div>
-        </div>
-        <!-- 프로필 박스 -->
-        <div class="profile-box">
-          프로필이미지
-          <!-- <img :src="para.user_img" alt="" class="profile-img" > -->
-          <div class="text-h6 q-mt-sm q-mb-sm q-ml-sm">닉네임</div>
-        </div>
-        <div :class="extended ? 'more-box' : 'text-box'" transition: fade>
-          <div @click="Detail(para)">
-            내용
-          </div>
-        </div>
-      </q-card-section>
-      <q-separator />
-      <!-- <q-img
-        @click="Detail(para)"
-        :src="para.img"
-      /> -->
-      <img src="../assets/baby.png" alt="">
-      <q-separator />
-      <q-card-actions style="display:flex; justify-content:space-between;">
-        <div style="display:flex; align-items:center;">
-          <button
-          class="fas fa-heart heart-button"
-          @click="getHeart"
-          :style="heart ? 'color: red': 'color: silver'"/>
-          <span>ㅁ명이 좋아요를 눌렀습니다.</span>
-        </div>
-        <div>댓글 개수 ㅁ개</div>
-      </q-card-actions>
-    </q-card>
+    <div id="articles" class="q-pa-xs row items-start card-box">
+      <FeedCard v-for="para in articles" :key="para" :para="para"/>
+      <!-- @click="Detail(para.id)&&Backup(para.content, para.imgUrl)"  -->
+    </div>
   </div>
 </template>
 
@@ -58,8 +27,18 @@ export default {
   setup(){
     const store = useStore()
     const router = useRouter()
+    const keyword = ref('')
+    var articles = computed(()=> store.getters['module/searchArticle'])
     function searchSubmit() {
       // 검색api연결
+      const object = {
+        hashtag: keyword.value,
+        user_id: localStorage.getItem('userId')
+      }
+      store.dispatch('module/search',object).then((res)=>{
+        console.log(res.data,'res')
+        store.commit('module/allSearchArticle', res.data)
+      })
     }
     function goHome(){
       router.push('home')
@@ -70,8 +49,9 @@ export default {
       router.push({ name: "feed", params: { article_id: para.id } });
     };
     return {
-      keyword : ref(''),
+      keyword,
       goHome,
+      articles,
       searchSubmit,
       Detail
     }
@@ -80,5 +60,9 @@ export default {
 </script>
 
 <style scoped>
-
+.card-box {
+  width: 100%;
+  min-width: 30px;
+  /* overflow: scroll; */
+}
 </style>
