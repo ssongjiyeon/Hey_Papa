@@ -22,12 +22,12 @@
     <q-tab-panels v-model="tab" animated
       style="width:100%;">
       <span name="article" style="display:flex; flex-wrap:wrap;">
-        <img @click="Detail(myArticle)" v-for="myArticle in myArticles" :key="myArticle" :src="'https://k5b206.p.ssafy.io/api/static/img/'+myArticle.img" style="width:33.3%">
+        <img @click="Detail(myArticle)" v-for="myArticle in myArticles" :key="myArticle" :src="'https://k5b206.p.ssafy.io/api/static/img/'+myArticle.img" style="width:33.3%;height:150px;">
       </span>
     </q-tab-panels>
     <q-tab-panels v-model="tab" animated style="width:100%;">
       <span name="like" style="display:flex; flex-wrap:wrap;">
-        <img v-for="mylike in myLikes" :key="mylike" :src="'https://k5b206.p.ssafy.io/api/static/img/'+mylike.img" style="width:33.3%">
+        <img @click="Detail(mylike)" v-for="mylike in myLikes" :key="mylike" :src="'https://k5b206.p.ssafy.io/api/static/img/'+mylike.img" style="width:33.3%;height:150px;">
       </span>
     </q-tab-panels>
     <q-tab-panels v-model="tab" animated style="width:100%;">
@@ -73,7 +73,6 @@ export default {
     const myArticles = computed(()=> store.getters['module/getMyarticle'])
     const myLikes = computed(()=> store.getters['module/getMylike'])
     const myZzim = computed(()=> store.getters['module/getMyzzim'])
-    console.log(myZzim.value,'마찜')
     function changeProfile(){
       var input = fileInput.value;
       var files = input.files;
@@ -85,7 +84,7 @@ export default {
         };
         reader.readAsDataURL(files[0]);
       }
-      
+
       store.dispatch('module/putProfile',{user_id:localStorage.getItem('userId'),user_thumbnail:FileImage})
         .then(()=>{
           store.dispatch('module/requestInfo',localStorage.getItem('userId'))
@@ -140,50 +139,43 @@ export default {
     onMounted(()=>{
       const userId = localStorage.getItem('userId')
       store.dispatch('module/myArticle',userId).then((res)=>{
-        console.log(res.data,'나의 게시글들')
         store.commit('module/setArticle', res.data)
       })
       store.dispatch('module/mylikeArticle',userId).then((res)=>{
-        console.log(res.data,'나의 찜한 문제들')
         // store.commit('module/setMyQuiz', res.data)
       })
       store.dispatch('module/myZzim',userId).then((res)=>{
-        console.log(res.data,'나의 찜한 퀴즈들')
         store.commit('module/setMyQuiz', res.data)
       })
     })
     const userId = localStorage.getItem('userId')
     function goArticle(){
       store.dispatch('module/myArticle',userId).then((res)=>{
-        console.log(res.data,'나의 게시글들')
         store.commit('module/setArticle', res.data)
       })
     }
     function goLike(){
       store.dispatch('module/mylikeArticle',userId).then((res)=>{
-        console.log(res.data,'나의 좋아요 게시글들')
         store.commit('module/setlikeArticle', res.data)
       })
     }
     function goZzim(){
       console.log('찜')
       store.dispatch('module/myZzim',userId).then((res)=>{
-        console.log(res.data,'나의 찜한 퀴즈들')
         store.commit('module/setMyQuiz', res.data)
       })
     }
     console.log()
     const Detail = (myArticle) => {
-      console.log('야!',myArticle)
-      // store.commit('module/selectArticle', para)
-      // router.push({ name: "feed", params: { article_id: para.id } });
+      store.commit('module/selectArticle', myArticle)
+      router.push({ name: "feed", params: { article_id: myArticle.id } });
     };
     function goQuiz(quiz){
       // 퀴즈 디테일로 가는 부분
       console.log(quiz,'퀴즈 정보들')
     }
     return {
-      tab: ref('zzim'),
+      tab: ref('article'),
       nope,
       user_img,
       myArticles,
@@ -206,6 +198,7 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR&family=Gamja+Flower&display=swap');
 .my_top{
   display:flex;
   justify-content: center;
@@ -242,7 +235,7 @@ export default {
   display:flex;
   justify-content:center;
   padding:20px 0px 20px 0px;
-  font-size:17px;
-  font-weight: bold;
+  font-size:16px;
+  font-family: 'Jua', sans-serif;
 }
 </style>

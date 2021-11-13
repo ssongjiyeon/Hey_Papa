@@ -24,14 +24,14 @@
       </p>
     </div>
     <div class="reply-input-box">
-      <input v-model="Reply" placeholder="댓글" :dense="dense" />
-      <button @click="EnrollReply(quiz.id)">등록</button>
+      <input v-model="Reply" placeholder="    댓글" :dense="dense" @keyup.enter="EnrollReply(quiz.id)"/>
+      <button  @click="EnrollReply(quiz.id)">등록</button>
     </div>
     <!-- 댓글목록 -->
     <div>
       <div class="reply" clickable v-ripple v-if="commentList" v-for="(comment, idx) in commentList" :key="idx">
         <div class="avatar">
-          <q-avatar style="height:2.5rem; width:2.5rem; margin-right:1rem">
+          <q-avatar style="height:2rem; width:2rem; margin: 0.2rem 1rem 0 0">
             <img v-if="comment=='NULL'" src="../../assets/default_user.png" >
             <img v-else :src="`https://k5b206.p.ssafy.io/api/static/img/${comment.user_img}`">
           </q-avatar>
@@ -203,13 +203,14 @@ export default {
   display: flex;
   height: 2rem;
   align-items: center;
-  margin: 0.5rem;
+  margin-right: 0.5rem;
   margin-top: 1rem;
+  justify-content: space-between;
 }
 .reply-input-box input {
-  margin: 0.8rem;
+  margin-right: 0.5rem;
   height: 2.5rem;
-  width: 12rem;
+  width: 14.5rem;
   border-radius: 0.5rem;
   border: 1px solid silver;
 
@@ -227,8 +228,8 @@ export default {
 .reply{
   display: flex;
   justify-content:flex-start;
-  align-items: center;
-  margin: 0.5rem 1rem 0 1.2rem;
+  align-items: flex-start;
+  margin: 0.8rem 1rem 0 0rem;
 
 }
 

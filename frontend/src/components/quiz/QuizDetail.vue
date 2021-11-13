@@ -10,6 +10,8 @@
       <div class="pagnation-box">
         <q-pagination
         v-model="current"
+        size="15px"
+        padding="5px 20px 5px 20px"
         color="pink-3"
         :max="quizList.length"
         :max-pages="6"
@@ -109,6 +111,7 @@ export default {
 .pagnation-box{
   display: flex;
   justify-content: center;
+  margin-top:10px;
 }
 .quiz-detail-page-box{
   display: flex;

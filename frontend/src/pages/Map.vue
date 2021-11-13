@@ -37,7 +37,6 @@ export default {
     const user = computed(()=> store.getters['module/getUser'])
     this.carecenter(this.centers)
     this.keyword = user.value.region
-    console.log(this.keyword,'키워드')
     setTimeout(()=>{
       this.searchSubmit()
     },300)
