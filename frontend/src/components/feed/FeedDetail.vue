@@ -8,11 +8,9 @@
     crossorigin="anonymous"
   />
 </head>
-<div style="display: flex; justify-content: center">
-  <img
-    src="../../assets/horizon_logo.png"
-    style="height: 70px; margin: 0 auto; padding-left: 0"
-  />
+<div class="backward" @click="backward">
+  <i class="fas fa-arrow-left"></i>
+  <!-- Detail -->
 </div>
 <div>
   <div class="profile-box">
@@ -20,11 +18,22 @@
     <img v-else :src="'https://k5b206.p.ssafy.io/api/static/img/'+article_user_img" class="profile-img">
     {{para.nickname}}
   </div>
-  <div class="profile-underline"></div>
+  <div class="text-overline text-orange-9 date">
+    <!-- 날짜 양식 home 처럼 바꿔도 좋음 -->
+    {{para.created_at.slice(0,4)}}년 {{para.created_at.slice(5,7)}}월 {{para.created_at.slice(8,10)}}일
+    {{para.created_at.slice(12,13)}}:{{para.created_at.slice(14,16)}}
+  </div>
   <div class="content-box">
     <p>{{para.content}}</p>
     <img :src="imgUrl" alt="x" style="width:100%; height:350px;">
   </div>
+  <div class="">
+    <i class="fas fa-heart"></i>
+    {{para.comment_cnt}}
+    <i class="far fa-comment"></i>
+    {{para.like_cnt}}
+  </div>
+  <!-- 댓글입력 단 -->
   <div class="input-box">
     <q-input bottom-slots v-model="TempReply" label="댓글쓰기" counter maxlength="120" :dense="dense">
         <template v-slot:before>
@@ -66,13 +75,14 @@
 
 <script>
 import { ref, onMounted, computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 export default {
   setup(){
     var imgUrl = 'https://k5b206.p.ssafy.io/api/static/img/'
     const store = useStore()
     const route = useRoute()
+    const router = useRouter()
     const dense = ref(true)
     let replylist = ref([])
     const para = computed(() => store.getters["module/getSelectArticle"])
@@ -85,15 +95,11 @@ export default {
     onMounted(() => {
       getReply()
     })
-
-
     const getReply= () => {
       store.dispatch('module/getReply', articleId)
     .then((res) => {
       console.log(res.data, 'rd')
-
       store.commit('module/articleCommentList', res.data)
-
     })
     .catch((err) => {
       console.log(err, 'err')
@@ -112,7 +118,6 @@ export default {
         }
       }
       console.log(replyContent, '댓글 내용확인 1')
-
       store.dispatch('module/writeReply', replyContent)
       .then((res) => {
         console.log('댓글작성 완료')
@@ -121,7 +126,9 @@ export default {
       getReply()
       console.log(articleCommentList, 'acl')
     }
-
+  const backward = () => {
+    router.go(-1)
+  }
   return {
     para,
     imgUrl,
@@ -133,6 +140,7 @@ export default {
     dense,
     getReply,
     articleCommentList,
+    backward,
 
 
   }
@@ -143,6 +151,14 @@ export default {
 </script>
 
 <style scoped>
+.backward{
+  padding: 1rem;
+  padding-bottom: 0;
+  font-size: 1.5rem;
+}
+.backward i {
+  padding-right: 0.5rem;
+}
 .profile-box {
   display: flex;
   justify-content: flex-start;
@@ -150,15 +166,13 @@ export default {
   margin-bottom: 0.3rem;
   padding: 0.7rem;
   padding-left: 0.5rem;
-  border-top: 1px solid silver;
+  /* border-top: 1px solid silver; */
   border-bottom: 1px solid silver;
   font-size: 1.1rem;
 
 }
-.profile-underline{
-  /* height: 5px;
-  background-color: silver;
-  ; */
+.date{
+  margin: 0.5rem;
 }
 .profile-img{
   height:2rem;
