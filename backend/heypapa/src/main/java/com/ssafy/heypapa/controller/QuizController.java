@@ -53,15 +53,15 @@ public class QuizController {
 //		return ResponseEntity.status(200).body(quizList);
 //	}
 	
-	@GetMapping("/{quizId}")
+	@GetMapping("/{quizId}/{user_id}")
 	@ApiOperation(value = "퀴즈 상세", notes = "<strong>하나의 퀴즈 보기</strong>")
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "성공"),
         @ApiResponse(code = 401, message = "토큰 인증 실패"),
         @ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<QuizResponse> getOneQuiz(@PathVariable(name = "quizId") Long id) {
-		QuizResponse quiz = quizService.getoneQuiz(id);
+	public ResponseEntity<QuizResponse> getOneQuiz(@PathVariable(name = "quizId") Long id, @PathVariable("user_id") long userId) {
+		QuizResponse quiz = quizService.getoneQuiz(id, userId);
 		return ResponseEntity.status(200).body(quiz);
 	}
 	
@@ -150,8 +150,8 @@ public class QuizController {
 		return ResponseEntity.status(200).body(quizList);
 	}
 	
-	@PostMapping("{quizId}/myquiz")
-	@ApiOperation(value = "나의 퀴즈", notes = "<strong>나의 퀴즌</strong>")
+	@PostMapping("/{quizId}/myquiz")
+	@ApiOperation(value = "나의 퀴즈", notes = "<strong>나의 퀴즈로 찜하기</strong>")
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "성공"),
         @ApiResponse(code = 401, message = "토큰 인증 실패"),

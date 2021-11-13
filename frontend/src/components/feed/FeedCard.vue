@@ -84,6 +84,7 @@ export default {
         })
       }
     const Detail = (para) => {
+        console.log(para,'야야!')
         store.commit('module/selectArticle', para)
         router.push({ name: "feed", params: { article_id: para.id } });
       };

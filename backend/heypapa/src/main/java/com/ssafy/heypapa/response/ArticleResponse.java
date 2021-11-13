@@ -25,12 +25,14 @@ public class ArticleResponse {
 	private String img;
 	@ApiModelProperty(name = "작성일자")
 	private Date created_at;
+	@ApiModelProperty(name = "계산시간")
+	private String calculateTime;
 	@ApiModelProperty(name = "해시태그")
 	private String[] hashtag;
 	@ApiModelProperty(name = "좋아요 수")
 	private int like_cnt;
 	@ApiModelProperty(name = "댓글 수")
 	private int comment_cnt;
-	@ApiModelProperty(name = "댓글 수")
+	@ApiModelProperty(name = "좋아요")
 	private boolean like;
 }

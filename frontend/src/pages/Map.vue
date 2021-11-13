@@ -11,7 +11,7 @@
           style="background:rgb(235,137,181); color:white; float:right; left:50px; bottom:30px;" icon="search" /></span>
       </div>
     </div>
-    <div>
+    <div style="padding-bottom:110px;">
       <div id="map" style="height:600px;"></div>
       <div class="custom_zoomcontrol radius_border" style="margin-top:130px;"> 
         <span @click="zoomIn"><span style="font-size:25px;">+</span></span>  
@@ -144,7 +144,6 @@ export default {
 
 <style>
 #map{
-  border:1px solid black;
   margin-top:20px;
 }
 .custom_zoomcontrol {position:absolute;top:50px;right:10px;width:36px;height:80px;overflow:hidden;z-index:1;background-color:#f5f5f5;} 

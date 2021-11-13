@@ -17,10 +17,10 @@ public class MyQuizResponse {
 	@ApiModelProperty(name = "퀴즈 ID")
 	private Long quiz_id;
 	@ApiModelProperty(name = "퀴즈 정답 확인용")
-	private boolean quizcheck;
-	@ApiModelProperty(name = "퀴즈 좋아요")
-	private boolean quizlike;
-	@ApiModelProperty(name = "퀴즈 질문")
+//	private boolean quizcheck;
+//	@ApiModelProperty(name = "퀴즈 좋아요")
+//	private boolean quizlike;
+//	@ApiModelProperty(name = "퀴즈 질문")
 	private String question;
 	@ApiModelProperty(name = "문제 타입")
 	private String type;

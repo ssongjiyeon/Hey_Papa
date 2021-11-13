@@ -22,7 +22,11 @@
     <q-tab-panels v-model="tab" animated
       style="width:100%;">
       <span name="article" style="display:flex; flex-wrap:wrap;">
+<<<<<<< HEAD
         <img v-for="myArticle in myArticles" :key="myArticle" :src="'https://k5b206.p.ssafy.io/api/static/img/'+myArticle.img" style="width:33.3%; height:33.3%;">
+=======
+        <img @click="Detail(myArticle)" v-for="myArticle in myArticles" :key="myArticle" :src="'https://k5b206.p.ssafy.io/api/static/img/'+myArticle.img" style="width:33.3%">
+>>>>>>> 5505a9d8c3cc57555b0ae099833f05c6e99f0658
       </span>
     </q-tab-panels>
     <q-tab-panels v-model="tab" animated style="width:100%;">
@@ -32,7 +36,7 @@
     </q-tab-panels>
     <q-tab-panels v-model="tab" animated style="width:100%;">
       <q-tab-panel name="zzim">
-        <div v-for="quiz in myQuiz" :key="quiz" class="my_quiz" @click="goQuiz(quiz)">
+        <div v-for="quiz in myZzim" :key="quiz" class="my_quiz" @click="goQuiz(quiz)">
           {{ quiz.question }}
         </div>
       </q-tab-panel>
@@ -73,6 +77,7 @@ export default {
     const myArticles = computed(()=> store.getters['module/getMyarticle'])
     const myLikes = computed(()=> store.getters['module/getMylike'])
     const myZzim = computed(()=> store.getters['module/getMyzzim'])
+    console.log(myZzim.value,'마찜')
     function changeProfile(){
       var input = fileInput.value;
       var files = input.files;
@@ -171,6 +176,12 @@ export default {
         store.commit('module/setMyQuiz', res.data)
       })
     }
+    console.log()
+    const Detail = (myArticle) => {
+      console.log('야!',myArticle)
+      // store.commit('module/selectArticle', para)
+      // router.push({ name: "feed", params: { article_id: para.id } });
+    };
     function goQuiz(quiz){
       // 퀴즈 디테일로 가는 부분
       console.log(quiz,'퀴즈 정보들')
@@ -192,6 +203,7 @@ export default {
       show,
       goArticle,
       goQuiz,
+      Detail,
     }
   }
 }
