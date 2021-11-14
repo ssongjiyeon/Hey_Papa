@@ -8,8 +8,9 @@
     crossorigin="anonymous"
   />
 </head>
-<div class="backward" @click="backward">
-  <i class="fas fa-arrow-left"></i>
+<div style="display:flex; align-items:center;">
+  <q-btn @click="backward" round dense style="background:rgb(235,137,181); color:white; margin:0px 4rem 0px 20px;" icon="arrow_back" />
+  <img src="../../assets/horizon_logo.png" style="height:70px;">
   <!-- Detail -->
 </div>
 <div>
@@ -28,10 +29,16 @@
     <img :src="imgUrl" alt="x" style="width:100%; height:350px;">
   </div>
   <div class="">
-    <i class="fas fa-heart"></i>
-    {{para.comment_cnt}}
-    <i class="far fa-comment"></i>
-    {{para.like_cnt}}
+    <div style="display:flex; align-items:center; justify-content:space-between">
+      <div style="margin-left:10px;">
+        <button
+        class="fas fa-heart heart-button"
+        @click="getHeart"
+        :style="heart ? 'color: red': 'color: silver'"/>
+        <span>{{para.like_cnt}}명이 좋아요를 눌렀습니다.</span>
+      </div>
+      <i class="far fa-comment" style="margin-right:10px;">{{para.comment_cnt}}</i>
+    </div>
   </div>
   <!-- 댓글입력 단 -->
   <div class="input-box">
@@ -83,6 +90,7 @@ export default {
     const store = useStore()
     const route = useRoute()
     const router = useRouter()
+    const heart = ref(false)
     const dense = ref(true)
     let replylist = ref([])
     const para = computed(() => store.getters["module/getSelectArticle"])
@@ -90,15 +98,30 @@ export default {
     var user_img = computed(()=>user.value.img)
     var article_user_img = computed(()=>para.value.user_img)
     const articleId = route.params.article_id
-    console.log(articleId, 'ai')
     imgUrl = imgUrl + para.value.img
+    function getHeart() {
+      heart.value = !heart.value
+      store.dispatch('module/likeArticle',{
+      id:para.value.id,check:heart.value,user_id:localStorage.getItem('userId')}).then(()=>{
+        store.dispatch('module/allArticle',localStorage.getItem('userId')).then((res)=>{
+          res.data.forEach(e => {
+            if(e.id==para.value.id){
+              store.commit('module/selectArticle', e)
+            }
+          });
+          store.commit('module/setAllarticle', res.data)
+        })
+      })
+    }
+    if(para.value.like == true){
+      heart.value = true
+    }
     onMounted(() => {
       getReply()
     })
     const getReply= () => {
       store.dispatch('module/getReply', articleId)
     .then((res) => {
-      console.log(res.data, 'rd')
       store.commit('module/articleCommentList', res.data)
     })
     .catch((err) => {
@@ -117,14 +140,19 @@ export default {
         user_id: parseInt(localStorage.getItem('userId'))
         }
       }
-      console.log(replyContent, '댓글 내용확인 1')
       store.dispatch('module/writeReply', replyContent)
-      .then((res) => {
-        console.log('댓글작성 완료')
+      .then(() => {
+        store.dispatch('module/allArticle',localStorage.getItem('userId')).then((res)=>{
+          res.data.forEach(e => {
+            if(e.id==para.id){
+              store.commit('module/selectArticle', e)
+            }
+          });
+          store.commit('module/setAllarticle', res.data)
+        })
         TempReply.value = ""
+        getReply()
       })
-      getReply()
-      console.log(articleCommentList, 'acl')
     }
   const backward = () => {
     router.go(-1)
@@ -137,6 +165,8 @@ export default {
     replylist,
     WriteReply,
     TempReply,
+    getHeart,
+    heart,
     dense,
     getReply,
     articleCommentList,
@@ -151,6 +181,12 @@ export default {
 </script>
 
 <style scoped>
+.heart-button {
+  border: none;
+  background-color: white;
+  color: silver;
+  font-size: 1.4rem;
+}
 .backward{
   padding: 1rem;
   padding-bottom: 0;

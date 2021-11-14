@@ -2,7 +2,7 @@
 <head>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
 </head>
-  <div class="q-pa-md">
+  <div class="q-pa-md" style="padding-bottom:100px;">
     <div class="quiz-detail-page-box">
       <div class=" q-gutter-sm other-theme-btn">
         <q-btn style="background-color: #F48FB1; color: white" label="다른 주제" @click="$emit('OtherTheme')"></q-btn>
@@ -10,11 +10,11 @@
       <div class="pagnation-box">
         <q-pagination
         v-model="current"
-        size="15px"
-        padding="5px 20px 5px 20px"
+        size="14px"
+        padding="5px 25px 5px 25px"
         color="pink-3"
         :max="quizList.length"
-        :max-pages="6"
+        :max-pages="5"
         boundary-numbers
         @click="page(current.value)"
         />
@@ -33,16 +33,16 @@
       control-color="primary"
       class="rounded-borders"
       @before-transition = "BeforeTransition"
-      style="margin-top:2rem; height:30rem;"
+      style="margin-top:2rem; height:32rem;"
 
     >
 
       <q-carousel-slide
         class="column no-wrap flex-center carousel-slide"
-        style=""
         v-for="(quiz, i) in quizList"
         :key="quiz.id"
         :name="i+1"
+        style="overflow: auto;"
         >
         <QuizSlide :quiz="quiz" :i="i" :isAnswered="isAnswered" />
       </q-carousel-slide>
@@ -122,11 +122,10 @@ export default {
 .carousel-slide{
   flex-direction: column;
   justify-content: start;
-  overflow: scroll;
   border: 3px solid pink;
-
-
+  -ms-overflow-style: none;
 }
+.carousel-slide::-webkit-scrollbar{ display:none; }
 .answer-box {
   /* float: left; */
   display: flex;
