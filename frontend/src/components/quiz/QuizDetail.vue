@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { computed, ref } from 'vue'
+import { onMounted, computed, ref } from 'vue'
 import { useStore } from 'vuex'
 import axios from 'axios'
 import QuizSlide from './QuizSlide.vue'
@@ -61,7 +61,6 @@ export default {
     'OtherTheme'
   ],
   setup (){
-
     const store = useStore()
     const current = ref(1)
     const slide = ref(1)
