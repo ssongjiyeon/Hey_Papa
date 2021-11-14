@@ -34,7 +34,7 @@
           height="600px"
           max-width="420px"
           >
-          <q-carousel-slide :name="info.id"  v-for="info in infoList" :key="info" >
+          <q-carousel-slide :name="info.id"  v-for="info in infoList" :key="info" class="box" style="overflow: auto;">
             <div class="column no-wrap ">
               <div class="slided" >
                 <p style="font-family: 'Jua', sans-serif;">아이와 함께한 {{info.id}}개월차</p>
@@ -112,8 +112,7 @@ export default {
   margin:10px 0px 10px 0px;
   /* font-weight:bold; */
 }
-.q-panel{ -ms-overflow-style: none; } .q-panel::-webkit-scrollbar{ display:none; }
-
+.box{ -ms-overflow-style: none; } .box::-webkit-scrollbar{ display:none; }
 .content{
   /* font-family: 'Jua', sans-serif; */
   font-family: 'Gamja Flower';
