@@ -1,10 +1,7 @@
 export default function () {
-  const myArticle = [
-  ];
-  const myLike = [
-  ];
-  const selectArticle = {
-  };
+  const myArticle = [];
+  const myLike = [];
+  const selectArticle = {};
   const searchArticle = [];
   const likecnt = 0;
   const allArticle = [];
@@ -18,6 +15,7 @@ export default function () {
   const current_page = 0;
   const commentList = [];
   const articleCommentList = [];
+
   // const eachArticle = [];
   return {
     likecnt,

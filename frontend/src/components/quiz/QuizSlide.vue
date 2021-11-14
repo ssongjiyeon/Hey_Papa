@@ -75,6 +75,16 @@ export default {
     const quiz = props.quiz
     const user = computed(()=> store.getters['module/getUser'])
     var user_img = computed(()=>user.value.img)
+    const user_id = localStorage.getItem('userId')
+    onMounted(() => {
+      axios({
+        method: 'GET',
+        url: "https://k5b206.p.ssafy.io/api/quiz/" + quiz.id + `/${user_id}`
+      })
+      .then((res) => {
+        isSaved.value = res.data.like
+      })
+    })
 
 
 

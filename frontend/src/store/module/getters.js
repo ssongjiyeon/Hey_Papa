@@ -40,3 +40,4 @@ export function articleCommentList(state) {
 export function searchArticle(state) {
   return state.searchArticle;
 }
+// 찜한 퀴즈 아이디만 들어있는 배열, 하트 최신화
