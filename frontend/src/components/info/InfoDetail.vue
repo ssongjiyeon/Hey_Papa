@@ -11,7 +11,7 @@
           :max-pages="6"
           size="15px"
           unelevated
-          padding="0px 15px 0px 15px"
+          padding="0px 10px 0px 10px"
           @click="page(current.value)"
         />
       </div>
@@ -23,8 +23,8 @@
           >
           <q-carousel-slide :name="info.id"  v-for="info in infoList" :key="info" class="box" style="overflow: auto;">
             <div class="column no-wrap ">
-              <div class="slided" >
-                <p style="font-family: 'Jua', sans-serif;">아이와 함께한 {{info.id}}개월차</p>
+              <div class="slided">
+                <p style="font: 2rem 'GowunDodum-Regular'; font-weight: bolder; ">아이와 함께한 {{info.id}}개월차</p>
               </div>
               <div class="slided">
                 <img style="width: 8rem;" :src="require(`../../assets/baby/baby${info.id}.png`)"/>
@@ -93,17 +93,20 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR&family=Gamja+Flower&display=swap');
 .title{
   /* font-family: 'Noto Sans KR', sans-serif; */
-  font-family: 'Jua', sans-serif;
+  font-family: 'GowunDodum-Regular';
+  font-weight: bold;
   display:flex;
   width:100%;
   font-size:25px;
   margin:10px 0px 10px 0px;
   /* font-weight:bold; */
 }
-.box{ -ms-overflow-style: none; } .box::-webkit-scrollbar{ display:none; }
+.box{
+
+  -ms-overflow-style: none; } .box::-webkit-scrollbar{ display:none; }
 .content{
   /* font-family: 'Jua', sans-serif; */
-  font-family: 'Gamja Flower';
+  font-family: 'GowunDodum-Regular';
   font-size:20px;
 }
 .pagination{

@@ -1,12 +1,12 @@
 <template>
 
   <!-- 문제 출제 시 -->
-  <div class="" v-show="!isAnswered">
+  <div class="heart-subject" v-show="!isAnswered">
     <div class="heart-position">
-      <i class='fas fa-heart ' @click="SaveQuiz(quiz.id)" :style="isSaved ? 'color: red': 'color: silver'"></i>
+      <i class='fas fa-heart ' @click="SaveQuiz(quiz.id)" :style="isSaved ? 'color: crimson': 'color: silver'"></i>
     </div>
     <div>
-      <span class="subject">Q{{i+1}}</span>
+      <span class="subject">Q{{i+1}}. </span>
     </div>
   </div>
   <div class="question" v-show="!isAnswered">
@@ -196,6 +196,9 @@ export default {
   overflow: scroll;
   border: 3px solid pink;
 
+
+
+
 }
 .answer-list{
   display: flex;
@@ -211,11 +214,15 @@ export default {
   flex-wrap: wrap;
   width: 6.5rem; /* 14*/
   height: 6.5rem;  /* 4*/
-  background-color: pink;
+  background-color: rgb(255, 217, 223);
   margin: 0.5rem;
+  text-align: center;
   align-items: center;
-  align-content: center;
+
   border-radius: 0.5rem;
+  color: #5684BF;
+  font: 1rem 'GowunDodum-Regular';
+  font-weight: bold;
 
 }
 .reply-input-box {
@@ -296,8 +303,7 @@ export default {
 
 .heart-position{
   display: block;
-
-  font-size: 1.5rem;
+  font-size: 1.3rem;
 
 }
 
@@ -306,11 +312,19 @@ export default {
   width: 15rem;
   flex-wrap: wrap;
   margin-top: 1rem;
-  font: 1rem sans-serif;
+  font: 1rem 'GowunDodum-Regular';
+  padding: 0.5rem;
 }
 .subject{
-  font: 1.3rem black;
+  font-size: 1.3rem ;
+  font-weight: bold;
+}
+.heart-subject {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+  width: 13.8rem;
+  margin-top: 3rem;
 
 }
-
 </style>

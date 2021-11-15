@@ -69,7 +69,7 @@ export default defineComponent({
 </script>
 <style scoped>
 .main-color{
-  color:rgb(235,137,181);
+  color: pink;
 }
 .navbar{
   position: fixed;
@@ -83,9 +83,10 @@ export default defineComponent({
 }
 .nav-btn{
   width: 20%;
+  font-family: 'GowunDodum-Regular';
 }
 .nav-btn button{
-  background-color: white;
+  background-color: #F2F2F2;
   border: none;
   width: 100%;
   height: 100%;
@@ -95,5 +96,6 @@ export default defineComponent({
   flex-direction:column;
   align-items:center;
   color: grey;
+
 }
 </style>

@@ -14,12 +14,8 @@
 
   <div class="zzim-box">
     <div class="quiz-dan" v-show="!isAnswered">
-      <div class="heart-position">
-        <i class='fas fa-heart ' @click="SaveQuiz(quiz_detail.id)" :style="isSaved ? 'color: red': 'color: silver'"></i>
-      </div>
-      <div>
-        <span class="subject">Q{{quiz_detail.id}}</span>
-      </div>
+        <!-- <i class='fas fa-heart ' @click="SaveQuiz(quiz_detail.id)" :style="isSaved ? 'color: red': 'color: silver'"></i> -->
+        <span class="subject">Q{{quiz_detail.id}}.</span>
     </div>
     <div class="question" v-show="!isAnswered">
       {{ quiz_detail.question }}
@@ -153,7 +149,26 @@ export default {
       })
       Reply.value = ''
     }
-
+    // const SaveQuiz = (id) => {
+    //   isSaved.value = !isSaved.value
+    //   console.log(isSaved.value)
+    //   const url = "https://k5b206.p.ssafy.io/api/quiz/" + id + '/myquiz'
+    //   const params = {
+    //       quizcheck: isSaved.value,
+    //       quizlike : isSaved.value,
+    //       user_id : parseInt(localStorage.getItem('userId'))
+    //     }
+    //   axios.post(url, params)
+    //   // store.dispatch('module/saveQuiz', {
+    //   //   qc: isSaved.value,ql: isSaved.value,ui: parseInt(localStorage.getItem('userId')),qi:id
+    //   // })
+    //   .then((res) => {
+    //     // console.log(res.data, '댓글작성완료')
+    //   })
+    //   .catch((err) => {
+    //     console.log(err)
+    //   })
+    // }
     return {
       params,
       quiz_detail,
@@ -166,7 +181,8 @@ export default {
       isSaved,
       ChooseAnswer,
       EnrollReply,
-      backward
+      backward,
+      // SaveQuiz
     }
   }
 }
@@ -177,7 +193,8 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: pink;
+  color: #3B5E8C;
+  font-family: 'GowunDodum-Regular';
 
 
 }
@@ -189,9 +206,11 @@ export default {
   flex-direction: column;
   align-items: center;
   height: 32rem;
-  border: 3px solid pink;
+  border: 1px solid pink;
   border-radius: 10px;
   overflow: scroll;
+  font-family: 'GowunDodum-Regular';
+  /* padding-top: 3rem; */
 }
 
 .zzim-box::-webkit-scrollbar{ display:none; }
@@ -216,7 +235,7 @@ export default {
   flex-direction: column;
   justify-content: start;
   overflow: scroll;
-  border: 3px solid pink;
+  border: 1px solid pink;
 
 }
 .answer-list{
@@ -238,6 +257,8 @@ export default {
   align-items: center;
   align-content: center;
   border-radius: 0.5rem;
+  font: 1rem 'GowunDodum-Regular';
+  font-weight: bold;
 
 }
 .reply-input-box {
@@ -318,7 +339,7 @@ export default {
 
 .heart-position{
   display: block;
-
+  padding-top: 3rem;
   font-size: 1.5rem;
 
 }
@@ -328,11 +349,28 @@ export default {
   width: 15rem;
   flex-wrap: wrap;
   margin-top: 1rem;
-  font: 1rem sans-serif;
+  justify-content: center;
+  padding: 0.5rem;
+  font: 1rem 'GowunDodum-Regular';
 }
 .subject{
-  font: 1.3rem black;
+  font-size: 1.3rem ;
+  font-weight: bold;
 
 }
+.quiz-dan{
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: flex-start;
+  width: 13.8rem;
+  margin-top: 3rem;
+  font: 1.3em;
+  font-family: 'GowunDodum-Regular';
+}
+.quiz-dan i {
+  font-size: 1.3rem;
+  margin: auto 0 auto 0;
 
+}
 </style>
