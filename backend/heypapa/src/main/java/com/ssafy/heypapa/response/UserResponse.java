@@ -21,4 +21,7 @@ public class UserResponse {
 	
 	@ApiModelProperty(name = "week", example = "7")
 	private int week;
+	
+	@ApiModelProperty(name = "token", example = "토큰 정보")
+	private TokenInfo token;
 }
