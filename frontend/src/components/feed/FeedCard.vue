@@ -8,20 +8,20 @@
         <q-card-section>
           <div style="display:flex; justify-content:space-between;">
             <div class="text-overline text-orange-9">{{para.created_at.slice(0,10)}}</div>
-            <div v-if="flag"><q-icon name="more_horiz" size="sm" @click="Show"></q-icon></div>
+            <div v-if="flag"><q-icon name="more_horiz" size="sm" @click="Show(para)"></q-icon></div>
           </div>
           <!-- 프로필 박스 -->
           <div class="profile-box">
             <img v-if="para.user_img=='NULL'" src="../../assets/default_user.png" class="profile-img">
             <img v-else :src="'https://k5b206.p.ssafy.io/api/static/img/'+para.user_img" class="profile-img">
-            <div class="text-h6 q-mt-sm q-mb-sm q-ml-sm">{{para.nickname}} 파파</div>
+            <div class="text-h6 q-mt-sm q-mb-sm q-ml-sm nickname">{{para.nickname}} 파파</div>
           </div>
           <div :class="extended ? 'more-box' : 'text-box'" transition: fade style="margin-top:0.5rem;">
-            <div @click="Detail(para)">
+            <div @click="Detail(para)" class="main_content">
               {{ para.content }}
             </div>
             <!-- 해쉬태그 -->
-            <div style="padding-top:0.5rem; display:flex;">
+            <div style="padding-top:0.5rem; display:flex; font-weight:bold;">
               <div v-for="hashtag in para.hashtag" :key="hashtag">#{{ hashtag }}</div>
             </div>
           </div>
@@ -38,11 +38,13 @@
             <button
             class="fas fa-heart heart-button"
             @click="getHeart"
-            :style="heart ? 'color: red': 'color: silver'"/>
+            :style="heart ? 'color: red': 'color: silver'"
+            style="margin-left:-5px;"
+            />
             <span>{{para.like_cnt}}명이 좋아요를 눌렀습니다.</span>
           </div>
           <div class="speech-bubble" @click="Detail(para)">
-            <i class="far fa-comment"></i>
+            <i class="far fa-comment" style="font-size:21px;"></i>
             {{para.comment_cnt}}
           </div>
         </q-card-actions>
@@ -153,6 +155,15 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR&family=Gamja+Flower&display=swap');
+.nickname{
+  font-family: 'Jua', sans-serif;
+  font-size:22px;
+}
+.main_content{
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size:18px;
+}
 .my-card {
   width: 100%;
 }

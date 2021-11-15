@@ -9,7 +9,7 @@
   />
 </head>
 <div style="display:flex; align-items:center;">
-  <q-btn @click="backward" round dense style="background:rgb(235,137,181); color:white; margin:0px 4rem 0px 20px;" icon="arrow_back" />
+  <q-btn @click="backward" round dense style="background:rgb(235,137,181); color:white; margin:0px 5.2rem 0px 20px;" icon="arrow_back" />
   <img src="../../assets/horizon_logo.png" style="height:70px;">
   <!-- Detail -->
 </div>
@@ -25,19 +25,24 @@
     {{para.created_at.slice(12,13)}}:{{para.created_at.slice(14,16)}}
   </div>
   <div class="content-box">
-    <p>{{para.content}}</p>
+    <div class="main_content">{{para.content}}</div>
+    <div style="display:flex; margin:0px 10px 5px 5px;">
+      <div v-for="hashtag in para.hashtag" :key="hashtag" style="margin-right:10px; font-weight:bold;">#{{hashtag}}</div>
+    </div>
     <img :src="imgUrl" alt="x" style="width:100%; height:350px;">
   </div>
   <div class="">
     <div style="display:flex; align-items:center; justify-content:space-between">
-      <div style="margin-left:10px;">
+      <div style="margin-left:10px; display:flex; align-items:center;">
         <button
         class="fas fa-heart heart-button"
         @click="getHeart"
         :style="heart ? 'color: red': 'color: silver'"/>
         <span>{{para.like_cnt}}명이 좋아요를 눌렀습니다.</span>
       </div>
-      <i class="far fa-comment" style="margin-right:10px;">{{para.comment_cnt}}</i>
+      <div>
+        <i class="far fa-comment" style="margin-right:10px; font-size:20px;"><span style="margin-left:5px;">{{para.comment_cnt}}</span></i>
+      </div>
     </div>
   </div>
   <!-- 댓글입력 단 -->
@@ -62,7 +67,7 @@
 <div class="reply" clickable v-ripple v-if="articleCommentList" v-for="(reply,i) in articleCommentList" :key="i">
         <div class="avatar">
           <q-avatar style="height:2rem; width:2rem; margin: 0.2rem 1rem 0 0">
-            <img v-if="reply=='NULL'" src="../../assets/default_user.png" >
+            <img v-if="reply.user_img=='NULL'" src="../../assets/default_user.png" >
             <img v-else :src="`https://k5b206.p.ssafy.io/api/static/img/${reply.user_img}`">
           </q-avatar>
         </div>
@@ -96,6 +101,7 @@ export default {
     const para = computed(() => store.getters["module/getSelectArticle"])
     const user = computed(()=> store.getters['module/getUser'])
     var user_img = computed(()=>user.value.img)
+    console.log(user_img,'@@')
     var article_user_img = computed(()=>para.value.user_img)
     const articleId = route.params.article_id
     imgUrl = imgUrl + para.value.img
@@ -181,6 +187,12 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR&family=Gamja+Flower&display=swap');
+.main_content{
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size:22px;
+  margin:0px 10px 10px 10px;
+}
 .heart-button {
   border: none;
   background-color: white;

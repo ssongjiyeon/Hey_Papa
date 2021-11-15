@@ -16,7 +16,7 @@
           />
           <input hidden class="file-input" ref="fileInput" type="file" @input="onSelectFile()" />
         </div>
-        <q-img :src="imageData" style="cursor: pointer; object-fit:cover;" @click="choosepicture()" />
+        <q-img :src="'https://k5b206.p.ssafy.io/api/static/img/'+imageData" style="cursor: pointer; object-fit:cover;" @click="choosepicture()" />
       </div>
     </div>
     <div style="margin-top:4  0px;">
@@ -53,7 +53,8 @@ export default {
   },
   created(){
     const article = computed(()=> this.$store.getters['module/getSelectArticle'])
-    // this.imageData = article.value.img 이미지 불러오는 부분 잘될지..
+    this.imageData = article.value.img 
+    console.log(this.imageData,'@@')
     console.log(article,'넘어오니?')
     this.text = article.value.content
     article.value.hashtag.forEach(e => {

@@ -11,10 +11,9 @@
     <div style="display: flex; justify-content: space-between">
       <img
         src="../assets/horizon_logo.png"
-        style="height: 70px; margin: 0 auto; padding-left: 70px"
+        style="height: 70px; margin: 0 auto; padding-left: 40px"
       />
       <div style="display: flex; align-items: center; margin-right: 15px">
-        <q-icon name="search" size="sm" style="color: rgb(235, 137, 181)" @click="goSearch"/>
         <q-icon
           @click="goWrite"
           name="add"
