@@ -1,15 +1,10 @@
 package com.ssafy.heypapa.controller;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,7 +38,7 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/article")
 public class ArticleController {
 	
-	private S3Service s3Service;
+//	private S3Service s3Service;
 	
 	@Autowired
 	private ArticleService articleService;

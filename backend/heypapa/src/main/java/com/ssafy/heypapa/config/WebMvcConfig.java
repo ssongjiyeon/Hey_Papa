@@ -9,11 +9,8 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.resource.PathResourceResolver;
-
-import com.ssafy.heypapa.util.JwtTokenUtil;
 
 import java.util.Arrays;
 import java.util.List;
@@ -33,11 +30,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        // configuration.addAllowedOrigin("*");
+         configuration.addAllowedOrigin("*");
         configuration.addAllowedOriginPattern("*");
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");
-//        configuration.addExposedHeader(JwtTokenUtil.HEADER_STRING);
+        configuration.addExposedHeader("Authorization");
         configuration.setAllowCredentials(true);
         configuration.setMaxAge(3600L);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -56,11 +53,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     		registry.addResourceHandler("/webjars/**")
     				.addResourceLocations("classpath:/META-INF/resources/webjars/");
     		
-    		/*
-    		 * 
-    		 * Front-end에서 참조하는 URL을 /dist로 매핑
-    		 * 
-    		 */
+    	// Front-end에서 참조하는 URL을 /dist로 매핑
         registry.addResourceHandler("/css/**")
         			.addResourceLocations("classpath:/dist/css/");
         	registry.addResourceHandler("/fonts/**")
