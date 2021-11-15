@@ -29,6 +29,11 @@ const routes = [
     component: () => import("components/feed/FeedDetail.vue"),
   },
   {
+    path: "/quiz/:user_id",
+    name: "zzimquiz",
+    component: () => import("components/quiz/ZzimDetail.vue"),
+  },
+  {
     path: "/",
     component: () => import("layouts/MainLayout.vue"),
     children: [

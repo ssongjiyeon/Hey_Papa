@@ -27,7 +27,7 @@
       v-model="slide"
       transition-prev="slide-right && BeforeTransition"
       transition-next="slide-left && BeforeTransition"
-      arrows
+
       swipeable
       animated
       control-color="primary"
@@ -46,6 +46,23 @@
         >
         <QuizSlide :quiz="quiz" :i="i" :isAnswered="isAnswered" />
       </q-carousel-slide>
+      <template v-slot:control>
+      <q-carousel-control
+
+          position="top"
+          :offset="[18, 18]"
+          class="q-gutter-xs row justify-between"
+        >
+        <q-btn
+          push round dense color="" text-color="pink-3" icon="arrow_left"
+          @click="previous"
+        />
+        <q-btn
+          push round dense color="" text-color="pink-3" icon="arrow_right"
+          @click="next"
+        />
+        </q-carousel-control>
+      </template>
     </q-carousel>
   </div>
 </template>
@@ -77,7 +94,16 @@ export default {
       current.value = slide.value
       console.log('transition')
     }
-
+    const previous = () => {
+      if(slide.value > 1){
+        slide.value -= 1
+      }
+    }
+    const next = () => {
+      if(slide.value){
+        slide.value += 1
+      }
+    }
 
 
 
@@ -91,7 +117,8 @@ export default {
       current,
       slide,
       isAnswered,
-
+      previous,
+      next
 
 
 

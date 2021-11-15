@@ -50,7 +50,7 @@
   </div>
 
   <!-- 선지 -->
-  <div class="row wrap justify-center" v-show="!isAnswered">
+  <div class="wrap justify-center items-center content-center answer-list" v-show="!isAnswered">
     <div class="answer-box row no-wrap justify-center"
         v-for="(option, opt_idx) in quiz.candidate.split('#')"
         :key="option"
@@ -77,6 +77,7 @@ export default {
     var user_img = computed(()=>user.value.img)
     const user_id = localStorage.getItem('userId')
     onMounted(() => {
+      // 찜한 문제 확인
       axios({
         method: 'GET',
         url: "https://k5b206.p.ssafy.io/api/quiz/" + quiz.id + `/${user_id}`
@@ -115,9 +116,10 @@ export default {
     const ChooseAnswer = (name, answer, id) => {
 
       // 댓글 목록 api 호출 필요
-      const url = "https://k5b206.p.ssafy.io/api/quiz/" + id
+      const url = "https://k5b206.p.ssafy.io/api/quiz/" + id + `/${user_id}`
       axios.get(url)
       .then((res) => {
+        console.log(res.data, '댓글작성')
         store.commit('module/commentList', res.data.comments )
       })
       if(name == null) {
@@ -195,17 +197,24 @@ export default {
   border: 3px solid pink;
 
 }
+.answer-list{
+  display: flex;
+  align-items: center;
+  align-content: center;
+  margin: auto;
 
+}
 
 .answer-box {
   /* float: left; */
   display: flex;
   flex-wrap: wrap;
-  width: 15rem;
-  height: 4rem;
+  width: 6.5rem; /* 14*/
+  height: 6.5rem;  /* 4*/
   background-color: pink;
   margin: 0.5rem;
   align-items: center;
+  align-content: center;
   border-radius: 0.5rem;
 
 }

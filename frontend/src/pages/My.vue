@@ -163,6 +163,7 @@ export default {
       console.log('찜')
       store.dispatch('module/myZzim',userId).then((res)=>{
         store.commit('module/setMyQuiz', res.data)
+
       })
     }
     console.log()
@@ -172,6 +173,7 @@ export default {
     };
     function goQuiz(quiz){
       // 퀴즈 디테일로 가는 부분
+      router.push({name: "zzimquiz", params: {quiz: quiz}});
       console.log(quiz,'퀴즈 정보들')
     }
     return {
