@@ -1,7 +1,6 @@
 package com.ssafy.heypapa.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -15,13 +14,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.ssafy.heypapa.auth.JwtRequestFilter;
 import com.ssafy.heypapa.auth.PapaUserDetailService;
-import com.ssafy.heypapa.service.UserService;
 
 @Configuration
 @EnableWebSecurity
@@ -29,10 +25,10 @@ import com.ssafy.heypapa.service.UserService;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-    private PapaUserDetailService papaUserDetailService;
+	private PapaUserDetailService papaUserDetailService;
 	
 	@Autowired
-    private UserService userService;
+	private JwtRequestFilter jwtFilter;
 	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -54,46 +50,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
+		
         http
-                .httpBasic().disable()
-                .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .addFilter(new JwtRequestFilter(authenticationManager(), userService)) 
-                .authorizeRequests()
-                .antMatchers("/user/login", "/user/email", "/user/regist").permitAll()
-                .antMatchers("/static/**").permitAll()
-                .antMatchers("/swagger-resources/**").permitAll()
-                .antMatchers("/swagger-ui.html/**").permitAll()
-                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-//                .anyRequest().authenticated()
-                .and().cors().configurationSource(corsConfigurationSource());
+    		.httpBasic().disable()
+//    		.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+	        .csrf().disable()
+            .authorizeRequests()
+            .antMatchers("/api/user/login").permitAll()
+            .antMatchers("/api/user/regist").permitAll()
+            .antMatchers("/swagger-resources/**").permitAll()
+            .antMatchers("/api/swagger-ui.html/**").permitAll()
+            .antMatchers(HttpMethod.OPTIONS, "/api/**").permitAll()
+			.antMatchers(HttpMethod.OPTIONS).permitAll();
+//	        .anyRequest().authenticated();
     }
 	
 	@Override
     public void configure(WebSecurity web) {
-		
-		web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
 		// swagger 
 		web.ignoring()
-			.antMatchers("/", "/csrf", "/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security", "/swagger-ui.html", "/webjars/**","/swagger/**")
-			.antMatchers("/user/login", "/user/regist");
-    }
-
-	
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-         configuration.addAllowedOrigin("*");
-        configuration.addAllowedOriginPattern("*");
-        configuration.addAllowedMethod("*");
-        configuration.addAllowedHeader("*");
-        configuration.addExposedHeader("Authorization");
-        configuration.setAllowCredentials(true);
-        configuration.setMaxAge(3600L);
-        
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
+			.antMatchers( "/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security", "/swagger-ui.html", "/webjars/**","/swagger/**")
+			.antMatchers("/api/user/login", "/api/user/regist");
     }
 }

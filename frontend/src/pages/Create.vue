@@ -16,7 +16,7 @@
           />
           <input hidden class="file-input" ref="fileInput" type="file" @input="onSelectFile()" />
         </div>
-        <q-img :src="imageData" style="cursor: pointer; object-fit:cover;" @click="choosepicture()" />
+        <q-img :src="imageData" style="cursor: pointer; object-fit:cover; height:400px;" @click="choosepicture()" />
       </div>
     </div>
     <div style="margin-top:4  0px;">
@@ -92,8 +92,7 @@ export default {
         user_id:localStorage.getItem('userId')
       }
       this.$store.dispatch('module/writeArticle',article)
-        .then((res)=>{
-          console.log(res,'과연??')
+        .then(()=>{
           this.$store.dispatch('module/allArticle',localStorage.getItem('userId')).then((res)=>{
             this.$store.commit('module/setAllarticle', res.data)
             this.$router.push('/home')

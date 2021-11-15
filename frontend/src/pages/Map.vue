@@ -13,7 +13,7 @@
     </div>
     <div style="padding-bottom:110px;">
       <div id="map" style="height:600px;"></div>
-      <div class="custom_zoomcontrol radius_border" style="margin-top:130px;"> 
+      <div class="custom_zoomcontrol radius_border" style="margin-top:130px; margin-right:20px;"> 
         <span @click="zoomIn"><span style="font-size:25px;">+</span></span>  
         <span @click="zoomOut"><span style="font-size:25px; font-weight:bold;">-</span></span>
       </div>
