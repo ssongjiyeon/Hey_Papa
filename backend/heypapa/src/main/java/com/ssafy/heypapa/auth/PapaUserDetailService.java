@@ -1,6 +1,7 @@
 package com.ssafy.heypapa.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -8,7 +9,6 @@ import org.springframework.stereotype.Component;
 
 import com.ssafy.heypapa.entity.User;
 import com.ssafy.heypapa.service.UserService;
-
 
 @Component
 public class PapaUserDetailService implements UserDetailsService {
@@ -18,10 +18,10 @@ public class PapaUserDetailService implements UserDetailsService {
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userService.getUserByNickname(username);
+		
+		User user = userService.getUserByEmail(username);
 		
 		if(user != null) {
-			System.out.println("papaService = " + user.getEmail());
 			PapaUserDetails userDetails = new PapaUserDetails(user);
 			return userDetails;
 		}

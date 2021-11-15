@@ -2,26 +2,20 @@ package com.ssafy.heypapa.controller;
 
 import java.util.List;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,69 +28,66 @@ import com.ssafy.heypapa.request.UserRequest;
 import com.ssafy.heypapa.response.MyArticleResponse;
 import com.ssafy.heypapa.response.MyQuizResponse;
 import com.ssafy.heypapa.response.ProfileResponse;
+import com.ssafy.heypapa.response.TokenInfo;
 import com.ssafy.heypapa.response.UserResponse;
 import com.ssafy.heypapa.service.IUserService;
 import com.ssafy.heypapa.util.BaseResponseBody;
-import com.ssafy.heypapa.util.CookieUtil;
 import com.ssafy.heypapa.util.JwtTokenUtil;
 import com.ssafy.heypapa.util.RedisUtil;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import springfox.documentation.annotations.ApiIgnore;
 
 @Api(value = "유저 api", tags = { "User" })
 @RestController
 @RequestMapping("/user")
+@CrossOrigin("*")
 public class UserController {
 	
 	@Autowired
 	private IUserService userService;
 	
 	@Autowired
-	private JwtTokenUtil jwtUtil;
-	
-	@Autowired
-	private CookieUtil cookieUtil;
+	private PasswordEncoder passwordEncoder;
 	
 	@Autowired
 	private RedisUtil redisUtil;
 	
 	@Autowired
-	private PasswordEncoder passwordEncoder;
+   RedisTemplate redisTemplate;
 	
 	final String SUCCESS_MESSAGE = "success";
 	final String FAIL_MESSAGE = "error";
 	
 	@PostMapping("/login")
 	@ApiOperation(value = "로그인", notes = "로그인 성공 시 회원 정보 반환")
-	public ResponseEntity<UserResponse> login(@RequestBody UserRequest userRequest,
-				HttpServletRequest req, HttpServletResponse res) {
-			
-		final User user = userService.getUserByEmail(userRequest.getEmail());
+	public ResponseEntity<UserResponse> login(@RequestBody UserRequest userRequest) {
 		
-		if(!passwordEncoder.matches(userRequest.getPassword(), user.getPassword())) {
+		User user = userService.getUserByEmail(userRequest.getEmail());
+		UserResponse res = new UserResponse();
+		
+		if(user == null) {
 			return new ResponseEntity<UserResponse>(HttpStatus.BAD_REQUEST);
 		}
 		
-		final String token = jwtUtil.generateToken(user);
-		final String rToken = jwtUtil.generateRefreshToken(user);
+		if(passwordEncoder.matches(userRequest.getPassword(), user.getPassword())) {
+			res.setId(user.getId());
+			res.setImg(user.getImg());
+			res.setNickname(user.getNickname());
+			res.setWeek(user.getWeek());
+			
+			TokenInfo token = new TokenInfo(JwtTokenUtil.getToken(user.getEmail()), 
+					JwtTokenUtil.getRefreshToken(user.getEmail()), JwtTokenUtil.REFRESH_TOKEN_VALIDATION_SECOND);
+			res.setToken(token);
+			
+			if(redisUtil.getData(user.getEmail()) != null) {
+				redisUtil.deleteData(user.getEmail());
+			}
+			redisUtil.setDataExpire(user.getEmail(), token.getRefreshToken(), token.getRefershExpirationTime());
+		}
 		
-		Cookie accessToken = cookieUtil.createCookie(JwtTokenUtil.ACCESS_TOKEN_NAME, token);
-		Cookie refreshToken = cookieUtil.createCookie(JwtTokenUtil.REFRESH_TOKEN_NAME, rToken);
-		
-		redisUtil.setDataExpire(rToken, user.getNickname(), JwtTokenUtil.REFRESH_TOKEN_VALIDATION_SECOND);
-		res.addCookie(accessToken);
-		res.addCookie(refreshToken);
-		
-		UserResponse userResponse = new UserResponse();
-		userResponse.setImg(user.getImg());
-		userResponse.setNickname(user.getNickname());
-		userResponse.setWeek(user.getWeek());
-		userResponse.setId(user.getId());
-	
-		return ResponseEntity.status(200).body(userResponse);
+		return ResponseEntity.status(200).body(res);
 		
 	}
 	
@@ -126,27 +117,11 @@ public class UserController {
 	
 	@GetMapping("/logout")
 	@ApiOperation(value = "로그아웃")
-	public ResponseEntity<BaseResponseBody> logout(HttpServletRequest req, HttpServletResponse res) {
+	public ResponseEntity<BaseResponseBody> logout(@ApiIgnore Authentication authentication) {
 		
-		// refresh token 처리
-		Cookie refreshToken = cookieUtil.getCookie(req, JwtTokenUtil.REFRESH_TOKEN_NAME);
-
-		if(refreshToken != null) {
-			String refreshJwt = refreshToken.getValue();
-			
-			if(refreshJwt != null) {
-				redisUtil.deleteData(refreshJwt);
-			}
-		}
+		PapaUserDetails userDetails = (PapaUserDetails) authentication.getDetails();
+		redisUtil.deleteData(userDetails.getUsername());
 		
-		Cookie accessToken = new Cookie(JwtTokenUtil.ACCESS_TOKEN_NAME, null);
-		refreshToken = new Cookie(JwtTokenUtil.REFRESH_TOKEN_NAME, null);
-		accessToken.setMaxAge(0);
-		refreshToken.setMaxAge(0);
-		res.addCookie(accessToken);
-		res.addCookie(refreshToken);
-
-
 		return ResponseEntity.status(200).body(new BaseResponseBody(200, SUCCESS_MESSAGE)); 
 	}
 	
