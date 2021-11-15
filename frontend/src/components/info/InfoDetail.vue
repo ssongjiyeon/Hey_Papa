@@ -3,19 +3,6 @@
   <head>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
   </head>
-      <!-- <q-btn-toggle
-              glossy
-              v-model="slide"
-              :options="[
-                { label: 1, value: 1 },
-                { label: 2, value: 2 },
-                { label: 3, value: 3 },
-                { label: 4, value: 4 },
-                { label: 5, value: 5 },
-                { label: 6, value: 6 },
-
-                ]"
-            /> -->
       <div class="pagination">
         <q-pagination
           v-model="current"
@@ -40,9 +27,10 @@
                 <p style="font-family: 'Jua', sans-serif;">아이와 함께한 {{info.id}}개월차</p>
               </div>
               <div class="slided">
-                <img style="width: 15rem;" :src="require(`../../assets/mom/${info.id}.png`)"/>
+                <img style="width: 8rem;" :src="require(`../../assets/baby/baby${info.id}.png`)"/>
                 <div class="title">지금 아이는</div>
                 <div class="content">{{info.baby}}</div>
+                <img style="width: 15rem;" :src="require(`../../assets/mom/${info.id}.png`)"/>
                 <div class="title">지금 엄마는</div>
                 <div class="content">{{info.mom}}</div>
               </div>

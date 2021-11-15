@@ -53,20 +53,6 @@ export default {
     const $q = useQuasar()
     const store = useStore()
     const router = useRouter()
-    const myQuiz= [
-      {
-        question:'Q. 아이가 변비일 때 먹이면 좋지 않은 과일은?'
-      },
-      {
-        question:'Q. 아이가 변비일 때 먹이면 좋지 않은 과일은?'
-      },
-      {
-        question:'Q. 아이가 변비일 때 먹이면 좋지 않은 과일은?'
-      },
-      {
-        question:'Q. 아이가 변비일 때 먹이면 좋지 않은 과일은?'
-      }
-    ]
     const user = computed(()=> store.getters['module/getUser'])
     var user_img = computed(()=>user.value.img)
     if (user.value.img !='NULL') nope=false
@@ -108,7 +94,6 @@ export default {
       $q.bottomSheet({
         message: '메뉴',
         actions: [
-          // {},
           {
             label: '회원정보수정',
             icon: 'account_circle',
@@ -160,7 +145,6 @@ export default {
       })
     }
     function goZzim(){
-      console.log('찜')
       store.dispatch('module/myZzim',userId).then((res)=>{
         store.commit('module/setMyQuiz', res.data)
       })
@@ -180,7 +164,6 @@ export default {
       user_img,
       myArticles,
       myLikes,
-      myQuiz,
       user,
       myZzim,
       fileInput,
@@ -206,7 +189,7 @@ export default {
 }
 .logo{
   height:70px;
-  /* margin-left:128px; */
+  margin-left:10px;
   width:153px;
 }
 /* .my_container{

@@ -24,7 +24,6 @@ export default {
       })
       .then((res) => {
         InfoList = res.data
-        console.log(InfoList, 'info')
         store.commit('module/infoList', InfoList)
 
       })
