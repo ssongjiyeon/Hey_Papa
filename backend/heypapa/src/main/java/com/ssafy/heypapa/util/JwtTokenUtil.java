@@ -1,132 +1,80 @@
 package com.ssafy.heypapa.util;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
 import java.util.Date;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.AlgorithmMismatchException;
-import com.auth0.jwt.exceptions.InvalidClaimException;
-import com.auth0.jwt.exceptions.JWTCreationException;
-import com.auth0.jwt.exceptions.JWTDecodeException;
-import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.exceptions.SignatureGenerationException;
-import com.auth0.jwt.exceptions.SignatureVerificationException;
-import com.auth0.jwt.exceptions.TokenExpiredException;
+import com.ssafy.heypapa.entity.User;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JwtTokenUtil {
-
-	public final static long TOKEN_VALIDATION_SECOND = 1000L * 60 * 30; // 30분
-	public final static long REFRESH_TOKEN_VALIDATION_SECOND = 1000L * 60 * 60 * 24 * 2; //2일
-	private static String secretKey;
 	
-	public static final String TOKEN_PREFIX = "Bearer ";
-    public static final String HEADER_STRING = "Authorization";
-    public static final String ISSUER = "ssafy.com";
+	public final static long TOKEN_VALIDATION_SECOND = 1000L * 10;
+	public final static long REFRESH_TOKEN_VALIDATION_SECOND = 1000L * 60 * 24 * 2;
 	
-    @Autowired
-	public JwtTokenUtil(@Value("${spring.jwt.secret}") String secretKey) {
-		this.secretKey = secretKey;
+	final static public String ACCESS_TOKEN_NAME = "accessToken";
+	final static public String REFRESH_TOKEN_NAME = "refreshToken";
+	
+	@Value("${spring.jwt.secret}")
+	private String SECRET_KEY;
+	
+	private Key getSigningKey(String secretKey) {
+		byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
+		return Keys.hmacShaKeyFor(keyBytes);
 	}
-
-	public static JWTVerifier getVerifier() {
-        return JWT
-                .require(Algorithm.HMAC512(secretKey.getBytes()))
-                .withIssuer(ISSUER)
-                .build();
+	
+	public Claims extractAllClaims(String token) throws ExpiredJwtException {
+		return Jwts.parserBuilder()
+				.setSigningKey(getSigningKey(SECRET_KEY))
+				.build()
+				.parseClaimsJws(token)
+				.getBody();
+	}
+	
+	public String getUserNickname(String token) {
+		return extractAllClaims(token).get("nickname", String.class);
+	}
+	
+	public Boolean isTokenExpired(String token) {
+        final Date expiration = extractAllClaims(token).getExpiration();
+        return expiration.before(new Date());
     }
-    
-    public static String getToken(String userEmail) {
-    		Date expires = JwtTokenUtil.getTokenExpiration();
-        return JWT.create()
-                .withSubject(userEmail)
-                .withExpiresAt(expires)
-                .withIssuer(ISSUER)
-                .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
-                .sign(Algorithm.HMAC512(secretKey.getBytes()));
-    }
-
-    public static String getToken(Instant expires, String userEmail) {
-        return JWT.create()
-                .withSubject(userEmail)
-                .withExpiresAt(Date.from(expires))
-                .withIssuer(ISSUER)
-                .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
-                .sign(Algorithm.HMAC512(secretKey.getBytes()));
-    }
-    
-    public static String getRefreshToken(String userEmail) {
+	
+	public String doGenerateToken(String nickname, long expireTime) {
+		Claims claims = Jwts.claims();
+		claims.put("nickname", nickname);
 		
-	    return JWT.create()
-	            .withExpiresAt(new Date(REFRESH_TOKEN_VALIDATION_SECOND))
-	            .withIssuer(ISSUER)
-	            .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
-	            .sign(Algorithm.HMAC512(secretKey.getBytes()));
+		String jwt = Jwts.builder()
+				.setClaims(claims)
+				.setIssuedAt(new Date(System.currentTimeMillis()))
+				.setExpiration(new Date(System.currentTimeMillis() + expireTime))
+				.signWith(getSigningKey(SECRET_KEY), SignatureAlgorithm.HS256)
+				.compact();
+		
+		return jwt;
 	}
-    
-    public static Date getTokenExpiration() {
-    		Date now = new Date();
-    		return new Date(now.getTime() + TOKEN_VALIDATION_SECOND);
-    }
-
-    public static void handleError(String token) {
-        JWTVerifier verifier = JWT
-                .require(Algorithm.HMAC512(secretKey.getBytes()))
-                .withIssuer(ISSUER)
-                .build();
-
-        try {
-            verifier.verify(token.replace(TOKEN_PREFIX, ""));
-        } catch (AlgorithmMismatchException ex) {
-            throw ex;
-        } catch (InvalidClaimException ex) {
-            throw ex;
-        } catch (SignatureGenerationException ex) {
-            throw ex;
-        } catch (SignatureVerificationException ex) {
-            throw ex;
-        } catch (TokenExpiredException ex) {
-            throw ex;
-        } catch (JWTCreationException ex) {
-            throw ex;
-        } catch (JWTDecodeException ex) {
-            throw ex;
-        } catch (JWTVerificationException ex) {
-            throw ex;
-        } catch (Exception ex) {
-            throw ex;
-        }
-    }
-
-    public static void handleError(JWTVerifier verifier, String token) {
-        try {
-            verifier.verify(token.replace(TOKEN_PREFIX, ""));
-        } catch (AlgorithmMismatchException ex) {
-            throw ex;
-        } catch (InvalidClaimException ex) {
-            throw ex;
-        } catch (SignatureGenerationException ex) {
-            throw ex;
-        } catch (SignatureVerificationException ex) {
-            throw ex;
-        } catch (TokenExpiredException ex) {
-            throw ex;
-        } catch (JWTCreationException ex) {
-            throw ex;
-        } catch (JWTDecodeException ex) {
-            throw ex;
-        } catch (JWTVerificationException ex) {
-            throw ex;
-        } catch (Exception ex) {
-            throw ex;
-        }
-    }
+	
+	public String generateToken(User user) {
+		return doGenerateToken(user.getNickname(), TOKEN_VALIDATION_SECOND);
+	}
+	
+	public String generateRefreshToken(User user) {
+		return doGenerateToken(user.getNickname(), REFRESH_TOKEN_VALIDATION_SECOND);
+	}
+	
+	public Boolean validateToken(String token, UserDetails userDetails) {
+		final String nickname = getUserNickname(token);
+		
+		return (nickname.equals(userDetails.getUsername()) && !isTokenExpired(token));
+	}
 }
