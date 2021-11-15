@@ -316,8 +316,9 @@ public class ArticleService implements IArticleService {
 		} 
 		// (좋아요 취소) like가 되어 있으면 게시글id와 유저id값으로 articlelike 객체를 찾고, repo에서 삭제 
 		else {
-			Article article = articleRepository.findById(id).get();
-			User user = userRepository.findById(articleLikeRequest.getUser_id()).get();
+			Article article = articleRepository.findById(id).orElse(null);
+			User user = userRepository.findById(articleLikeRequest.getUser_id()).orElse(null);
+
 			ArticleLike like = new ArticleLike();
 			like.setArticle(article);
 			like.setUser(user);
