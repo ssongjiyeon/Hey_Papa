@@ -143,7 +143,7 @@ export default {
 
 <style>
 #map{
-  margin-top:20px;
+  margin:20px;
 }
 .custom_zoomcontrol {position:absolute;top:50px;right:10px;width:36px;height:80px;overflow:hidden;z-index:1;background-color:#f5f5f5;} 
 .custom_zoomcontrol span {display:block;width:36px;height:40px;text-align:center;cursor:pointer;}     

@@ -3,8 +3,6 @@
   <img src="../assets/horizon_logo.png" class="logo">
   <h3 class="text-pink-3 text-weight-bold" style="margin: 0.5rem">Quiz!</h3>
 </div>
-
-
 <div class="card-box" q-pa-lg row item-start q-gutter-md v-if="isClicked">
   <q-card class="my-card" v-for="theme in themes" :key="theme.id" @click="QuizDetail(theme.theme)">
     <img :src="theme.imgUrl">
@@ -108,8 +106,7 @@ export default {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  margin-top: 5rem;
-
+  margin-top: 2rem;
 }
 
 .my-card {
