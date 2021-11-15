@@ -117,10 +117,12 @@ export default {
 <style scoped>
   .my-card {
     width: 100%;
+    background-color: #F2F2F2;
   }
   .card-box {
     width: 100%;
     min-width: 30px;
+
     /* overflow: scroll; */
   }
   .text-box {

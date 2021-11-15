@@ -1,5 +1,5 @@
 <template>
-<div >
+<div style="overflow:scroll">
 <head>
   <link
     rel="stylesheet"
@@ -17,16 +17,12 @@
   <div class="profile-box">
     <img v-if="article_user_img=='NULL'" src="../../assets/default_user.png"  class="profile-img">
     <img v-else :src="'https://k5b206.p.ssafy.io/api/static/img/'+article_user_img" class="profile-img">
-    {{para.nickname}}
+    <div class="text-h6 q-mt-sm q-mb-sm q-ml-sm nickname">{{para.nickname}} 파파</div>
   </div>
-  <div class="text-overline text-orange-9 date">
-    <!-- 날짜 양식 home 처럼 바꿔도 좋음 -->
-    {{para.created_at.slice(0,4)}}년 {{para.created_at.slice(5,7)}}월 {{para.created_at.slice(8,10)}}일
-    {{para.created_at.slice(12,13)}}:{{para.created_at.slice(14,16)}}
-  </div>
+  <div class="text-overline created-at">{{para.created_at.slice(0,10)}}</div>
   <div class="content-box">
     <div class="main_content">{{para.content}}</div>
-    <div style="display:flex; margin:0px 10px 5px 5px;">
+    <div style="padding-top:0.5rem; display:flex; font-weight:bold; font-family: 'GowunDodum-Regular';">
       <div v-for="hashtag in para.hashtag" :key="hashtag" style="margin-right:10px; font-weight:bold;">#{{hashtag}}</div>
     </div>
     <img :src="imgUrl" alt="x" style="width:100%; height:350px;">
@@ -37,8 +33,8 @@
         <button
         class="fas fa-heart heart-button"
         @click="getHeart"
-        :style="heart ? 'color: red': 'color: silver'"/>
-        <span>{{para.like_cnt}}명이 좋아요를 눌렀습니다.</span>
+        :style="heart ? 'color: crimson': 'color: silver'"/>
+        <span style="font-family: 'GowunDodum-Regular';">{{para.like_cnt}}명이 이 글을 좋아합니다.</span>
       </div>
       <div>
         <i class="far fa-comment" style="margin-right:10px; font-size:20px;"><span style="margin-left:5px;">{{para.comment_cnt}}</span></i>
@@ -47,7 +43,7 @@
   </div>
   <!-- 댓글입력 단 -->
   <div class="input-box">
-    <q-input bottom-slots v-model="TempReply" label="댓글쓰기" counter maxlength="120" :dense="dense">
+    <q-input bottom-slots v-model="TempReply" label="댓글쓰기" counter maxlength="120" :dense="dense" style="font-family: 'GowunDodum-Regular';">
         <template v-slot:before>
           <q-avatar>
             <img v-if="user_img=='NULL'" src="../../assets/default_user.png" >
@@ -189,9 +185,11 @@ export default {
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR&family=Gamja+Flower&display=swap');
 .main_content{
-  font-family: 'Noto Sans KR', sans-serif;
-  font-size:22px;
-  margin:0px 10px 10px 10px;
+  font-family: 'GowunDodum-Regular';
+  font-size:0.9rem;
+  font-weight: lighter;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 .heart-button {
   border: none;
@@ -266,6 +264,7 @@ export default {
   align-items: flex-start;
   font-size:0.8rem;
   flex-direction: column;
+  font-family: 'GowunDodum-Regular';
 
 
 }
@@ -282,5 +281,15 @@ export default {
   text-align: left;
   margin-top: 0.2rem;
 
+}
+.created-at{
+  color: #5684BF;
+  font-size: 1rem;
+}
+.nickname{
+  font-family: 'Jua', sans-serif;
+  font-size:22px;
+  color: #5684BF;
+  border-bottom: 5px solid pink;
 }
 </style>

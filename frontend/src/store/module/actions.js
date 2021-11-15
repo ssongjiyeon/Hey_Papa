@@ -128,7 +128,7 @@ export function saveQuiz({}, id, object) {
 }
 //해시태그 검색
 export function search({}, object) {
-  console.log(object.hashtag,'!')
-  const url = baseUrl + "/article/search/" + object.hashtag ;
+  console.log(object.hashtag, "!");
+  const url = baseUrl + "/article/search/" + object.hashtag;
   return $axios.post(url, object);
 }
