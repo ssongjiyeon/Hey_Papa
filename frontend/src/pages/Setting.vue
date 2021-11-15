@@ -22,16 +22,6 @@
         />
       </div>
       <div style="width:290px; margin-top:0px;">
-        <q-input label="생년월일 8자리 (예: 2022-08-23)" type="email" v-model="form.birthday"
-          color="pink-3"
-          lazy-rules
-          :rules="[
-          val => !!val || '필수입력항목 입니다.',
-          checkBirth
-          ]"
-        />
-      </div>
-      <div style="width:290px; margin-top:0px;">
         <q-input label="지역 (예:유성구 (시/군/구))" type="text" v-model="form.region"
         color="pink-3"
         lazy-rules
@@ -66,6 +56,7 @@ export default {
     })
     const user = computed(()=> store.getters['module/getUser'])
     const pwd = computed(()=> store.getters['module/getLoginpwd'])
+    console.log(user,'!!')
     form.password = pwd.value
     form.babyname = user.value.nickname
     form.birthday = user.value.dday

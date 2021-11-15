@@ -28,7 +28,7 @@
         </q-card-section>
         <q-separator />
         <img
-          style="width:100%; height:350px;"
+          style="width:100%; height:370px;"
           @click="Detail(para)"
           :src="imgUrl"
         />
