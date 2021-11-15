@@ -30,14 +30,13 @@ public class SwaggerConfig {
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2).useDefaultResponseMessages(false)
-        		.select()
+                .select()
                 .apis(RequestHandlerSelectors.basePackage("com.ssafy.heypapa.controller"))
                 .paths(PathSelectors.any())
                 .build()
                 .securityContexts(newArrayList(securityContext()))
                 .securitySchemes(newArrayList(apiKey()))
                 ;
-
     }
 
     private ApiKey apiKey() {
