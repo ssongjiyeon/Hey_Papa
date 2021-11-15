@@ -15,6 +15,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.ssafy.heypapa.auth.JwtRequestFilter;
 import com.ssafy.heypapa.auth.PapaUserDetailService;
@@ -58,12 +61,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .addFilter(new JwtRequestFilter(authenticationManager(), userService)) 
                 .authorizeRequests()
-                .antMatchers("/user/login", "/user/email", "/user/regist").permitAll()   
+                .antMatchers("/user/login", "/user/email", "/user/regist").permitAll()
+                .antMatchers("/static/**").permitAll()
                 .antMatchers("/swagger-resources/**").permitAll()
                 .antMatchers("/swagger-ui.html/**").permitAll()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 //                .anyRequest().authenticated()
-                .and().cors();
+                .and().cors().configurationSource(corsConfigurationSource());
     }
 	
 	@Override
@@ -76,4 +80,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/user/login", "/user/regist");
     }
 
+	
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+         configuration.addAllowedOrigin("*");
+        configuration.addAllowedOriginPattern("*");
+        configuration.addAllowedMethod("*");
+        configuration.addAllowedHeader("*");
+        configuration.addExposedHeader("Authorization");
+        configuration.setAllowCredentials(true);
+        configuration.setMaxAge(3600L);
+        
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
 }
