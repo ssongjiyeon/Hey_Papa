@@ -173,8 +173,8 @@ export default {
     };
     function goQuiz(quiz){
       // 퀴즈 디테일로 가는 부분
-      router.push({name: "zzimquiz", params: {quiz: quiz}});
       console.log(quiz,'퀴즈 정보들')
+      router.push({name: "zzimquiz", params: {user_id: userId, quiz: quiz.quiz_id}});
     }
     return {
       tab: ref('article'),

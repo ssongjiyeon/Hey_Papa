@@ -29,7 +29,7 @@ const routes = [
     component: () => import("components/feed/FeedDetail.vue"),
   },
   {
-    path: "/quiz/:user_id",
+    path: "/quiz/:user_id/:quiz",
     name: "zzimquiz",
     component: () => import("components/quiz/ZzimDetail.vue"),
   },

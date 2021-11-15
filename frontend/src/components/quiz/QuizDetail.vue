@@ -49,7 +49,7 @@
       <template v-slot:control>
       <q-carousel-control
 
-          position="top"
+          position="top-right"
           :offset="[18, 18]"
           class="q-gutter-xs row justify-between"
         >
