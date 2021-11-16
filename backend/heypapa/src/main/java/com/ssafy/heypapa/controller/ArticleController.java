@@ -112,6 +112,32 @@ public class ArticleController {
 		
 	}
 	
+	@PutMapping("/{article_id}/{review_id}")
+	@ApiOperation(value = "댓글 수정", notes = "<strong>댓글 수정하기</strong>")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "성공"),
+        @ApiResponse(code = 401, message = "토큰 인증 실패"),
+        @ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<ReviewRequest> updateReview(@PathVariable(name = "article_id") Long article_id,
+			@PathVariable(name = "review_id") Long review_id, ReviewRequest reviewRequest) {
+		Review rev = articleService.updateReview(reviewRequest, article_id, review_id);
+		return ResponseEntity.status(200).body(reviewRequest);
+	}
+	
+	@DeleteMapping("/{article_id}/{review_id}")
+	@ApiOperation(value = "댓글 삭제", notes = "<strong>댓글 삭제하기</strong>")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "성공"),
+        @ApiResponse(code = 401, message = "토큰 인증 실패"),
+        @ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<BaseResponseBody> deleteReview(@PathVariable(name = "article_id") Long article_id,
+			@PathVariable(name = "review_id") Long review_id) {
+		articleService.deleteReview(article_id, review_id);
+		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+	}
+	
 	@PutMapping("/{article_id}")
 	@ApiOperation(value = "게시글 수정", notes = "<strong>게시글 수정하기</strong>")
 	@ApiResponses({
