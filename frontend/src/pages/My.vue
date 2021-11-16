@@ -7,8 +7,9 @@
     <div class="user_info">
       <img v-if="nope || user_img=='NULL'" @click="choosepicture()" class="profile_img" style="margin-right:20px; cursor: pointer;" src="../assets/default_user.png">
       <img v-else @click="choosepicture()" class="profile_img" style="margin-right:20px; cursor: pointer;" :src="'https://k5b206.p.ssafy.io/api/static/img/'+user_img">
+      <q-icon name="add_circle_outline" class="plus-icon"/>
       <input hidden ref="fileInput" type="file" @input="changeProfile"/>
-      <div style="diplay:flex; flex-direction:row; padding:auto auto auto 0;">
+      <div style="diplay:flex; flex-direction:row; padding:auto auto auto 0; margin-left: 15px;">
         <div class="nick_name1"><span style="font-weight: bold; margin: 0 0.3rem 0 0.3rem; ">{{user.week}}</span>주차</div>
         <div class="nick_name2">"{{user.nickname}}" <span style="font-weight:normal; margin-left: 0.5rem;">아빠</span> </div>
       </div>
@@ -239,5 +240,14 @@ export default {
 
 span {
   background-color: #F2F2F2;
+}
+
+.plus-icon {
+  color: grey;
+  display: flex;
+  margin-left: -50px;
+  margin-top: 65px;
+  font-size: 25px;
+  opacity: 0.3;
 }
 </style>
