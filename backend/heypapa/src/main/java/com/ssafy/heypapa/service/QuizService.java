@@ -227,4 +227,12 @@ public class QuizService implements IQuizService {
 		}
 	}
 
+	@Override
+	public Comment updateComment(Long qId, Long cId, CommentRequest comment) {
+		Comment com = commentRepository.getOne(cId);
+		com.setContent(comment.getContent());
+		com.setCreated_at(new Date());
+		return commentRepository.save(com);
+	}
+
 }

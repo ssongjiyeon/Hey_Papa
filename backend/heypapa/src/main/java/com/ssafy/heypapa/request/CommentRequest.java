@@ -14,6 +14,6 @@ public class CommentRequest {
 	@ApiModelProperty(name = "유저id")
 	private Long user_id;
 	private String content;
-//	private String calculateTime;
+//	private String created_at;
 	
 }
