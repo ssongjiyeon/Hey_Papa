@@ -23,7 +23,7 @@
   <div class="content-box">
     <div class="main_content">{{para.content}}</div>
     <div style="padding-top:0.5rem; display:flex; font-weight:bold; font-family: 'GowunDodum-Regular';">
-      <div v-for="hashtag in para.hashtag" :key="hashtag" style="margin-right:10px; font-weight:bold;">#{{hashtag}}</div>
+      <div v-for="hashtag in para.hashtag" :key="hashtag" style="font-weight:bold;">#{{hashtag}}</div>
     </div>
     <img :src="imgUrl" alt="x" style="width:100%; height:350px;">
   </div>
@@ -37,7 +37,7 @@
         <span style="font-family: 'GowunDodum-Regular';">{{para.like_cnt}}명이 이 글을 좋아합니다.</span>
       </div>
       <div>
-        <i class="far fa-comment" style="margin-right:10px; font-size:20px;"><span style="margin-left:5px;">{{para.comment_cnt}}</span></i>
+        <i class="far fa-comment" style="margin-right:10px; font-size:18px;"><span style="margin-left:5px;font-family: 'GowunDodum-Regular';">{{para.comment_cnt}}</span></i>
       </div>
     </div>
   </div>
@@ -283,12 +283,16 @@ export default {
 
 }
 .created-at{
+  font-family : 'GowunDodum-Regular';
+  font-weight: bold;
   color: #5684BF;
   font-size: 1rem;
 }
 .nickname{
-  font-family: 'Jua', sans-serif;
+  font-family : 'GowunDodum-Regular';
   font-size:22px;
+  font-weight: bold;
+  /* font-family: 'Jua', sans-serif; */
   color: #5684BF;
   border-bottom: 5px solid pink;
 }
