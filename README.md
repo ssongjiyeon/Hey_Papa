@@ -1,7 +1,5 @@
 <img srt="README.assets/horizon_logo_heypapa.png" style="text-align : center;">
 
-![horizon_logo_heypapa](README.assets/horizon_logo_heypapa.png)
-
 # :baby_bottle: Hey PaPa
 
 > Hey PaPa는 아기아빠를 위한 서비스로 육아와 출산에 관한 정보를 제공하고 아빠들만의 커뮤니티를 만들어서 소통할 수 있습니다.
