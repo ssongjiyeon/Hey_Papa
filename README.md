@@ -1,4 +1,5 @@
 <img src="README.assets/horizon_logo_heypapa.png" style="text-align : center;">
+
 # :baby_bottle: Hey PaPa
 
 > Hey PaPa는 아기아빠를 위한 서비스로 육아와 출산에 관한 정보를 제공하고 아빠들만의 커뮤니티를 만들어서 소통할 수 있습니다.
@@ -11,10 +12,10 @@
 
 ### 목차
 
-- [팀원소개](#baby-bottle-팀원-소개)
-- [주요 기능](#baby-bottle-주요-기능)
-- [개발 환경](#baby-bottle-개발-환경)
-- [참고](#baby-bottle-참고)
+- [팀원소개](#baby_bottle-팀원-소개)
+- [주요 기능](#baby_bottle-주요-기능)
+- [개발 환경](#baby_bottle-개발-환경)
+- [참고](#baby_bottle-참고)
 
 <br>
 
@@ -52,7 +53,6 @@ $ npm install -g @vue/cli
 $ quasar dev
 ```
 
-<br>
 
 ### Backend
 
@@ -67,7 +67,6 @@ $ quasar dev
 
 ```
 
-<br>
 
 ### Collaboration
 
@@ -81,7 +80,7 @@ $ quasar dev
 
 ### 아키텍쳐
 
-<br>
+
 
 ### 기타 문서
 
@@ -89,7 +88,7 @@ $ quasar dev
 - [Notion](https://productive-telescope-f0d.notion.site/96-22a595de09544591a88b0cc309232b6e)
 - [ERD](https://www.erdcloud.com/d/Zex75zDjZD24YrSBF)
 
-<br>
+
 
 ### 참고 자료
 
