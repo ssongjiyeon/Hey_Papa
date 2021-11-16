@@ -37,7 +37,7 @@
         <span style="font-family: 'GowunDodum-Regular';">{{para.like_cnt}}명이 이 글을 좋아합니다.</span>
       </div>
       <div>
-        <i class="far fa-comment" style="margin-right:10px; font-size:18px;"><span style="margin-left:5px;font-family: 'GowunDodum-Regular';">{{para.comment_cnt}}</span></i>
+        <i class="far fa-comment" style="margin-right:10px; font-size: 18px;"><span style="margin-left:5px;font-family: 'GowunDodum-Regular';">{{para.comment_cnt}}</span></i>
       </div>
     </div>
   </div>

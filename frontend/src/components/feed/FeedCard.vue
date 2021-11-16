@@ -6,8 +6,8 @@
     <div>
       <q-card class="my-card" flat bordered>
         <div style="display:flex; flex-direction: row;">
-          <div style="background-color:#C2D2F2; height: 10px; width:4rem; margin-left:1rem;">
-          </div>
+          <!-- <div style="background-color:#C2D2F2; height: 10px; width:4rem; margin-left:1rem;">
+          </div> -->
           <div>
           </div>
         </div>
@@ -185,9 +185,10 @@ export default {
 }
 .my-card {
   width: 100%;
-  background-color:#F2F2F2;
+  /* background-color:#F2F2F2; */
   border: 1px solid #C2D2F2;
-  border-bottom: 11px solid #C2D2F2;
+  border-radius: 10px;
+  /* border-bottom: 11px solid #C2D2F2; */
 }
 .card-box {
   width: 100%;
@@ -255,6 +256,6 @@ export default {
 .profile-img{
   height:2rem;
   width:2rem;
-  border-radius: 1rem;
+  border-radius: 2rem;
 }
 </style>
