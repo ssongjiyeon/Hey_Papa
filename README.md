@@ -1,4 +1,4 @@
-<img src="README.assets/horizon_logo_heypapa.png" style="text-align : center;">
+![horizon_logo_heypapa](README.assets/horizon_logo_heypapa.png)
 
 # :baby_bottle: Hey PaPa
 
