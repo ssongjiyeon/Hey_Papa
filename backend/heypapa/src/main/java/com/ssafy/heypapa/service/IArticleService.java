@@ -29,6 +29,10 @@ public interface IArticleService {
 	
 	Review createReview(ReviewRequest reviewRequest, Long id);
 	
+	Review updateReview(ReviewRequest reviewRequest, Long aId, Long rId);
+	
+	void deleteReview(Long aId, Long rId);
+	
 	List<ReviewResponse> getReview(Long id);
 
 }
