@@ -378,4 +378,17 @@ public class ArticleService implements IArticleService {
 		return copy;
 	}
 
+	@Override
+	public Review updateReview(ReviewRequest reviewRequest, Long aId, Long rId) {
+		Review rev = reviewRepository.getOne(rId);
+		rev.setContent(reviewRequest.getContent());
+		rev.setCreated_at(new Date());
+		return reviewRepository.save(rev);
+	}
+
+	@Override
+	public void deleteReview(Long aId, Long rId) {
+		reviewRepository.deleteById(rId);
+	}
+
 }

@@ -91,7 +91,7 @@ public class QuizController {
 	}
 	
 	@PutMapping("/{quizId}/{commentId}")
-	@ApiOperation(value = "댓글 수정", notes = "<strong>댓글 내용</strong>")
+	@ApiOperation(value = "댓글 수정", notes = "<strong>퀴즈 댓글 내용 수정하기</strong>")
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "성공"),
         @ApiResponse(code = 401, message = "토큰 인증 실패"),
