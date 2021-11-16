@@ -8,16 +8,19 @@
       <img v-if="nope || user_img=='NULL'" @click="choosepicture()" class="profile_img" style="margin-right:20px; cursor: pointer;" src="../assets/default_user.png">
       <img v-else @click="choosepicture()" class="profile_img" style="margin-right:20px; cursor: pointer;" :src="'https://k5b206.p.ssafy.io/api/static/img/'+user_img">
       <input hidden ref="fileInput" type="file" @input="changeProfile"/>
-      <div class="nick_name">{{user.week}}주차 {{user.nickname}} 아빠</div>
+      <div style="diplay:flex; flex-direction:row; padding:auto auto auto 0;">
+        <div class="nick_name1"><span style="font-weight: bold; margin: 0 0.3rem 0 0.3rem; ">{{user.week}}</span>주차</div>
+        <div class="nick_name2">"{{user.nickname}}" <span style="font-weight:normal; margin-left: 0.5rem;">아빠</span> </div>
+      </div>
     </div>
     <q-tabs
       v-model="tab"
       class="text-black"
-      style="width:100%; margin-top:50px;"
+      style="width:100%; margin-top:50px; font-family: 'GowunDodum-Regular';"
     >
-      <q-tab class="text-red" @click="goArticle" name="article" label="내 게시글" />
-      <q-tab class="text-green" @click="goLike" name="like" label="좋아요한 글" />
-      <q-tab class="text-blue" @click="goZzim" name="zzim" label="찜 문제" />
+      <q-tab class="text-red" style="font-size:1.5rem" @click="goArticle" name="article" label="내 게시글" />
+      <q-tab class="text-green" style="font-size:1.5rem" @click="goLike" name="like" label="좋아요한 글" />
+      <q-tab class="text-blue" style="font-size:1.5rem" @click="goZzim" name="zzim" label="찜 문제" />
     </q-tabs>
     <q-tab-panels v-model="tab" animated
       style="width:100%;">
@@ -31,7 +34,7 @@
       </span>
     </q-tab-panels>
     <q-tab-panels v-model="tab" animated style="width:100%;">
-      <q-tab-panel name="zzim">
+      <q-tab-panel name="zzim" style="background-color: #F2F2F2;">
         <div v-for="quiz in myZzim" :key="quiz" class="my_quiz" @click="goQuiz(quiz)">
           {{ quiz.question }}
         </div>
@@ -147,6 +150,7 @@ export default {
     function goZzim(){
       store.dispatch('module/myZzim',userId).then((res)=>{
         store.commit('module/setMyQuiz', res.data)
+
       })
     }
     console.log()
@@ -157,6 +161,7 @@ export default {
     function goQuiz(quiz){
       // 퀴즈 디테일로 가는 부분
       console.log(quiz,'퀴즈 정보들')
+      router.push({name: "zzimquiz", params: {user_id: userId, quiz: quiz.quiz_id}});
     }
     return {
       tab: ref('article'),
@@ -208,7 +213,16 @@ export default {
   margin-left: -30px;
   margin-right: 40px;
 }
-.nick_name{
+.nick_name1{
+  font-family: 'GowunDodum-Regular';
+  display: flex;
+  align-items: center;
+  font-weight: normal;
+  font-size: 18px;
+  margin-top: 1.5rem;
+}
+.nick_name2{
+  font-family: 'GowunDodum-Regular';
   display: flex;
   align-items: center;
   font-weight: bold;
@@ -220,5 +234,10 @@ export default {
   padding:20px 0px 20px 0px;
   font-size:16px;
   font-family: 'Jua', sans-serif;
+  background-color: #F2F2F2;
+}
+
+span {
+  background-color: #F2F2F2;
 }
 </style>

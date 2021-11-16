@@ -1,7 +1,7 @@
 <template>
 <div class="quiz-text">
   <img src="../assets/horizon_logo.png" class="logo">
-  <h3 class="text-pink-3 text-weight-bold" style="margin: 0.5rem">Quiz!</h3>
+  <h3 class="text-pink-3 text-weight-bold" style="margin: 0.5rem;">Quiz!</h3>
 </div>
 <div class="card-box" q-pa-lg row item-start q-gutter-md v-if="isClicked">
   <q-card class="my-card" v-for="theme in themes" :key="theme.id" @click="QuizDetail(theme.theme)">
@@ -91,6 +91,7 @@ export default {
 .logo{
   margin-top:10px;
   height: 70px;
+  margin-bottom: 1rem;
 }
 .quiz-text {
   display: flex;
@@ -99,20 +100,26 @@ export default {
   flex-direction: column;
   margin: none;
   margin-bottom: none;
+  padding-top: 1rem;
+  font-family: 'GowunDodum-Regular';
 }
 
 .card-box {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-evenly;
-  margin-top: 2rem;
+  justify-content: center;
+  margin-top:2rem;
+
+
 }
 
 .my-card {
-  max-width: 9rem;
-  margin-bottom: 1rem;
-
+  min-width: 8rem;
+  height: 12rem;
+  border-radius: 1rem;
+  margin: 0.5rem;
+  font-family: 'GowunDodum-Regular';
 }
 
 .my-card img {
@@ -126,7 +133,7 @@ export default {
   justify-content: center;
 }
 .text-h6{
-  font-size: 0.8rem;
+  font-size: 1.3rem;
   padding: 0;
   font-weight: bold;
 }

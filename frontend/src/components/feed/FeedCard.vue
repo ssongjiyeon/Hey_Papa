@@ -5,9 +5,15 @@
   </head>
     <div>
       <q-card class="my-card" flat bordered>
+        <div style="display:flex; flex-direction: row;">
+          <div style="background-color:#C2D2F2; height: 10px; width:4rem; margin-left:1rem;">
+          </div>
+          <div>
+          </div>
+        </div>
         <q-card-section>
           <div style="display:flex; justify-content:space-between;">
-            <div class="text-overline text-orange-9">{{para.created_at.slice(0,10)}}</div>
+            <div class="text-overline created-at">{{para.created_at.slice(0,10)}}</div>
             <div v-if="flag"><q-icon name="more_horiz" size="sm" @click="Show(para)"></q-icon></div>
           </div>
           <!-- 프로필 박스 -->
@@ -21,14 +27,14 @@
               {{ para.content }}
             </div>
             <!-- 해쉬태그 -->
-            <div style="padding-top:0.5rem; display:flex; font-weight:bold;">
+            <div style="padding-top:0.5rem; display:flex; font-weight:bold; font-family: 'GowunDodum-Regular';">
               <div v-for="hashtag in para.hashtag" :key="hashtag">#{{ hashtag }}</div>
             </div>
           </div>
         </q-card-section>
         <q-separator />
         <img
-          style="width:100%; height:350px;"
+          style="width:100%; height:370px;"
           @click="Detail(para)"
           :src="imgUrl"
         />
@@ -38,10 +44,10 @@
             <button
             class="fas fa-heart heart-button"
             @click="getHeart"
-            :style="heart ? 'color: red': 'color: silver'"
+            :style="heart ? 'color: crimson': 'color: silver'"
             style="margin-left:-5px;"
             />
-            <span>{{para.like_cnt}}명이 좋아요를 눌렀습니다.</span>
+            <span style="font-family: 'Cafe24SsurroundAir';">{{para.like_cnt}}명이 이 글을 좋아합니다.</span>
           </div>
           <div class="speech-bubble" @click="Detail(para)">
             <i class="far fa-comment" style="font-size:21px;"></i>
@@ -156,16 +162,29 @@ export default {
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR&family=Gamja+Flower&display=swap');
+
+.created-at{
+  color: #5684BF;
+  font-size: 1rem;
+}
 .nickname{
   font-family: 'Jua', sans-serif;
   font-size:22px;
+  color: #5684BF;
+  border-bottom: 5px solid pink;
 }
 .main_content{
-  font-family: 'Noto Sans KR', sans-serif;
-  font-size:18px;
+  font-family: 'GowunDodum-Regular';
+  font-size:0.9rem;
+  font-weight: lighter;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 .my-card {
   width: 100%;
+  background-color:#F2F2F2;
+  border: 1px solid #C2D2F2;
+  border-bottom: 11px solid #C2D2F2;
 }
 .card-box {
   width: 100%;
@@ -189,7 +208,7 @@ export default {
 }
 .heart-button {
   border: none;
-  background-color: white;
+  background-color: #F2F2F2;
   color: silver;
   font-size: 1.4rem;
 }
