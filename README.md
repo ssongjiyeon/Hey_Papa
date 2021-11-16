@@ -21,11 +21,11 @@
 
 # :baby_bottle: 팀원 소개
 
-|                            천수승                            |                            노효진                            |                            박선주                            |                            송지연                            |
-| :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
-| <img src="README.assets/image-20211116105852495.png" alt="image-20211116105852495" style="zoom:95%;" /> | ![image-20211116105902852](README.assets/image-20211116105902852.png) | ![image-20211116105911310](README.assets/image-20211116105911310.png) | ![image-20211116105915779](README.assets/image-20211116105915779.png) |
-|                  Project Leader & Frontend                   |                           Backend                            |                           Frontend                           |                       CI/CD & Backend                        |
-|                    cheonss2357@gmail.com                     |                      23gywls@naver.com                       |                     vnemxmcjr@gmail.com                      |                     6loutlside@naver.com                     |
+|                            천수승                            |                            노효진                            |                            박선주                            |                            송지연                            |                            조효정                            |
+| :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
+| <img src="README.assets/image-20211116105852495.png" alt="image-20211116105852495" style="zoom:95%;" /> | ![image-20211116105902852](README.assets/image-20211116105902852.png) | ![image-20211116105911310](README.assets/image-20211116105911310.png) | ![image-20211116105915779](README.assets/image-20211116105915779.png) | ![image-20211116152551426](README.assets/image-20211116152551426.png) |
+|                  Project Leader & Frontend                   |                           Backend                            |                           Frontend                           |                       CI/CD & Backend                        |                       CI/CD & Backend                        |
+|                    cheonss2357@gmail.com                     |                      23gywls@naver.com                       |                     vnemxmcjr@gmail.com                      |                     6loutlside@naver.com                     |                    whgywjd6794@gmail.com                     |
 
 <br>
 
