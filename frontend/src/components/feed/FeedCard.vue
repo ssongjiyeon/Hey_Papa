@@ -6,8 +6,8 @@
     <div>
       <q-card class="my-card" flat bordered>
         <div style="display:flex; flex-direction: row;">
-          <div style="background-color:#C2D2F2; height: 10px; width:4rem; margin-left:1rem;">
-          </div>
+          <!-- <div style="background-color:#C2D2F2; height: 10px; width:4rem; margin-left:1rem;">
+          </div> -->
           <div>
           </div>
         </div>
@@ -27,7 +27,7 @@
               {{ para.content }}
             </div>
             <!-- 해쉬태그 -->
-            <div style="padding-top:0.5rem; display:flex; font-weight:bold; font-family: 'GowunDodum-Regular';">
+            <div style="padding-top:0.5rem; display:flex; font-family: 'Jua', sans-serif;">
               <div v-for="hashtag in para.hashtag" :key="hashtag">#{{ hashtag }}</div>
             </div>
           </div>
@@ -47,7 +47,7 @@
             :style="heart ? 'color: crimson': 'color: silver'"
             style="margin-left:-5px;"
             />
-            <span style="font-family: 'Cafe24SsurroundAir';">{{para.like_cnt}}명이 이 글을 좋아합니다.</span>
+            <span style="font-family: 'GowunDodum-Regular';">{{para.like_cnt}}명이 이 글을 좋아합니다.</span>
           </div>
           <div class="speech-bubble" @click="Detail(para)">
             <i class="far fa-comment" style="font-size:21px;"></i>
@@ -166,10 +166,13 @@ export default {
 .created-at{
   color: #5684BF;
   font-size: 1rem;
+  font-family : 'Jua', sans-serif;
 }
 .nickname{
-  font-family: 'Jua', sans-serif;
+  /* font-family : 'Jua', sans-serif; */
+  font-family : 'GowunDodum-Regular';
   font-size:22px;
+  font-weight: bold;
   color: #5684BF;
   border-bottom: 5px solid pink;
 }
@@ -182,9 +185,10 @@ export default {
 }
 .my-card {
   width: 100%;
-  background-color:#F2F2F2;
+  /* background-color:#F2F2F2; */
   border: 1px solid #C2D2F2;
-  border-bottom: 11px solid #C2D2F2;
+  border-radius: 10px;
+  /* border-bottom: 11px solid #C2D2F2; */
 }
 .card-box {
   width: 100%;
@@ -252,6 +256,6 @@ export default {
 .profile-img{
   height:2rem;
   width:2rem;
-  border-radius: 1rem;
+  border-radius: 2rem;
 }
 </style>

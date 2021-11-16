@@ -17,7 +17,7 @@ export default defineComponent({
 <style>
 .app_container{
   /* border:1px solid black; */
-  background-color: #F2F2F2;
+  /* background-color: #F2F2F2; */
   color: #3B5E8C;
 
 }

@@ -1,22 +1,29 @@
 <template>
-<div class="quiz-text">
-  <img src="../assets/horizon_logo.png" class="logo">
-  <h3 class="text-pink-3 text-weight-bold" style="margin: 0.5rem;">Quiz!</h3>
-</div>
-<div class="card-box" q-pa-lg row item-start q-gutter-md v-if="isClicked">
-  <q-card class="my-card" v-for="theme in themes" :key="theme.id" @click="QuizDetail(theme.theme)">
-    <img :src="theme.imgUrl">
+  <div style="display: flex; justify-content: space-between">
+      <img
+        src="../assets/horizon_logo.png"
+        style="height: 70px; margin: 0 auto;"
+      />
+    </div>
+  <!-- <div class="quiz-text">
+    <img src="../assets/horizon_logo.png" class="logo">
+    <h3 class="text-pink-3 text-weight-bold" style="margin: 0.5rem; font-family: 'GowunDodum-Regular';">Quiz!</h3>
+  </div> -->
+  <div class="card-box" q-pa-lg row item-start q-gutter-md v-if="isClicked">
+    <q-card class="my-card" v-for="theme in themes" :key="theme.id" @click="QuizDetail(theme.theme)">
+      <img :src="theme.imgUrl">
 
-    <q-card-section class="card-section">
-      <div class="text-h6">{{theme.theme}}</div>
-
-    </q-card-section>
-  </q-card>
-</div>
-<div v-if="!isClicked">
-  <QuizDetail @OtherTheme="OtherTheme" />
-</div>
-
+      <q-card-section class="card-section">
+        <div class="text-h6">{{theme.theme}}</div>
+      </q-card-section>
+    </q-card>
+  </div>
+  <div v-if="!isClicked">
+    <QuizDetail @OtherTheme="OtherTheme" />
+  </div>
+  <div class="quiz-text">
+    <h3 class="text-pink-3 text-weight-bold" style="margin: 0.5rem; font-family: 'GowunDodum-Regular';">Quiz!</h3>
+  </div>
 
 </template>
 
