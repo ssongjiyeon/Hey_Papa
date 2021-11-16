@@ -1,30 +1,29 @@
 <template>
-  <div style="display: flex; justify-content: space-between">
-      <img
-        src="../assets/horizon_logo.png"
-        style="height: 70px; margin: 0 auto;"
-      />
+  <div>
+    <div class="my_top">
+      <img src="../assets/horizon_logo.png" class="logo" style="height:70px;">
+      <q-btn flat style="color:rgb(235,137,181);margin-left:50px; margin-right:10px;" icon="menu" @click="show()" />
     </div>
-  <!-- <div class="quiz-text">
-    <img src="../assets/horizon_logo.png" class="logo">
-    <h3 class="text-pink-3 text-weight-bold" style="margin: 0.5rem; font-family: 'GowunDodum-Regular';">Quiz!</h3>
-  </div> -->
-  <div class="card-box" q-pa-lg row item-start q-gutter-md v-if="isClicked">
-    <q-card class="my-card" v-for="theme in themes" :key="theme.id" @click="QuizDetail(theme.theme)">
-      <img :src="theme.imgUrl">
+    <!-- <div class="quiz-text">
+      <img src="../assets/horizon_logo.png" class="logo">
+      <h3 class="text-pink-3 text-weight-bold" style="margin: 0.5rem; font-family: 'GowunDodum-Regular';">Quiz!</h3>
+    </div> -->
+    <div class="card-box" q-pa-lg row item-start q-gutter-md v-if="isClicked">
+      <q-card class="my-card" v-for="theme in themes" :key="theme.id" @click="QuizDetail(theme.theme)">
+        <img :src="theme.imgUrl">
 
-      <q-card-section class="card-section">
-        <div class="text-h6">{{theme.theme}}</div>
-      </q-card-section>
-    </q-card>
+        <q-card-section class="card-section">
+          <div class="text-h6">{{theme.theme}}</div>
+        </q-card-section>
+      </q-card>
+    </div>
+    <div v-if="!isClicked">
+      <QuizDetail @OtherTheme="OtherTheme" />
+    </div>
+    <div class="quiz-text">
+      <h3 class="text-pink-3 text-weight-bold" style="margin: 0.5rem; font-family: 'GowunDodum-Regular';">Quiz!</h3>
+    </div>
   </div>
-  <div v-if="!isClicked">
-    <QuizDetail @OtherTheme="OtherTheme" />
-  </div>
-  <div class="quiz-text">
-    <h3 class="text-pink-3 text-weight-bold" style="margin: 0.5rem; font-family: 'GowunDodum-Regular';">Quiz!</h3>
-  </div>
-
 </template>
 
 <script>
@@ -32,9 +31,11 @@ import axios from 'axios'
 import { ref } from 'vue'
 import QuizDetail from '../components/quiz/QuizDetail.vue'
 import { useStore } from 'vuex'
+import { useQuasar } from 'quasar'
 export default {
   components: { QuizDetail },
   setup() {
+    const $q = useQuasar()
     const store = useStore()
     const isClicked = ref(true)
     // quiz detail 정보
@@ -81,13 +82,44 @@ export default {
       isClicked.value = !isClicked.value
       return {}
     }
+    function show () {
+      $q.bottomSheet({
+        message: '메뉴',
+        actions: [
+          {
+            label: '회원정보수정',
+            icon: 'account_circle',
+            id: 'update'
+          },
+          {},
+          {
+            label: '로그아웃',
+            icon: 'logout',
+            id: 'logout'
+          },
+        ]
+      }).onOk(action => {
+        if (action.id == 'update'){
+          router.push('set')
+        }
+        else if (action.id == 'logout'){
+          store.dispatch('module/logout').then(()=>{
+            router.push('/')
+          })
+        }
+      }).onCancel(() => {
+        // console.log('바텀시트 빠져나올때')
+      }).onDismiss(() => {
+        // console.log('I am triggered on both OK and Cancel')
+      })
+    }
 
     return {
       themes,
       QuizDetail,
       isClicked,
       OtherTheme,
-
+      show
 
     }
   }
@@ -95,11 +127,6 @@ export default {
 </script>
 
 <style scoped>
-.logo{
-  margin-top:10px;
-  height: 70px;
-  margin-bottom: 1rem;
-}
 .quiz-text {
   display: flex;
   justify-content: center;
@@ -144,7 +171,11 @@ export default {
   padding: 0;
   font-weight: bold;
 }
-
-
+.my_top{
+  display:flex;
+  justify-content: center;
+  margin-left:130px;
+  margin-right:10px;
+}
 </style>
 
