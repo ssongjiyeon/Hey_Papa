@@ -20,7 +20,7 @@ public interface IQuizService {
 	
 	Comment createComment(Long id, CommentRequest comment); // 퀴즈 댓글 달기
 	
-//	Comment updateComment(Long id, Long qId, CommentRequest comment); // 퀴즈 댓글 수정하기
+	Comment updateComment(Long qId, Long cId, CommentRequest comment); // 퀴즈 댓글 수정하기
 	
 	void deleteComment(Long qId, Long cId); // 댓글 삭제하기
 	
