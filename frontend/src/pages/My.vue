@@ -2,7 +2,7 @@
   <div class="my_container">
     <div class="my_top">
       <img src="../assets/horizon_logo.png" class="logo">
-      <q-btn flat style="color:rgb(235,137,181);margin-left:65px; margin-right:10px;" icon="menu" @click="show()" />
+      <q-btn flat style="color:rgb(235,137,181);margin-left:50px; margin-right:10px;" icon="menu" @click="show()" />
     </div>
     <div class="user_info">
       <img v-if="nope || user_img=='NULL'" @click="choosepicture()" class="profile_img" style="margin-right:20px; cursor: pointer;" src="../assets/default_user.png">
@@ -154,7 +154,7 @@ export default {
 
       })
     }
-    console.log()
+
     const Detail = (myArticle) => {
       store.commit('module/selectArticle', myArticle)
       router.push({ name: "feed", params: { article_id: myArticle.id } });
@@ -191,7 +191,9 @@ export default {
 .my_top{
   display:flex;
   justify-content: center;
-  margin-left:120px;
+  margin-left:130px;
+  margin-right:20px;
+  margin-top: 5px;
 }
 .logo{
   height:70px;
