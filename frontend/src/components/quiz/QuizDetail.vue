@@ -11,14 +11,16 @@
         <q-pagination
         v-model="current"
         padding="5px 15px 5px 15px"
-        color="#5684BF"
+        color="base"
         :max="quizList.length"
         :max-pages="5"
-        control-text-color="pink-3"
+        text-color= white
+        active-text-color= white
         boundary-numbers
+        dark="true"
         @click="page(current.value)"
         style="font-family: 'GowunDodum-Regular';
-        color:#5684BF;"
+        color:#5684BF; font-weight:bold"
         />
       </div>
       <!-- <input class="quiz-number-input" type="number" v-model="slide"> / {{quizList.length}} -->
@@ -83,6 +85,7 @@ export default {
     const store = useStore()
     const current = ref(1)
     const slide = ref(1)
+    const dark = ref(true)
     const page = () => {
       slide.value = current.value
     }
@@ -119,7 +122,8 @@ export default {
       slide,
       isAnswered,
       previous,
-      next
+      next,
+      dark
 
 
 
@@ -187,4 +191,12 @@ export default {
 .greyheart {
   color: silver;
 }
+.text-base {
+  color: #3B5E8C !important;
+}
+.bg-base {
+  background: #3B5E8C !important;
+}
+
+
 </style>
