@@ -9,7 +9,7 @@
       <img v-else @click="choosepicture()" class="profile_img" style="margin-right:20px; cursor: pointer;" :src="'https://k5b206.p.ssafy.io/api/static/img/'+user_img">
       <q-icon name="add_circle_outline" class="plus-icon"/>
       <input hidden ref="fileInput" type="file" @input="changeProfile"/>
-      <div style="diplay:flex; flex-direction:row; padding:auto auto auto 0; margin-left: 15px;">
+      <div class="nick_name_card">
         <div class="nick_name1"><span style="font-weight: bold; margin: 0 0.3rem 0 0.3rem; ">{{user.week}}</span>주차</div>
         <div class="nick_name2">"{{user.nickname}}" <span style="font-weight:normal; margin-left: 0.5rem;">아빠</span> </div>
       </div>
@@ -35,9 +35,12 @@
       </span>
     </q-tab-panels>
     <q-tab-panels v-model="tab" animated style="width:100%;">
-      <q-tab-panel name="zzim" style="background-color: #F2F2F2;">
-        <div v-for="quiz in myZzim" :key="quiz" class="my_quiz" @click="goQuiz(quiz)">
-          {{ quiz.question }}
+      <q-tab-panel name="zzim" style="">
+        <div v-for="quiz in myZzim" :key="quiz" class="my-quiz" @click="goQuiz(quiz)">
+          <span class="type">{{quiz.type}}</span>
+          <span>
+            {{ quiz.question }}
+          </span>
         </div>
       </q-tab-panel>
     </q-tab-panels>
@@ -161,7 +164,6 @@ export default {
     };
     function goQuiz(quiz){
       // 퀴즈 디테일로 가는 부분
-      console.log(quiz,'퀴즈 정보들')
       router.push({name: "zzimquiz", params: {user_id: userId, quiz: quiz.quiz_id}});
     }
     return {
@@ -231,25 +233,47 @@ export default {
   font-weight: bold;
   font-size:20px;
 }
-.my_quiz{
+.my-quiz{
   display:flex;
-  justify-content:center;
+  justify-content:flex-start;
+  flex-direction: column;
   padding:20px 0px 20px 0px;
   font-size:16px;
-  font-family: 'Jua', sans-serif;
-  background-color: #F2F2F2;
+  font-family: 'GowunDodum-Regular';
+  font-weight: bold;
+  background-color: white;
+  /* border:1px solid #3B5E8C; */
+  border-radius: 1rem;
+  margin-bottom: 0.8rem;
+  padding-left: 1rem;
+  box-shadow: 0px -1px 5px 1px rgb(207, 207, 207) inset;
+
 }
 
-span {
-  background-color: #F2F2F2;
+.type {
+  width: 2rem;
+  background-color: #F0DCF2;
+  border-radius: 3px;
+  margin-bottom: 0.3rem;
 }
 
 .plus-icon {
-  color: grey;
+  color: #3B5E8C;
   display: flex;
   margin-left: -50px;
   margin-top: 65px;
   font-size: 25px;
-  opacity: 0.3;
+  opacity: 0.9;
+  background-color: white;
+  border-radius: 12.5px;
+
+}
+.nick_name_card {
+  display: flex;
+  flex-direction:column;
+  padding:auto auto auto 0;
+  margin-left: 25px;
+
+
 }
 </style>

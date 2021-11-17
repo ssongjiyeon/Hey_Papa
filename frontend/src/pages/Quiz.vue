@@ -1,9 +1,12 @@
 <template>
-  <div>
+  <header>
     <div class="my_top">
       <img src="../assets/horizon_logo.png" class="logo" style="height:70px;">
       <q-btn flat style="color:rgb(235,137,181);margin-left:50px; margin-right:10px;" icon="menu" @click="show()" />
     </div>
+  </header>
+  <div>
+
     <!-- <div class="quiz-text">
       <img src="../assets/horizon_logo.png" class="logo">
       <h3 class="text-pink-3 text-weight-bold" style="margin: 0.5rem; font-family: 'GowunDodum-Regular';">Quiz!</h3>

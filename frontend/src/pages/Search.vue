@@ -36,7 +36,7 @@ export default {
         user_id: localStorage.getItem('userId')
       }
       store.dispatch('module/search',object).then((res)=>{
-        console.log(res.data,'res')
+
         store.commit('module/allSearchArticle', res.data)
       })
     }

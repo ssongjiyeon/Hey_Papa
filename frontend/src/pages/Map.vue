@@ -1,12 +1,15 @@
 <template>
+<header>
+
+  <div class="my_top">
+    <img src="../assets/horizon_logo.png" class="logo" style="height:70px;">
+    <q-btn flat style="color:rgb(235,137,181);margin-left:50px; margin-right:10px;" icon="menu" @click="show()" />
+  </div>
+</header>
   <div>
     <!-- <div style="display:flex; justify-content:center;">
       <img src="../assets/horizon_logo.png" class="logo">
     </div> -->
-    <div class="my_top">
-      <img src="../assets/horizon_logo.png" class="logo" style="height:70px;">
-      <q-btn flat style="color:rgb(235,137,181);margin-left:50px; margin-right:10px;" icon="menu" @click="show()" />
-    </div>
     <div style="display:flex; flex-direction:column; align-items:center; height:80px;">
       <div style="font-size:1.5rem; font-weight:bold; margin-bottom:5px; margin-top:10px;font-family: 'GowunDodum-Regular';">
         어느 동네가 궁금하신가요?

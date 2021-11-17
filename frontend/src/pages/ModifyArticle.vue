@@ -23,7 +23,7 @@
       <div class="q-pa-md" style="width:100%;">
         <q-input
           v-model="text"
-          outlined 
+          outlined
           label = "내용을 입력해주세요."
           type="textarea"
           color = blue
@@ -53,21 +53,17 @@ export default {
   },
   created(){
     const article = computed(()=> this.$store.getters['module/getSelectArticle'])
-    this.imageData = article.value.img 
-    console.log(this.imageData,'@@')
-    console.log(article,'넘어오니?')
+    this.imageData = article.value.img
     this.text = article.value.content
     article.value.hashtag.forEach(e => {
-      this.hashtag = this.hashtag + '#' + e  
+      this.hashtag = this.hashtag + '#' + e
     });
-    console.log(this.hashtag,'과연3')
   },
   methods: {
     onSelectFile() {
       const input = this.$refs.fileInput;
       const files = input.files;
       this.FileImage = files[0];
-      console.log(this.FileImage,'@@@@')
       if (files && files[0]) {
         const reader = new FileReader();
         reader.onload = e => {
@@ -105,7 +101,7 @@ export default {
       // this.$router.push('/detail')
     }
   },
-} 
+}
 </script>
 
 <style scoped>

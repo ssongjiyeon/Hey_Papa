@@ -1,11 +1,23 @@
 <template>
-  <div style="padding-bottom:100px;">
-    <div class="top">
-      <q-btn class="back_btn" @click="goHome" dense round icon="arrow_back" />
+<head>
+  <link
+    rel="stylesheet"
+    href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+    integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
+    crossorigin="anonymous"
+  />
+</head>
+<header>
+  <div >
+    <div style="display:flex; align-items:center;" class="top">
+      <i class="fas fa-arrow-left " @click="goHome" style="background:white; color:#3B5E8C; margin:0px 4.8rem 0px 20px;"></i>
       <img class="logo" src="../assets/horizon_logo.png">
       <!-- <q-btn class="back_btn" @click="goHome" dense round icon="edit" /> -->
     </div>
-    <div style="width:90%; margin-left:20px; margin-top:20px; margin-bottom:20px;">
+  </div>
+</header>
+  <div style="padding-bottom:100px; ">
+    <div style="width:90%; margin-left:20px; margin-top:12px; margin-bottom:20px;">
       <div class="text-subitle2" style="height:400px; margin-bottom:20px;">
         <div :style="{ 'background-image': `url(${imageData})` }" @click="choosepicture" style="object-fit:cover;">
           <q-btn
@@ -105,21 +117,42 @@ export default {
 
 <style scoped>
 .top{
-  display:flex;
+  display: flex;
+  justify-content: flex-start;
+  padding: none;
+  /* padding-bottom: 1rem; */
+  width: 110px;
+  margin-top: 5px;
   align-items: center;
   /* width:100%; */
 }
 .logo{
-  width:50%;
-  margin:0px 0px 0px 55px;
+  height: 70px;
+  /* margin-top: 5px; */
+  /* margin:0px 55px 0px 55px; */
 }
 .back_btn{
-  background:rgb(235, 137, 181);
+  display: flex;
+  justify-content: flex-start;
+  padding: none;
+  /* padding-bottom: 1rem; */
+  width: 130px;
+  margin-top: 5px;
+  align-items: center;
+  /* background:rgb(235, 137, 181);
   color:white;
   width:10px;
   height:10px;
-  margin:0px 0px 0px 20px;
+  margin:0px 0px 0px 0px; */
 }
+
+.top i{
+  font-size: 1.2rem;
+  margin-left: 1.5rem;
+  padding-bottom: 0.3rem;
+  color: #5684BF;
+}
+
 .show_img{
   width:90%;
 }

@@ -103,13 +103,11 @@ export default {
 
       })
       .then((res) => {
-        console.log(res.data)
         quiz_detail.value = res.data
         let candidates = quiz_detail.value.candidate.split('#')
         candidateList.value = candidates
       })
     })
-    console.log(quiz_detail.value, 'cadi')
     // const candidateList = quiz_detail.candidate.split('#')
 
     const ChooseAnswer = (name, answer, id) => {
@@ -118,7 +116,6 @@ export default {
       const url = "https://k5b206.p.ssafy.io/api/quiz/" + id + `/${user_id}`
       axios.get(url)
       .then((res) => {
-        console.log(res.data, '댓글작성')
         store.commit('module/commentList', res.data.comments )
       })
       if(name == null) {
@@ -144,7 +141,6 @@ export default {
       }
       axios.post(url, params)
       .then((res) => {
-        console.log(quiz, 'choose')
         ChooseAnswer(null, null, quiz)
       })
       Reply.value = ''

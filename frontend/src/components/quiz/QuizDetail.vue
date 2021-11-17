@@ -94,7 +94,6 @@ export default {
     const BeforeTransition = () => {
       isAnswered.value = false
       current.value = slide.value
-      console.log('transition')
     }
     const previous = (max) => {
       if(slide.value > 1){

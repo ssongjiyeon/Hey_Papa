@@ -27,7 +27,7 @@
               {{ para.content }}
             </div>
             <!-- 해쉬태그 -->
-            <div style="padding-top:0.5rem; display:flex; font-family: 'Jua', sans-serif;">
+            <div style="padding-top:0.5rem; display:flex; font-family: 'GowunDodum-Regular'; font-weight: bold;">
               <div v-for="hashtag in para.hashtag" :key="hashtag">#{{ hashtag }}</div>
             </div>
           </div>
@@ -41,12 +41,9 @@
         <q-separator />
         <q-card-actions style="display:flex; justify-content:space-between;">
           <div style="display:flex; align-items:center;">
-            <button
-            class="fas fa-heart heart-button"
-            @click="getHeart"
+            <q-icon name="favorite" @click="getHeart"
             :style="heart ? 'color: crimson': 'color: silver'"
-            style="margin-left:-5px;"
-            />
+            style="margin-right:10px; font-size: 1.4rem;" />
             <span style="font-family: 'GowunDodum-Regular';">{{para.like_cnt}}명이 이 글을 좋아합니다.</span>
           </div>
           <div class="speech-bubble" @click="Detail(para)">
@@ -212,8 +209,6 @@ export default {
 }
 .heart-button {
   border: none;
-  background-color: #F2F2F2;
-  color: silver;
   font-size: 1.4rem;
 }
 .speech-bubble{

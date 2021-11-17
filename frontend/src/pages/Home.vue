@@ -8,24 +8,26 @@
         crossorigin="anonymous"
       />
     </head>
-    <div class="my_top">
-      <img src="../assets/horizon_logo.png" class="logo" style="height:70px;">
-      <div style="display: flex; align-items: center; margin-left: 45px; ">
-        <q-icon
-          @click="goWrite"
-          name="add"
-          size="sm"
-          style="color: rgb(235, 137, 181)"
-        />
+    <header>
+      <div class="my_top">
+        <img src="../assets/horizon_logo.png" class="logo" style="height:70px;">
+        <div style="display: flex; align-items: center; margin-left: 18px; margin-right:8px; ">
+          <q-icon
+            @click="goWrite"
+            name="add"
+            size="sm"
+            style="color: rgb(235, 137, 181)"
+          />
+        </div>
+        <q-btn flat style="color:rgb(235,137,181); margin-right:13px;" icon="menu" @click="show()" />
       </div>
-      <q-btn flat style="color:rgb(235,137,181); margin-right:15px;" icon="menu" @click="show()" />
-    </div>
+    </header>
     <!-- <div style="display: flex;">
       <img
         src="../assets/horizon_logo.png"
         style="height: 70px; margin: 0 auto; padding-left: 40px"
       />
-      
+
       <q-btn flat style="color:rgb(235,137,181); margin-right:10px;" icon="menu" @click="show()" />
     </div> -->
   <div id="articles" class="q-pa-xs row items-start card-box">
@@ -159,7 +161,7 @@ export default {
     display:flex;
     justify-content: center;
     margin-left:130px;
-    margin-right:20px;
+    margin-right:10px;
     margin-top: 5px;
   }
   .my-card {
@@ -219,4 +221,5 @@ export default {
   .white-space{
     height: 50px !important;
   }
+
 </style>
