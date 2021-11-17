@@ -21,7 +21,7 @@
       <QuizDetail @OtherTheme="OtherTheme" />
     </div>
     <div class="quiz-text">
-      <h3 class="text-pink-3 text-weight-bold" style="margin: 0.5rem; font-family: 'GowunDodum-Regular';">Quiz!</h3>
+      <h3 class="text-pink-3 text-weight-bold" style="margin: 0.5rem; font-family: 'GowunDodum-Regular';">Quiz</h3>
     </div>
   </div>
 </template>
