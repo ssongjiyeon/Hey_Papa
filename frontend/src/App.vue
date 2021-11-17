@@ -39,4 +39,7 @@ export default defineComponent({
     font-weight: normal;
     font-style: normal;
 }
+header{
+  position:sticky; top:0%; background: white; z-index:2;
+}
 </style>

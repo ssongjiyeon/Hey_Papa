@@ -8,12 +8,14 @@
     crossorigin="anonymous"
   />
 </head>
-<div style="display:flex; align-items:center;" class="other-theme-btn">
-  <i class="fas fa-arrow-left" @click="backward" style="background:white; color:#3B5E8C; margin:0px 5.2rem 0px 20px;"></i>
-  <img src="../../assets/horizon_logo.png" style="height:70px;">
-  <!-- Detail -->
-</div>
-<div style="margin:0.8rem; border:1px solid #C2D2F2; border-radius:10px; margin-bottom:2rem; ">
+<header>
+  <div style="display:flex; align-items:center;" class="other-theme-btn">
+    <i class="fas fa-arrow-left" @click="backward" style="background:white; color:#3B5E8C; margin:0px 4.8rem 0px 20px;"></i>
+    <img src="../../assets/horizon_logo.png" style="height:70px;">
+    <!-- Detail -->
+  </div>
+</header>
+<div style="margin:0.8rem; margin-top:12px; border:1px solid #C2D2F2; border-radius:10px; margin-bottom:2rem; ">
   <div class="text-overline created-at">{{para.created_at.slice(0,10)}}</div>
   <div class="profile-box">
     <img v-if="article_user_img=='NULL'" src="../../assets/default_user.png"  class="profile-img">
@@ -247,9 +249,7 @@ export default {
   font-size: 1rem;
   margin: 0.5rem;
 }
-.content-box img {
 
-}
 .reply{
   display: flex;
   justify-content:flex-start;
@@ -311,7 +311,10 @@ export default {
   display: flex;
   justify-content: flex-start;
   padding: none;
-  padding-bottom: 1rem;
+  /* padding-bottom: 1rem; */
+  width: 130px;
+  margin-top: 5px;
+  align-items: center;
 
 }
 .other-theme-btn i {
@@ -319,7 +322,8 @@ export default {
   margin-left: 1.5rem;
   padding-bottom: 0.3rem;
   color: #5684BF;
-  border-bottom: 5px solid pink;
+
 
 }
+
 </style>
