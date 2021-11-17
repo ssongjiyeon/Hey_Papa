@@ -38,3 +38,6 @@ export function commentList(state, commentList) {
 export function articleCommentList(state, articleCommentList) {
   state.articleCommentList = articleCommentList;
 }
+export function allSearchArticle(state, article) {
+  state.searchArticle = article;
+}

@@ -7,6 +7,7 @@
         <q-input label="아이디" type="email"
           v-model="form.email"
           lazy-rules
+          color="pink-3"
           :rules="[
           val => !!val || '필수입력항목 입니다.',
           checkEmail
@@ -17,6 +18,7 @@
       <div style="width:290px; margin-top:-50px; margin-bottom:20px;">
         <q-input label="비밀번호" type="password" v-model="form.password"
         lazy-rules
+        color="pink-3"
         :rules="[
           val => val && val.length >= 8 || '8자리 이상 입력해주세요.',
           checkPassWord]"
@@ -25,6 +27,7 @@
       <div style="width:290px; margin-bottom:20px;">
         <q-input label="비밀번호확인" type="password" v-model="form.passwordconfirmation"
           lazy-rules
+          color="pink-3"
           :rules="[
             val => val && val.length > 0 || '필수입력항목 입니다.',
             checkPassWordConfirmation
@@ -33,6 +36,7 @@
       <div style="width:290px; margin-bottom:40px;">
         <q-input label="지역 (예:유성구 (시/군/구))" type="text" v-model="form.region"
           lazy-rules
+          color="pink-3"
           :rules="[
             val => val && val.length > 0 || '필수입력항목 입니다.',
             checkRegion

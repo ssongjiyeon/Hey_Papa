@@ -1,12 +1,12 @@
 <template>
 
   <!-- 문제 출제 시 -->
-  <div class="" v-show="!isAnswered">
+  <div class="heart-subject" v-show="!isAnswered">
     <div class="heart-position">
-      <i class='fas fa-heart ' @click="SaveQuiz(quiz.id)" :style="isSaved ? 'color: red': 'color: silver'"></i>
+      <i class='fas fa-heart ' @click="SaveQuiz(quiz.id)" :style="isSaved ? 'color: crimson': 'color: silver'"></i>
     </div>
     <div>
-      <span class="subject">Q{{i+1}}</span>
+      <span class="subject">Q{{i+1}}. </span>
     </div>
   </div>
   <div class="question" v-show="!isAnswered">
@@ -50,7 +50,7 @@
   </div>
 
   <!-- 선지 -->
-  <div class="row wrap justify-center" v-show="!isAnswered">
+  <div class="wrap justify-center items-center content-center answer-list" v-show="!isAnswered">
     <div class="answer-box row no-wrap justify-center"
         v-for="(option, opt_idx) in quiz.candidate.split('#')"
         :key="option"
@@ -75,6 +75,17 @@ export default {
     const quiz = props.quiz
     const user = computed(()=> store.getters['module/getUser'])
     var user_img = computed(()=>user.value.img)
+    const user_id = localStorage.getItem('userId')
+    onMounted(() => {
+      // 찜한 문제 확인
+      axios({
+        method: 'GET',
+        url: "https://k5b206.p.ssafy.io/api/quiz/" + quiz.id + `/${user_id}`
+      })
+      .then((res) => {
+        isSaved.value = res.data.like
+      })
+    })
 
 
 
@@ -82,7 +93,7 @@ export default {
     let comments = []
     let isAnswered = ref(false)
     const SaveQuiz = (id) => {
-      console.log(isSaved.value)
+
       isSaved.value = !isSaved.value
       const url = "https://k5b206.p.ssafy.io/api/quiz/" + id + '/myquiz'
       const params = {
@@ -95,17 +106,16 @@ export default {
       //   qc: isSaved.value,ql: isSaved.value,ui: parseInt(localStorage.getItem('userId')),qi:id
       // })
       .then((res) => {
-        // console.log(res.data, '댓글작성완료')
+
       })
       .catch((err) => {
-        console.log(err)
+
       })
     }
     const isSaved = ref(false)
     const ChooseAnswer = (name, answer, id) => {
-
       // 댓글 목록 api 호출 필요
-      const url = "https://k5b206.p.ssafy.io/api/quiz/" + id
+      const url = "https://k5b206.p.ssafy.io/api/quiz/" + id + `/${user_id}`
       axios.get(url)
       .then((res) => {
         store.commit('module/commentList', res.data.comments )
@@ -184,19 +194,33 @@ export default {
   overflow: scroll;
   border: 3px solid pink;
 
-}
 
+
+
+}
+.answer-list{
+  display: flex;
+  align-items: center;
+  align-content: center;
+  margin: auto;
+
+}
 
 .answer-box {
   /* float: left; */
   display: flex;
   flex-wrap: wrap;
-  width: 15rem;
-  height: 4rem;
-  background-color: pink;
+  width: 6.5rem; /* 14*/
+  height: 6.5rem;  /* 4*/
+  background-color: rgb(255, 217, 223);
   margin: 0.5rem;
+  text-align: center;
   align-items: center;
+
   border-radius: 0.5rem;
+  color: #5684BF;
+  font: 1rem 'GowunDodum-Regular';
+  font-weight: bold;
 
 }
 .reply-input-box {
@@ -277,8 +301,7 @@ export default {
 
 .heart-position{
   display: block;
-
-  font-size: 1.5rem;
+  font-size: 1.3rem;
 
 }
 
@@ -287,11 +310,19 @@ export default {
   width: 15rem;
   flex-wrap: wrap;
   margin-top: 1rem;
-  font: 1rem sans-serif;
+  font: 1rem 'GowunDodum-Regular';
+  padding: 0.5rem;
 }
 .subject{
-  font: 1.3rem black;
+  font-size: 1.3rem ;
+  font-weight: bold;
+}
+.heart-subject {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+  width: 13.8rem;
+  margin-top: 3rem;
 
 }
-
 </style>

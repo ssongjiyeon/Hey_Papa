@@ -19,7 +19,7 @@ public interface IArticleService {
 	
 	List<ArticleResponse> getAllArticle(Pageable pageable, long userId);
 	
-	List<ArticleResponse> hashtagSearch(String hashtag, long userId);
+	List<ArticleResponse> hashtagSearch(String hashtag);
 	
 	Article updateArticle(ArticleRequest articleRequest, Long id);
 	
@@ -28,6 +28,10 @@ public interface IArticleService {
 	void deleteArticle(Long id);
 	
 	Review createReview(ReviewRequest reviewRequest, Long id);
+	
+	Review updateReview(ReviewRequest reviewRequest, Long aId, Long rId);
+	
+	void deleteReview(Long aId, Long rId);
 	
 	List<ReviewResponse> getReview(Long id);
 

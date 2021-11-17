@@ -1,20 +1,29 @@
 <template>
+<header>
+
+  <div class="my_top">
+    <img src="../assets/horizon_logo.png" class="logo" style="height:70px;">
+    <q-btn flat style="color:rgb(235,137,181);margin-left:50px; margin-right:10px;" icon="menu" @click="show()" />
+  </div>
+</header>
   <div>
-    <div style="display:flex; justify-content:center;">
+    <!-- <div style="display:flex; justify-content:center;">
       <img src="../assets/horizon_logo.png" class="logo">
-    </div>
+    </div> -->
     <div style="display:flex; flex-direction:column; align-items:center; height:80px;">
-      <div style="font-size:18px; font-weight:bold; margin-bottom:5px; margin-top:10px;">어느 동네가 궁금하신가요?</div>
+      <div style="font-size:1.5rem; font-weight:bold; margin-bottom:5px; margin-top:10px;font-family: 'GowunDodum-Regular';">
+        어느 동네가 궁금하신가요?
+      </div>
       <div>
-        <q-input @keyup.enter="searchSubmit" v-model="keyword" id="keyword" outlined dense label="ex)유성구" style="height:30px; width:200px;" />
+        <q-input @keyup.enter="searchSubmit" v-model="keyword" id="keyword" outlined dense label="ex)유성구" style="height:30px; width:200px;font-family: 'GowunDodum-Regular';" />
         <span class="main_search_btn_span"><q-btn @click="searchSubmit" round
           style="background:rgb(235,137,181); color:white; float:right; left:50px; bottom:30px;" icon="search" /></span>
       </div>
     </div>
     <div style="padding-bottom:110px;">
       <div id="map" style="height:600px;"></div>
-      <div class="custom_zoomcontrol radius_border" style="margin-top:130px;"> 
-        <span @click="zoomIn"><span style="font-size:25px;">+</span></span>  
+      <div class="custom_zoomcontrol radius_border" style="margin-top:130px; margin-right:20px;">
+        <span @click="zoomIn"><span style="font-size:25px;">+</span></span>
         <span @click="zoomOut"><span style="font-size:25px; font-weight:bold;">-</span></span>
       </div>
     </div>
@@ -23,6 +32,7 @@
 <script>
 import { computed } from 'vue'
 import { useStore } from 'vuex'
+import { useQuasar } from 'quasar'
 export default {
   data() {
     return {
@@ -32,12 +42,48 @@ export default {
       window:[],
     };
   },
+  setup() {
+    const $q = useQuasar()
+    function show () {
+      $q.bottomSheet({
+        message: '메뉴',
+        actions: [
+          {
+            label: '회원정보수정',
+            icon: 'account_circle',
+            id: 'update'
+          },
+          {},
+          {
+            label: '로그아웃',
+            icon: 'logout',
+            id: 'logout'
+          },
+        ]
+      }).onOk(action => {
+        if (action.id == 'update'){
+          router.push('set')
+        }
+        else if (action.id == 'logout'){
+          store.dispatch('module/logout').then(()=>{
+            router.push('/')
+          })
+        }
+      }).onCancel(() => {
+        // console.log('바텀시트 빠져나올때')
+      }).onDismiss(() => {
+        // console.log('I am triggered on both OK and Cancel')
+      })
+    }
+    return {
+      show
+    }
+  },
   created(){
     const store = useStore()
     const user = computed(()=> store.getters['module/getUser'])
     this.carecenter(this.centers)
     this.keyword = user.value.region
-    console.log(this.keyword,'키워드')
     setTimeout(()=>{
       this.searchSubmit()
     },300)
@@ -64,7 +110,7 @@ export default {
       this.map = new kakao.maps.Map(container, options);
       this.geocoder = new kakao.maps.services.Geocoder()
       // -----------------------지도 기본 세팅-------------------
-     
+
      // 마커 표시하기
      setTimeout(() => {
        var markers = this.centers.map((i) => {
@@ -73,7 +119,7 @@ export default {
            map:this.map,
            position : new kakao.maps.LatLng(i.lat, i.lng),
          });
-         marker.setMap(this.map) 
+         marker.setMap(this.map)
          var infowindow = new kakao.maps.InfoWindow({
            content:i.content,
            position: new kakao.maps.LatLng(i.lat, i.lng),
@@ -112,20 +158,20 @@ export default {
             const center = {
               lat:e.latitude,
               lng:e.longitude,
-              content :'<div class="wrap">' + 
-                        '    <div class="info">' + 
-                        '        <div class="title">' + 
+              content :'<div class="wrap">' +
+                        '    <div class="info">' +
+                        '        <div class="title">' +
                                     e.name +
-                        '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' + 
-                        '        </div>' + 
-                        '        <div class="body">' + 
-                        '            <div class="desc">' + 
-                        '                <div class="ellipsis"> 주소 : '+e.address+'</div>' + 
-                        '                <div class="jibun ellipsis">일반실 : ' + e.generalRoom + ' 특실 : '+e.specialRoom+'</div>' + 
-                        '                <div> 전화번호 : '+e.phoneNumber+'</div>' + 
-                        '            </div>' + 
-                        '        </div>' + 
-                        '    </div>' +    
+                        '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' +
+                        '        </div>' +
+                        '        <div class="body">' +
+                        '            <div class="desc">' +
+                        '                <div class="ellipsis"> 주소 : '+e.address+'</div>' +
+                        '                <div class="jibun ellipsis">일반실 : ' + e.generalRoom + ' 특실 : '+e.specialRoom+'</div>' +
+                        '                <div> 전화번호 : '+e.phoneNumber+'</div>' +
+                        '            </div>' +
+                        '        </div>' +
+                        '    </div>' +
                         '</div>'
               }
             centers.push(center)
@@ -144,13 +190,13 @@ export default {
 
 <style>
 #map{
-  margin-top:20px;
+  margin:20px;
 }
-.custom_zoomcontrol {position:absolute;top:50px;right:10px;width:36px;height:80px;overflow:hidden;z-index:1;background-color:#f5f5f5;} 
-.custom_zoomcontrol span {display:block;width:36px;height:40px;text-align:center;cursor:pointer;}     
-.custom_zoomcontrol span img {width:15px;height:15px;padding:12px 0;border:none;}             
+.custom_zoomcontrol {position:absolute;top:50px;right:10px;width:36px;height:80px;overflow:hidden;z-index:1;background-color:#f5f5f5;}
+.custom_zoomcontrol span {display:block;width:36px;height:40px;text-align:center;cursor:pointer;}
+.custom_zoomcontrol span img {width:15px;height:15px;padding:12px 0;border:none;}
 .custom_zoomcontrol span:first-child{border-bottom:1px solid #bfbfbf;}
-.radius_border{border:1px solid #919191;border-radius:5px;}  
+.radius_border{border:1px solid #919191;border-radius:5px;}
 .logo{
   /* width:180px; */
   height:70px;
@@ -164,4 +210,12 @@ export default {
 .info .title {display: flex; justify-content: center; height: 30px;background: #eee;border-bottom: 1px solid #ddd;font-size: 18px;font-weight: bold;}
 .info .close:hover {cursor: pointer;}
 .info .img {position: absolute;top: 6px;left: 5px;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden;}
+
+.my_top{
+  display:flex;
+  justify-content: center;
+  margin-left:130px;
+  margin-right:10px;
+  margin-top: 5px;
+}
 </style>

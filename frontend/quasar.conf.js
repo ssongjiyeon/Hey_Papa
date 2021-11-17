@@ -71,14 +71,6 @@ module.exports = configure(function (ctx) {
       https: false,
       port: 8080,
       open: true, // opens browser window automatically
-      proxy: {
-        '/api': {
-          target: 'https://k5b206.p.ssafy.io:8080'
-        },
-        '/api': {
-          target: 'https://localhost:8080'
-        }
-      },
       historyApiFallback: true,
       hot: true
     },

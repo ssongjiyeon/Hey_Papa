@@ -1,52 +1,59 @@
 <template>
-<head>
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
-</head>
-  <div style="width:100%; margin:0.5rem;">
-    <q-card class="my-card" flat bordered>
-      <q-card-section>
-        <div style="display:flex; justify-content:space-between;">
-          <div class="text-overline text-orange-9">{{para.created_at.slice(0,10)}}</div>
-          <div v-if="flag"><q-icon name="more_horiz" size="sm" @click="Show"></q-icon></div>
-        </div>
-        <!-- 프로필 박스 -->
-        <div class="profile-box">
-          <img v-if="para.user_img=='NULL'" src="../../assets/default_user.png" class="profile-img">
-          <img v-else :src="'https://k5b206.p.ssafy.io/api/static/img/'+para.user_img" class="profile-img">
-          <div class="text-h6 q-mt-sm q-mb-sm q-ml-sm">{{para.nickname}} 파파</div>
-        </div>
-        <div :class="extended ? 'more-box' : 'text-box'" transition: fade>
-          <div @click="Detail(para)">
-            {{ para.content }}
-          </div>
-          <!-- 해쉬태그 -->
-          <div style="padding-top:0.5rem;">
-            <p>태그{{ tags }}</p>
+<div style="width:100%; margin:0.5rem;">
+  <head>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+  </head>
+    <div>
+      <q-card class="my-card" flat bordered>
+        <div style="display:flex; flex-direction: row;">
+          <!-- <div style="background-color:#C2D2F2; height: 10px; width:4rem; margin-left:1rem;">
+          </div> -->
+          <div>
           </div>
         </div>
-      </q-card-section>
-      <q-separator />
-      <img
-        style="width:100%; height:350px;"
-        @click="Detail(para)"
-        :src="imgUrl"
-      />
-      <q-separator />
-      <q-card-actions style="display:flex; justify-content:space-between;">
-        <div style="display:flex; align-items:center;">
-          <button
-          class="fas fa-heart heart-button"
-          @click="getHeart"
-          :style="heart ? 'color: red': 'color: silver'"/>
-          <span>{{para.like_cnt}}명이 좋아요를 눌렀습니다.</span>
-        </div>
-        <div class="speech-bubble" @click="Detail(para)">
-          <i class="far fa-comment"></i>
-          {{para.comment_cnt}}
-        </div>
-      </q-card-actions>
-    </q-card>
-  </div>
+        <q-card-section>
+          <div style="display:flex; justify-content:space-between;">
+            <div class="text-overline created-at">{{para.created_at.slice(0,10)}}</div>
+            <div v-if="flag"><q-icon name="more_horiz" size="sm" @click="Show(para)"></q-icon></div>
+          </div>
+          <!-- 프로필 박스 -->
+          <div class="profile-box">
+            <img v-if="para.user_img=='NULL'" src="../../assets/default_user.png" class="profile-img">
+            <img v-else :src="'https://k5b206.p.ssafy.io/api/static/img/'+para.user_img" class="profile-img">
+            <div class="text-h6 q-mt-sm q-mb-sm q-ml-sm nickname">{{para.nickname}} 파파</div>
+          </div>
+          <div :class="extended ? 'more-box' : 'text-box'" transition: fade style="margin-top:0.5rem;">
+            <div @click="Detail(para)" class="main_content">
+              {{ para.content }}
+            </div>
+            <!-- 해쉬태그 -->
+            <div style="padding-top:0.5rem; display:flex; font-family: 'GowunDodum-Regular'; font-weight: bold;">
+              <div v-for="hashtag in para.hashtag" :key="hashtag">#{{ hashtag }}</div>
+            </div>
+          </div>
+        </q-card-section>
+        <q-separator />
+        <img
+          style="width:100%; height:370px;"
+          @click="Detail(para)"
+          :src="imgUrl"
+        />
+        <q-separator />
+        <q-card-actions style="display:flex; justify-content:space-between;">
+          <div style="display:flex; align-items:center;">
+            <q-icon name="favorite" @click="getHeart"
+            :style="heart ? 'color: crimson': 'color: silver'"
+            style="margin-right:10px; font-size: 1.4rem;" />
+            <span style="font-family: 'GowunDodum-Regular';">{{para.like_cnt}}명이 이 글을 좋아합니다.</span>
+          </div>
+          <div class="speech-bubble" @click="Detail(para)">
+            <i class="far fa-comment" style="font-size:21px;"></i>
+            {{para.comment_cnt}}
+          </div>
+        </q-card-actions>
+      </q-card>
+    </div>
+</div>
 </template>
 
 <script>
@@ -64,7 +71,6 @@ export default {
     const heart = ref(false)
     var flag = ref(false)
     imgUrl = imgUrl + props.para.img
-    // console.log(imgUrl)
     if (localStorage.getItem('userId')==props.para.user_id){
       flag = true
     }
@@ -75,7 +81,6 @@ export default {
     let article = computed(()=>props.para.like_cnt)
     function getHeart() {
       heart.value = !heart.value
-      console.log(heart.value)
       store.dispatch('module/likeArticle',{
         id:props.para.id,check:heart.value,user_id:localStorage.getItem('userId')}).then(()=>{
           store.dispatch('module/allArticle',localStorage.getItem('userId')).then((res)=>{
@@ -84,7 +89,6 @@ export default {
         })
       }
     const Detail = (para) => {
-        console.log(para,'야야!')
         store.commit('module/selectArticle', para)
         router.push({ name: "feed", params: { article_id: para.id } });
       };
@@ -93,19 +97,13 @@ export default {
     const SplitHashtag = () => {
       if(hashtagList) {
         for (let i=0; hashtagList.length > i ; i++) {
-          let hashtag = ""
-          hashtag = hashtagList[i]
-          tags += ("#" + hashtag + " ")
+          tags += "#" + hashtagList[i] + " "
         }
       }
     }
     onMounted(() => {
       SplitHashtag()
-      console.log(tags)
     })
-
-
-
     function Show () {
         $q.bottomSheet({
           message: '메뉴',
@@ -160,8 +158,34 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR&family=Gamja+Flower&display=swap');
+
+.created-at{
+  color: #5684BF;
+  font-size: 1rem;
+  font-family : 'Jua', sans-serif;
+}
+.nickname{
+  /* font-family : 'Jua', sans-serif; */
+  font-family : 'GowunDodum-Regular';
+  font-size:22px;
+  font-weight: bold;
+  color: #5684BF;
+  border-bottom: 5px solid pink;
+}
+.main_content{
+  font-family: 'GowunDodum-Regular';
+  font-size:0.9rem;
+  font-weight: lighter;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
 .my-card {
   width: 100%;
+  /* background-color:#F2F2F2; */
+  border: 1px solid #C2D2F2;
+  border-radius: 10px;
+  /* border-bottom: 11px solid #C2D2F2; */
 }
 .card-box {
   width: 100%;
@@ -185,8 +209,6 @@ export default {
 }
 .heart-button {
   border: none;
-  background-color: white;
-  color: silver;
   font-size: 1.4rem;
 }
 .speech-bubble{
@@ -229,6 +251,6 @@ export default {
 .profile-img{
   height:2rem;
   width:2rem;
-  border-radius: 1rem;
+  border-radius: 2rem;
 }
 </style>

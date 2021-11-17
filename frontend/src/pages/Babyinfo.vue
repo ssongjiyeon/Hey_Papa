@@ -6,6 +6,7 @@
       <div style="width:290px; margin:30px 0px 20px 0px;">
         <q-input label="태명을 입력해주세요." type="email"
           v-model="form.babyname"
+          color="pink-3"
           lazy-rules
           :rules="[
           val => !!val || '필수입력항목 입니다.',
@@ -15,6 +16,7 @@
       <div style="width:290px; margin-top:-20px;">
         <q-input label="생년월일 8자리 (예: 2022-08-23)" type="email"
           v-model="form.birthday"
+          color="pink-3"
           lazy-rules
           :rules="[
           val => !!val || '필수입력항목 입니다.',
@@ -26,6 +28,7 @@
         <q-input label="몇 주차 인지 숫자만 입력해주세요." type="number"
           min="0"
           max="42"
+          color="pink-3"
           v-model="form.week"
           lazy-rules
           :rules="[

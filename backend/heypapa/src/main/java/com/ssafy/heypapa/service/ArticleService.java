@@ -7,6 +7,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -188,42 +190,67 @@ public class ArticleService implements IArticleService {
 	}
 	
 	@Override
-	public List<ArticleResponse> hashtagSearch(String hashtag, long userId) {
+	public List<ArticleResponse> hashtagSearch(String hashtag) {
 		List<Article> list = articleRepository.findAll();
 		List<ArticleResponse> copy = new ArrayList<>();
-		Hashtag tag = new Hashtag();
-		if(tag.getName().equals(hashtag)) {
-			Optional<ArticleHashtag> hash = articleHashtagRepository.findByHashtagId(tag.getId());
-			ArticleResponse res;
-			for(Article a : list) {
-				res = new ArticleResponse();
-				res.setId(a.getId());
-				res.setContent(a.getContent());
-				res.setImg(a.getImg());
-				res.setCreated_at(a.getCreated_at());
-				// like_cnt 처리
-				List<ArticleLike> al = articleLikeRepository.findByArticleId(a.getId());
-				res.setLike_cnt(al.size());
-				// 좋아요 했는지 처리
-				ArticleLike isLike = articleLikeRepository.findByUserIdAndArticleId(userId, a.getId());
-				if(isLike == null) {
-					res.setLike(false);
-				} else {
-					res.setLike(true);
+		HashSet<Article> temp = new HashSet<>();
+		ArticleResponse res;
+		for(Article a : list) {
+			res = new ArticleResponse();
+			Optional<Hashtag> hashtags = hashtagRepository.findByName(hashtag);
+			if(hashtags.isPresent()) {
+				List<Long> articlehashtag = articleHashtagRepository.findByArticle_id(a.getId());
+				for(Long aId : articlehashtag) {
+					Optional<Article> ar = articleRepository.findById(aId);
+					if(ar.isPresent()) {
+						res.setId(a.getId());
+						res.setContent(a.getContent());
+						res.setImg(a.getImg());
+						res.setCreated_at(a.getCreated_at());
+						res.setCalculateTime(timeService.calculateTime(a.getCreated_at()));
+						// like_cnt 처리
+						List<ArticleLike> al = articleLikeRepository.findByArticleId(a.getId());
+						res.setLike_cnt(al.size());
+						// 좋아요 했는지 처리
+//						ArticleLike isLike = articleLikeRepository.findByUserIdAndArticleId(userId, a.getId());
+//						if(isLike == null) {
+//							res.setLike(false);
+//						} else {
+//							res.setLike(true);
+//						}
+						// comment_cnt 처리
+						List<Review> r = reviewRepository.findByArticleId(a.getId());
+						res.setComment_cnt(r.size());
+						//user 닉네임, 프로필이미지 처리
+						res.setUser_id(a.getUser().getId());
+						res.setNickname(a.getUser().getNickname());
+						res.setUser_img(a.getUser().getImg());
+						copy.add(res);
+					}
 				}
-				// comment_cnt 처리
-				List<Review> r = reviewRepository.findByArticleId(a.getId());
-				res.setComment_cnt(r.size());
-				//user 닉네임, 프로필이미지 처리
-				res.setUser_id(a.getUser().getId());
-				res.setNickname(a.getUser().getNickname());
-				res.setUser_img(a.getUser().getImg());
-				copy.add(res);
 			}
 		}
+//		List<Article> res = new LinkedList<>();
+//		HashSet<Article> temp = new HashSet<>();
+//		List<Hashtag> hashtags = hashtagRepository.findByNameLike(hashtag);
+//		for(Hashtag h : hashtags) {
+//			List<Long> articlehashtag = articleHashtagRepository.findByArticle_id(h.getId());
+//			for(Long aId : articlehashtag) {
+//				Optional<Article> a = articleRepository.findById(aId);
+//				if(a.isPresent()) {
+//					temp.add(a.get());
+//					if(temp.size()==3) {
+//						for(Article article : temp) {
+//							res.add(article);
+//						}
+//						return res;
+//					}
+//				}
+//			}
+//		}
+//		return res;
 		return copy;
 	}
-	
 	
 	@Override
 	public Article updateArticle(ArticleRequest articleRequest, Long id) {		
@@ -289,8 +316,9 @@ public class ArticleService implements IArticleService {
 		} 
 		// (좋아요 취소) like가 되어 있으면 게시글id와 유저id값으로 articlelike 객체를 찾고, repo에서 삭제 
 		else {
-			Article article = articleRepository.findById(id).get();
-			User user = userRepository.findById(articleLikeRequest.getUser_id()).get();
+			Article article = articleRepository.findById(id).orElse(null);
+			User user = userRepository.findById(articleLikeRequest.getUser_id()).orElse(null);
+
 			ArticleLike like = new ArticleLike();
 			like.setArticle(article);
 			like.setUser(user);
@@ -348,6 +376,19 @@ public class ArticleService implements IArticleService {
 			copy.add(review);
 		}
 		return copy;
+	}
+
+	@Override
+	public Review updateReview(ReviewRequest reviewRequest, Long aId, Long rId) {
+		Review rev = reviewRepository.getOne(rId);
+		rev.setContent(reviewRequest.getContent());
+		rev.setCreated_at(new Date());
+		return reviewRepository.save(rev);
+	}
+
+	@Override
+	public void deleteReview(Long aId, Long rId) {
+		reviewRepository.deleteById(rId);
 	}
 
 }
