@@ -24,7 +24,7 @@
       <QuizDetail @OtherTheme="OtherTheme" />
     </div>
     <div class="quiz-text">
-      <h3 class="text-pink-3 text-weight-bold" style="margin: 0.5rem; font-family: 'GowunDodum-Regular';">Quiz!</h3>
+      <h3 class="text-pink-3 text-weight-bold" style="margin: 0.5rem; font-family: 'GowunDodum-Regular';">Quiz</h3>
     </div>
   </div>
 </template>
@@ -61,7 +61,8 @@ export default {
       {
         id: 4,
         theme: 'wife',
-        imgUrl: "https://ifh.cc/g/LLgvET.png"
+        // imgUrl: "https://ifh.cc/g/lajTXv.png"
+        imgUrl: require("../../src/assets/tempsnip.png")
       },
     ]
 
