@@ -21,6 +21,13 @@ export default defineComponent({
   color: #3B5E8C;
 
 }
+.text-base {
+  color: #3B5E8C !important;
+}
+.bg-base {
+  background: #3B5E8C !important;
+}
+
 @font-face {
     font-family: 'Eulyoo1945-SemiBold';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2102-01@1.0/Eulyoo1945-SemiBold.woff') format('woff');
