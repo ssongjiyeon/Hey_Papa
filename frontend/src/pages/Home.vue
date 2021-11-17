@@ -8,12 +8,9 @@
         crossorigin="anonymous"
       />
     </head>
-    <div style="display: flex; justify-content: space-between">
-      <img
-        src="../assets/horizon_logo.png"
-        style="height: 70px; margin: 0 auto; padding-left: 40px"
-      />
-      <div style="display: flex; align-items: center; margin-right: 15px">
+    <div class="my_top">
+      <img src="../assets/horizon_logo.png" class="logo" style="height:70px;">
+      <div style="display: flex; align-items: center; margin-left: 45px; ">
         <q-icon
           @click="goWrite"
           name="add"
@@ -21,7 +18,16 @@
           style="color: rgb(235, 137, 181)"
         />
       </div>
+      <q-btn flat style="color:rgb(235,137,181); margin-right:15px;" icon="menu" @click="show()" />
     </div>
+    <!-- <div style="display: flex;">
+      <img
+        src="../assets/horizon_logo.png"
+        style="height: 70px; margin: 0 auto; padding-left: 40px"
+      />
+      
+      <q-btn flat style="color:rgb(235,137,181); margin-right:10px;" icon="menu" @click="show()" />
+    </div> -->
   <div id="articles" class="q-pa-xs row items-start card-box">
     <FeedCard v-for="para in articles" :key="para" :para="para"/>
     <!-- @click="Detail(para.id)&&Backup(para.content, para.imgUrl)"  -->
@@ -35,9 +41,11 @@ import { onMounted, ref, computed } from 'vue'
 import { useStore } from 'vuex'
 import FeedCard from '../components/feed/FeedCard.vue'
 import { useRouter } from 'vue-router'
+import { useQuasar } from 'quasar'
 export default {
   components: { FeedCard },
   setup(){
+    const $q = useQuasar()
     const userId = localStorage.getItem('userId')
     onMounted(() => {
       store.dispatch('module/allArticle', userId)
@@ -64,6 +72,37 @@ export default {
     }
     function goSearch() {
       router.push('search')
+    }
+    function show() {
+      $q.bottomSheet({
+        message: '메뉴',
+        actions: [
+          {
+            label: '회원정보수정',
+            icon: 'account_circle',
+            id: 'update'
+          },
+          {},
+          {
+            label: '로그아웃',
+            icon: 'logout',
+            id: 'logout'
+          },
+        ]
+      }).onOk(action => {
+        if (action.id == 'update'){
+          router.push('set')
+        }
+        else if (action.id == 'logout'){
+          store.dispatch('module/logout').then(()=>{
+            router.push('/')
+          })
+        }
+      }).onCancel(() => {
+        // console.log('바텀시트 빠져나올때')
+      }).onDismiss(() => {
+        // console.log('I am triggered on both OK and Cancel')
+      })
     }
     // const api = 'https://k5b206.p.ssafy.io/heypapa/article/'
 
@@ -108,13 +147,21 @@ export default {
       page,
       articles,
       Detail,
-      Backup
+      Backup,
+      show
       // infiniteHandler
     }
   }
 }
 </script>
 <style scoped>
+  .my_top{
+    display:flex;
+    justify-content: center;
+    margin-left:130px;
+    margin-right:20px;
+    margin-top: 5px;
+  }
   .my-card {
     width: 100%;
     background-color: #F2F2F2;
