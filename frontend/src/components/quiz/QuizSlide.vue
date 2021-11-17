@@ -93,7 +93,7 @@ export default {
     let comments = []
     let isAnswered = ref(false)
     const SaveQuiz = (id) => {
-      console.log(isSaved.value)
+
       isSaved.value = !isSaved.value
       const url = "https://k5b206.p.ssafy.io/api/quiz/" + id + '/myquiz'
       const params = {
@@ -106,20 +106,18 @@ export default {
       //   qc: isSaved.value,ql: isSaved.value,ui: parseInt(localStorage.getItem('userId')),qi:id
       // })
       .then((res) => {
-        // console.log(res.data, '댓글작성완료')
+
       })
       .catch((err) => {
-        console.log(err)
+
       })
     }
     const isSaved = ref(false)
     const ChooseAnswer = (name, answer, id) => {
-
       // 댓글 목록 api 호출 필요
       const url = "https://k5b206.p.ssafy.io/api/quiz/" + id + `/${user_id}`
       axios.get(url)
       .then((res) => {
-        console.log(res.data, '댓글작성')
         store.commit('module/commentList', res.data.comments )
       })
       if(name == null) {

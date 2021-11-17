@@ -34,7 +34,7 @@
       </span>
     </q-tab-panels>
     <q-tab-panels v-model="tab" animated style="width:100%;">
-      <q-tab-panel name="zzim" style="background-color: #F2F2F2;">
+      <q-tab-panel name="zzim" style="">
         <div v-for="quiz in myZzim" :key="quiz" class="my_quiz" @click="goQuiz(quiz)">
           {{ quiz.question }}
         </div>
@@ -160,7 +160,6 @@ export default {
     };
     function goQuiz(quiz){
       // 퀴즈 디테일로 가는 부분
-      console.log(quiz,'퀴즈 정보들')
       router.push({name: "zzimquiz", params: {user_id: userId, quiz: quiz.quiz_id}});
     }
     return {
@@ -234,10 +233,10 @@ export default {
   padding:20px 0px 20px 0px;
   font-size:16px;
   font-family: 'Jua', sans-serif;
-  background-color: #F2F2F2;
+  background-color: white;
 }
 
-span {
+/* span {
   background-color: #F2F2F2;
-}
+} */
 </style>

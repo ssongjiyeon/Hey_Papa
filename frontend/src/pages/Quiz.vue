@@ -57,7 +57,7 @@ export default {
       {
         id: 4,
         theme: 'wife',
-        imgUrl: "https://ifh.cc/g/lajTXv.png"
+        imgUrl: "https://ifh.cc/g/LLgvET.png"
       },
     ]
 

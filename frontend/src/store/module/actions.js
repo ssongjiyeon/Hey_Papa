@@ -96,7 +96,6 @@ export function writeArticle({}, article) {
 }
 // 프로필 수정
 export function putProfile({}, user) {
-  console.log(user, "액션");
   const formdata = new FormData();
   formdata.append("user_id", user.user_id);
   formdata.append("user_thumbnail", user.user_thumbnail);
@@ -122,13 +121,10 @@ export function likeArticle({}, object) {
 //퀴즈 찜하기
 export function saveQuiz({}, id, object) {
   const url = baseUrl + "/quiz/" + id + "/myquiz";
-  console.log(object);
-  console.log(info, "info");
   return $axios.post(url, info);
 }
 //해시태그 검색
 export function search({}, object) {
-  console.log(object.hashtag, "!");
   const url = baseUrl + "/article/search/" + object.hashtag;
   return $axios.post(url, object);
 }

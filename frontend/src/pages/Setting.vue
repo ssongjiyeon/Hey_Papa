@@ -56,7 +56,6 @@ export default {
     })
     const user = computed(()=> store.getters['module/getUser'])
     const pwd = computed(()=> store.getters['module/getLoginpwd'])
-    console.log(user,'!!')
     form.password = pwd.value
     form.babyname = user.value.nickname
     form.birthday = user.value.dday
