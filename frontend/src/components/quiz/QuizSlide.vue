@@ -120,6 +120,8 @@ export default {
       .then((res) => {
         store.commit('module/commentList', res.data.comments )
       })
+      console.log(name, 'n')
+      console.log(answer, 'a')
       if(name == null) {
         Description.value = ""
       }

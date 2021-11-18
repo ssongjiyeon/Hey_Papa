@@ -239,6 +239,7 @@ export default {
   align-items: center;
   align-content: center;
   margin: auto;
+  width: 15rem;
 
 }
 
