@@ -40,7 +40,7 @@
         <div class="reply" clickable v-ripple v-if="commentList" v-for="(comment, idx) in commentList" :key="idx">
           <div class="avatar">
             <q-avatar style="height:2rem; width:2rem; margin: 0.2rem 1rem 0 0">
-              <img v-if="comment=='NULL'" src="../../assets/default_user.png" >
+              <img v-if="comment.user_img=='NULL'" src="../../assets/default_user.png" >
               <img v-else :src="`https://k5b206.p.ssafy.io/api/static/img/${comment.user_img}`">
             </q-avatar>
           </div>
