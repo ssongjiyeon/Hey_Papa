@@ -75,15 +75,16 @@ export default {
     }
     function Complete(){
       const user_info = {
-        dday: form.birthday,
+        dday: '2021-11-18',
         nickname: form.babyname,
         password: form.password,
         region: form.region,
         week: form.week,
       }
+      console.log(user_info,'유저인포')
       store.dispatch('module/setUser',user_info).then(()=>{
         store.commit('module/setUser', {
-          dday: form.birthday,
+          dday: 'dday',
           nickname: form.babyname,
           img: user.value.img,
           region: form.region,

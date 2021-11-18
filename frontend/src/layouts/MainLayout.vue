@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="height:1000px;">
     <router-view />
     <div class="navbar">
       <div class="nav-btn"><button @click="GoQuiz">

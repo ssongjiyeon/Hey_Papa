@@ -24,7 +24,8 @@ export function Login({}, user) {
 }
 // 유저 정보 수정
 export function setUser({}, user) {
-  const url = baseUrl + "/user/" + user_id;
+  console.log(user)
+  const url = baseUrl + "/user/" + localStorage.getItem("userId");
   return $axios.put(url, user);
 }
 // 유저 정보 불러오기
