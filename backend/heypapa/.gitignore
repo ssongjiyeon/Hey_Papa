@@ -51,3 +51,6 @@ out/
 
 *.log
 *.bak
+
+application.properties
+application.yml
