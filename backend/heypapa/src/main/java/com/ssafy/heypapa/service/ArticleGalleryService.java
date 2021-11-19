@@ -39,7 +39,7 @@ public class ArticleGalleryService {
         return ArticleGalleryDto.builder()
                 .id(articlegallery.getId())
                 .filePath(articlegallery.getFilePath())
-                .imgFullPath("https://" + s3Service.CLOUD_FRONT_DOMAIN_NAME + "/" + articlegallery.getFilePath())
+//                .imgFullPath("https://" + s3Service.CLOUD_FRONT_DOMAIN_NAME + "/" + articlegallery.getFilePath())
                 .build();
     }
 
